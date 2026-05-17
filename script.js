@@ -128,9 +128,164 @@ const grid = document.querySelector("#productGrid");
 const productSelect = document.querySelector("#productSelect");
 const form = document.querySelector("#customerLeadForm");
 const lineCta = document.querySelector("#lineCta");
+const heroLineBtn = document.querySelector("#heroLineBtn");
+const countdownEl = document.querySelector("#countdownText");
+const heroCountdownEl = document.querySelector("#heroCountdown");
+const catalogCountEl = document.querySelector("#catalogCount");
+const heroMinPriceEl = document.querySelector("#heroMinPrice");
 
 function money(value) {
   return Number(value).toLocaleString("th-TH");
+}
+
+function isPlaceholder(value = "") {
+  return !value || value.includes("YOUR_") || value.includes("@YOUR_");
+}
+
+function getProduct(productIdOrName) {
+  return products.find(product =>
+    product.id === productIdOrName ||
+    product.name === productIdOrName ||
+    `${product.name} - ${money(product.price)} บาท` === productIdOrName ||
+    `${product.name} — ${money(product.price)} บาท` === productIdOrName
+  );
+}
+
+function buildProductMessage(product, source = "Product Click") {
+  const pageUrl = window.location.href.split("#")[0];
+  const specs = product.specs.slice(0, 4).map(spec => `• ${spec}`).join("\n");
+
+  return [
+    "สวัสดีครับ สนใจโปรเคลียร์สต๊อก",
+    `รุ่นที่สนใจ: ${product.name}`,
+    `ราคาโปร: ${money(product.price)} บาท`,
+    `หมวดสินค้า: ${product.category === "tablet" ? "แท็บเล็ต" : "มือถือ"}`,
+    "สเปก/จุดเด่น:",
+    specs,
+    `รหัสสินค้า: ${product.id}`,
+    `แหล่งที่มา: ${source}`,
+    `ลิงก์หน้าเว็บ: ${pageUrl}`,
+    "\nรบกวนแอดมินเช็กสต๊อก สีที่มี และโปรล่าสุดให้หน่อยครับ"
+  ].join("\n");
+}
+
+function buildGeneralMessage() {
+  return [
+    "สวัสดีครับ สนใจโปรเคลียร์สต๊อกมือถือ/แท็บเล็ต",
+    "รบกวนแอดมินช่วยเช็กสต๊อกและแนะนำรุ่นที่เหมาะกับงบให้หน่อยครับ"
+  ].join("\n");
+}
+
+function buildLeadMessage(data) {
+  return [
+    "สวัสดีครับ ขอเช็กสต๊อกโปรเคลียร์สต๊อก",
+    `ชื่อ: ${data.get("name") || "-"}`,
+    `เบอร์: ${data.get("phone") || "-"}`,
+    `LINE: ${data.get("line") || "-"}`,
+    `จังหวัด: ${data.get("province") || "-"}`,
+    `งบประมาณ: ${data.get("budget") || "-"}`,
+    `รุ่นที่สนใจ: ${data.get("product") || "ให้แอดมินแนะนำ"}`,
+    `หมายเหตุ: ${data.get("note") || "-"}`
+  ].join("\n");
+}
+
+function buildLineOaMessageUrl(base, message) {
+  const cleanBase = base.endsWith("/") ? base : `${base}/`;
+  return `${cleanBase}?${encodeURIComponent(message)}`;
+}
+
+function buildLineUrl(message) {
+  const lineOaMessageBase = (CONFIG.lineOaMessageBase || "").trim();
+  if (!isPlaceholder(lineOaMessageBase)) {
+    return buildLineOaMessageUrl(lineOaMessageBase, message);
+  }
+
+  const lineOaId = (CONFIG.lineOaId || "").trim();
+  if (!isPlaceholder(lineOaId)) {
+    const encodedLineId = encodeURIComponent(lineOaId);
+    return buildLineOaMessageUrl(`https://line.me/R/oaMessage/${encodedLineId}`, message);
+  }
+
+  const lineUrl = (CONFIG.lineUrl || "").trim();
+  if (!isPlaceholder(lineUrl) && lineUrl.includes("line.me")) {
+    return lineUrl;
+  }
+
+  return `https://line.me/R/share?text=${encodeURIComponent(message)}`;
+}
+
+function getMessengerPage() {
+  if (!isPlaceholder(CONFIG.messengerPageIdOrUsername)) return CONFIG.messengerPageIdOrUsername;
+
+  const url = CONFIG.messengerUrl || "";
+  if (!isPlaceholder(url) && url.includes("m.me/")) {
+    return url.split("m.me/")[1]?.split(/[/?#]/)[0];
+  }
+
+  return "";
+}
+
+function buildMessengerUrl(product, message) {
+  const page = getMessengerPage();
+  if (!page) return buildLineUrl(message);
+
+  const ref = product
+    ? `product_${product.id}_${product.price}`
+    : "general_clearance_deal";
+
+  return `https://m.me/${page}?ref=${encodeURIComponent(ref)}`;
+}
+
+function buildChatUrl(product, channel = CONFIG.preferredChat || "line") {
+  const message = product ? buildProductMessage(product, "Product Card") : buildGeneralMessage();
+  if (channel === "messenger") return buildMessengerUrl(product, message);
+  return buildLineUrl(message);
+}
+
+async function copyText(text) {
+  if (!CONFIG.autoCopyMessage) return false;
+  if (!navigator.clipboard) return false;
+
+  try {
+    await navigator.clipboard.writeText(text);
+    return true;
+  } catch (error) {
+    return false;
+  }
+}
+
+async function openProductChat(product, channel = CONFIG.preferredChat || "line") {
+  const message = buildProductMessage(product, channel === "messenger" ? "Messenger Product Click" : "LINE Product Click");
+  const url = channel === "messenger"
+    ? buildMessengerUrl(product, message)
+    : buildLineUrl(message);
+
+  await copyText(message);
+
+  localStorage.setItem("latestProductInterest", JSON.stringify({
+    createdAt: new Date().toISOString(),
+    productId: product.id,
+    productName: product.name,
+    price: product.price,
+    channel
+  }));
+
+  if (window.fbq) {
+    window.fbq("trackCustom", "ProductInterest", {
+      product_id: product.id,
+      product_name: product.name,
+      price: product.price,
+      channel
+    });
+  }
+
+  window.open(url, "_blank", "noopener");
+
+  if (channel === "messenger") {
+    showToast(`เปิด Messenger แล้ว ข้อความของ ${product.name} ถูกคัดลอกไว้ให้วางในแชทแล้วครับ`);
+  } else {
+    showToast(`เปิด LINE พร้อมข้อความ ${product.name} แล้ว กดส่งให้แอดมินได้เลยครับ`);
+  }
 }
 
 function renderProducts(filter = "all") {
@@ -144,22 +299,28 @@ function renderProducts(filter = "all") {
 
   grid.innerHTML = list.map((product, index) => `
     <article class="product-card ${index < 2 ? "is-featured" : ""}" data-id="${product.id}">
-      <div class="product-media">
+      <button class="product-media product-chat-trigger" data-chat-product="${product.id}" data-channel="preferred" aria-label="สนใจ ${product.name} ราคา ${money(product.price)} บาท">
         <span class="badge">${product.badge}</span>
         <img src="${product.image}" alt="${product.name}" loading="lazy" />
-      </div>
+      </button>
       <div class="product-body">
-        <h3>${product.name}</h3>
+        <button class="product-title-link" data-chat-product="${product.id}" data-channel="preferred" aria-label="ส่งข้อมูล ${product.name} ให้แอดมิน">
+          ${product.name}
+        </button>
         <p class="subtitle">${product.subtitle}</p>
         <ul class="specs">
           ${product.specs.map(spec => `<li>${spec}</li>`).join("")}
         </ul>
         <div class="price-row">
-          <div class="price">${money(product.price)}<small> บาท</small></div>
+          <div class="price-wrap">
+            <small>ราคาโปรเคลียร์สต๊อก</small>
+            <div class="price">${money(product.price)}<small> บาท</small></div>
+          </div>
         </div>
+        <div class="rush-note">⚡ คลิกสินค้าเพื่อส่งชื่อรุ่นเข้าแชทอัตโนมัติ แอดมินจะตอบโปรตรงรุ่นได้เร็วขึ้น</div>
         <div class="card-actions">
-          <button class="btn btn-primary" data-product="${product.id}">จองรุ่นนี้</button>
-          <a class="btn btn-ghost" href="${buildChatUrl(product)}" target="_blank" rel="noopener">ทักแชท</a>
+          <button class="btn btn-primary" data-chat-product="${product.id}" data-channel="preferred">ทักแอดมินรุ่นนี้</button>
+          <button class="btn btn-ghost" data-reserve-product="${product.id}">กรอกฟอร์ม</button>
         </div>
       </div>
     </article>
@@ -172,21 +333,6 @@ function populateSelect() {
   ).join("");
 }
 
-function buildMessage(productName = "") {
-  const selected = productName ? products.find(p => p.name === productName || p.id === productName) : null;
-  const productLine = selected ? `${selected.name} ราคา ${money(selected.price)} บาท` : "สนใจมือถือ/แท็บเล็ตโปรเคลียร์สต๊อก";
-  return `สวัสดีครับ สนใจ ${productLine} ต้องการเช็กสต๊อกและรายละเอียดเพิ่มเติมครับ`;
-}
-
-function buildChatUrl(product) {
-  const base = CONFIG.messengerUrl && !CONFIG.messengerUrl.includes("YOUR_") ? CONFIG.messengerUrl : CONFIG.lineUrl;
-  const safeBase = base && !base.includes("YOUR_") ? base : "#lead-form";
-  const msg = encodeURIComponent(buildMessage(product.id));
-  if (safeBase.includes("line.me")) return safeBase;
-  if (safeBase.includes("m.me")) return `${safeBase}?ref=${encodeURIComponent(product.id)}`;
-  return safeBase + (safeBase.includes("?") ? "&" : "?") + `text=${msg}`;
-}
-
 function scrollToId(id) {
   document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
 }
@@ -196,20 +342,7 @@ function showToast(text) {
   toast.className = "toast";
   toast.textContent = text;
   document.body.appendChild(toast);
-  setTimeout(() => toast.remove(), 3800);
-}
-
-function leadToMessage(data) {
-  return [
-    "สวัสดีครับ ขอเช็กสต๊อกโปรเคลียร์สต๊อก",
-    `ชื่อ: ${data.get("name") || "-"}`,
-    `เบอร์: ${data.get("phone") || "-"}`,
-    `LINE: ${data.get("line") || "-"}`,
-    `จังหวัด: ${data.get("province") || "-"}`,
-    `งบประมาณ: ${data.get("budget") || "-"}`,
-    `รุ่นที่สนใจ: ${data.get("product") || "ให้แอดมินแนะนำ"}`,
-    `หมายเหตุ: ${data.get("note") || "-"}`
-  ].join("\n");
+  setTimeout(() => toast.remove(), 4200);
 }
 
 function submitToGoogleForm(data) {
@@ -228,21 +361,69 @@ function submitToGoogleForm(data) {
 
 function initPixel() {
   if (!CONFIG.facebookPixelId) return;
-  // ใส่ Meta Pixel แบบง่าย ถ้าใส่ ID ใน config.js แล้ว
   const pixelId = CONFIG.facebookPixelId;
   const script = document.createElement("script");
   script.innerHTML = `!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window, document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init','${pixelId}');fbq('track','PageView');`;
   document.head.appendChild(script);
 }
 
+function setFilter(filter) {
+  document.querySelectorAll(".filter-btn").forEach(btn => {
+    btn.classList.toggle("is-active", btn.dataset.filter === filter);
+  });
+  renderProducts(filter);
+  scrollToId("deals");
+}
+
+function initShortcuts() {
+  document.querySelectorAll("[data-filter-shortcut]").forEach(btn => {
+    btn.addEventListener("click", () => setFilter(btn.dataset.filterShortcut));
+  });
+}
+
+function updateCatalogStats() {
+  const minPrice = Math.min(...products.map(product => product.price));
+  if (catalogCountEl) catalogCountEl.textContent = `${products.length} รุ่น`;
+  if (heroMinPriceEl) heroMinPriceEl.textContent = money(minPrice);
+}
+
+function getEndOfDayTime() {
+  const now = new Date();
+  return new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59);
+}
+
+function formatCountdown(distance) {
+  const totalSeconds = Math.max(0, Math.floor(distance / 1000));
+  const hours = String(Math.floor(totalSeconds / 3600)).padStart(2, "0");
+  const minutes = String(Math.floor((totalSeconds % 3600) / 60)).padStart(2, "0");
+  const seconds = String(totalSeconds % 60).padStart(2, "0");
+  return `${hours}:${minutes}:${seconds}`;
+}
+
+function startCountdown() {
+  const update = () => {
+    const deadline = getEndOfDayTime();
+    const distance = deadline.getTime() - Date.now();
+    const text = formatCountdown(distance);
+    if (countdownEl) countdownEl.textContent = text;
+    if (heroCountdownEl) heroCountdownEl.textContent = text;
+  };
+  update();
+  setInterval(update, 1000);
+}
+
 renderProducts();
 populateSelect();
+updateCatalogStats();
+startCountdown();
 initPixel();
+initShortcuts();
 
-if (lineCta && CONFIG.lineUrl && !CONFIG.lineUrl.includes("YOUR_")) {
-  lineCta.href = CONFIG.lineUrl;
-} else if (lineCta) {
-  lineCta.href = "#lead-form";
+if (lineCta) {
+  lineCta.href = buildLineUrl(buildGeneralMessage());
+}
+if (heroLineBtn) {
+  heroLineBtn.href = buildLineUrl(buildGeneralMessage());
 }
 
 document.querySelectorAll("[data-scroll-to]").forEach(el => {
@@ -258,9 +439,19 @@ document.querySelectorAll(".filter-btn").forEach(btn => {
 });
 
 document.addEventListener("click", event => {
-  const reserveBtn = event.target.closest("[data-product]");
+  const chatBtn = event.target.closest("[data-chat-product]");
+  if (chatBtn) {
+    event.preventDefault();
+    const product = getProduct(chatBtn.dataset.chatProduct);
+    if (!product) return;
+    const channel = chatBtn.dataset.channel === "preferred" ? (CONFIG.preferredChat || "line") : chatBtn.dataset.channel;
+    openProductChat(product, channel);
+    return;
+  }
+
+  const reserveBtn = event.target.closest("[data-reserve-product]");
   if (!reserveBtn) return;
-  const product = products.find(p => p.id === reserveBtn.dataset.product);
+  const product = getProduct(reserveBtn.dataset.reserveProduct);
   if (product) {
     productSelect.value = `${product.name} - ${money(product.price)} บาท`;
     scrollToId("lead-form");
@@ -271,7 +462,7 @@ document.addEventListener("click", event => {
 form?.addEventListener("submit", async event => {
   event.preventDefault();
   const data = new FormData(form);
-  const message = leadToMessage(data);
+  const message = buildLeadMessage(data);
 
   localStorage.setItem("latestSalesLead", JSON.stringify({
     createdAt: new Date().toISOString(),
@@ -285,17 +476,21 @@ form?.addEventListener("submit", async event => {
   }));
 
   submitToGoogleForm(data);
+  await copyText(message);
 
-  try {
-    await navigator.clipboard.writeText(message);
-    showToast("ส่งข้อมูลแล้ว และคัดลอกข้อความสำหรับส่งแชทให้แล้วครับ");
-  } catch (error) {
-    showToast("ส่งข้อมูลแล้ว กรุณาคัดลอกข้อมูลไปส่งในแชทอีกครั้งครับ");
+  if (window.fbq) {
+    window.fbq("track", "Lead", {
+      content_name: data.get("product") || "Clearance Lead"
+    });
   }
 
-  if (CONFIG.lineUrl && !CONFIG.lineUrl.includes("YOUR_")) {
-    window.open(CONFIG.lineUrl, "_blank", "noopener");
-  }
+  const selectedProduct = getProduct(data.get("product"));
+  const channel = CONFIG.preferredChat || "line";
+  const url = channel === "messenger"
+    ? buildMessengerUrl(selectedProduct, message)
+    : buildLineUrl(message);
 
+  window.open(url, "_blank", "noopener");
+  showToast("ส่งข้อมูลแล้ว ระบบเปิดแชทพร้อมรายละเอียดให้ส่งหาแอดมินแล้วครับ");
   form.reset();
 });

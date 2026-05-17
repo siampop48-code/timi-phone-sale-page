@@ -16,9 +16,14 @@
 </head>
 <body>
   <div class="announcement">
-    <span>🔥 เคลียร์สต๊อกจำนวนจำกัด</span>
-    <span>ส่งไวทั่วประเทศ</span>
-    <span>ทักแชทเช็กสต๊อกก่อนหมด</span>
+    <div class="announcement-track">
+      <span>⚡ โปรเคลียร์สต๊อกล็อตนี้จำนวนจำกัด</span>
+      <span>🔥 ราคาเริ่มต้นเพียง 1,290 บาท</span>
+      <span>📦 สินค้าบางสีหมดไว แนะนำทักแชททันที</span>
+      <span>💬 คลิกที่สินค้าเพื่อส่งชื่อรุ่นหาแอดมินอัตโนมัติ</span>
+      <span>⚡ โปรเคลียร์สต๊อกล็อตนี้จำนวนจำกัด</span>
+      <span>🔥 ราคาเริ่มต้นเพียง 1,290 บาท</span>
+    </div>
   </div>
 
   <header class="site-header" id="top">
@@ -35,27 +40,81 @@
       <a href="#reviews">รีวิว</a>
       <a href="#lead-form">จองเครื่อง</a>
     </nav>
-    <button class="btn btn-primary" data-scroll-to="lead-form">สั่งซื้อผ่านแชท</button>
+    <button class="btn btn-primary" data-scroll-to="lead-form">จองด่วนผ่านแชท</button>
   </header>
 
   <main>
-    <section class="hero section-pad">
-      <div class="hero-copy">
-        <span class="eyebrow">โปรเคลียร์สต๊อก มือถือ/แท็บเล็ต</span>
-        <h1>มือถือจอใหญ่ <span>ราคาคุ้ม</span> พร้อมใช้งาน</h1>
-        <p>คัดรุ่นขายดีสำหรับใช้งานจริง ดูหนัง เล่นโซเชียล รองรับแอปสำคัญ แบตอึด และมีทีมงานช่วยแนะนำรุ่นให้เหมาะกับงบ</p>
-        <div class="hero-actions">
-          <button class="btn btn-primary btn-lg" data-scroll-to="lead-form">เช็กสต๊อกวันนี้</button>
-          <button class="btn btn-ghost btn-lg" data-scroll-to="deals">ดูรุ่นทั้งหมด</button>
+    <section class="hero-shell">
+      <section class="hero section-pad">
+        <div class="hero-copy">
+          <span class="eyebrow">CLEARANCE SALE • พร้อมส่ง • อ่านง่าย • ทักง่าย</span>
+          <h1>เคลียร์สต๊อก <span>ราคาพิเศษ</span><br />อ่านง่าย ชวนตัดสินใจไว</h1>
+          <p>รวมมือถือและแท็บเล็ตจอใหญ่ที่เน้น “คุ้ม ใช้งานได้จริง และทักสั่งง่าย” เหมาะสำหรับลูกค้าที่ต้องการเครื่องพร้อมใช้ในงบสบายกระเป๋า</p>
+
+          <div class="hero-alerts">
+            <div class="hero-alert hot">
+              <strong>🔥 ดีลมาแรง</strong>
+              <span>เริ่มต้นเพียง <b id="heroMinPrice">1,290</b> บาท</span>
+            </div>
+            <div class="hero-alert warn">
+              <strong>⏰ รอบโปรวันนี้</strong>
+              <span>เหลือเวลา <b id="heroCountdown">--:--:--</b></span>
+            </div>
+          </div>
+
+          <div class="hero-actions">
+            <button class="btn btn-primary btn-lg pulse" data-scroll-to="deals">ดูสินค้าราคาพิเศษ</button>
+            <button class="btn btn-ghost btn-lg" data-scroll-to="lead-form">ให้แอดมินช่วยเลือก</button>
+          </div>
+
+          <div class="trust-row" aria-label="จุดเด่นร้าน">
+            <div><strong id="catalogCount">11 รุ่น</strong><span>รวมมือถือและแท็บเล็ต</span></div>
+            <div><strong>ทักง่าย</strong><span>แตะสินค้าส่งเข้าแชทได้เลย</span></div>
+            <div><strong>พร้อมใช้</strong><span>คัดรุ่นคุ้ม เน้นใช้งานจริง</span></div>
+          </div>
         </div>
-        <div class="trust-row" aria-label="จุดเด่นร้าน">
-          <div><strong>เริ่มต้น</strong><span>1,290 บาท</span></div>
-          <div><strong>ส่งไว</strong><span>ทั่วประเทศ</span></div>
-          <div><strong>รับประกัน</strong><span>ตามเงื่อนไขร้าน</span></div>
+
+        <div class="hero-visual-wrap">
+          <div class="hero-visual">
+            <img src="assets/campaign/phone-clearance-hero.png" alt="ภาพโปรเคลียร์สต๊อกมือถือราคาพิเศษ" />
+          </div>
+          <aside class="hero-side-card">
+            <span class="eyebrow">PROMO NOW</span>
+            <h2>ทักก่อน ได้สิทธิ์ก่อน</h2>
+            <ul class="rush-list">
+              <li>คลิกที่รูปสินค้า → ระบบแนบชื่อรุ่นให้อัตโนมัติ</li>
+              <li>แอดมินรู้ทันทีว่าลูกค้าสนใจรุ่นไหน</li>
+              <li>ตอบโปร/สี/สต๊อกได้ตรงรุ่น เร็วขึ้น</li>
+            </ul>
+            <div class="countdown-card">
+              <small>ปิดรับรอบโปรโมชั่นวันนี้ใน</small>
+              <strong id="countdownText">--:--:--</strong>
+              <span>ราคาและของแถมอาจเปลี่ยนเมื่อของล็อตนี้หมด</span>
+            </div>
+            <div class="side-card-actions">
+              <a class="btn btn-line" id="heroLineBtn" href="#" target="_blank" rel="noopener">ทัก LINE ตอนนี้</a>
+              <button class="btn btn-ghost" data-scroll-to="deals">เลือกดูรุ่นก่อน</button>
+            </div>
+          </aside>
         </div>
+      </section>
+    </section>
+
+    <section class="urgency-strip section-pad">
+      <div class="urgency-card">
+        <span>🚚 พร้อมส่ง</span>
+        <strong>ลูกค้าทักแล้วแอดมินตอบได้เร็ว</strong>
+        <p>เพราะระบบส่งชื่อรุ่นที่ลูกค้าคลิกเข้าแชทได้ทันที</p>
       </div>
-      <div class="hero-visual">
-        <img src="assets/campaign/phone-clearance-hero.png" alt="ภาพโปรเคลียร์สต๊อกมือถือราคาพิเศษ" />
+      <div class="urgency-card">
+        <span>📌 อ่านง่าย</span>
+        <strong>แยกรุ่น ราคา และสเปกชัด</strong>
+        <p>ช่วยให้ตัดสินใจง่ายขึ้นและกดแชทได้เร็วขึ้น</p>
+      </div>
+      <div class="urgency-card highlight">
+        <span>🔥 รีบทักก่อน</span>
+        <strong>สินค้าบางรุ่น/บางสีออกไว</strong>
+        <p>โดยเฉพาะรุ่นราคาคุ้มและรุ่นรองรับแอปธนาคาร</p>
       </div>
     </section>
 
@@ -68,7 +127,7 @@
       <article>
         <span class="icon">🔋</span>
         <strong>แบตอึด</strong>
-        <p>คัดรุ่นที่ตอบโจทย์ใช้งานทั้งวัน</p>
+        <p>คัดรุ่นที่ตอบโจทย์ใช้งานได้ยาวตลอดวัน</p>
       </article>
       <article>
         <span class="icon">🏦</span>
@@ -76,17 +135,24 @@
         <p>เหมาะกับลูกค้าที่ต้องการเครื่องพร้อมใช้</p>
       </article>
       <article>
-        <span class="icon">🚚</span>
-        <strong>จัดส่งรวดเร็ว</strong>
-        <p>ทักแชทเช็กสต๊อกและรอบส่งได้ทันที</p>
+        <span class="icon">💬</span>
+        <strong>สั่งง่ายในแชท</strong>
+        <p>แตะสินค้าแล้วส่งชื่อรุ่นเข้า LINE / Messenger ได้ทันที</p>
       </article>
     </section>
 
     <section class="section-pad" id="deals">
       <div class="section-head">
         <span class="eyebrow">HOT DEALS</span>
-        <h2>ดีลพิเศษ ราคาคุ้มที่สุด</h2>
-        <p>เลือกรุ่นตามงบ หรือกดจองให้แอดมินช่วยแนะนำรุ่นที่เหมาะกับการใช้งาน</p>
+        <h2>รุ่นน่ากดซื้อที่สุดตอนนี้</h2>
+        <p>แตะที่รูปสินค้า ชื่อสินค้า หรือปุ่มสั่งซื้อ ระบบจะส่งชื่อรุ่นที่สนใจเข้าแชทให้แอดมินทันที</p>
+      </div>
+
+      <div class="deal-notice">
+        <div>
+          <strong>⚡ เคล็ดลับปิดการขายเร็วขึ้น:</strong>
+          คลิกรุ่นที่สนใจแล้วทักแชทเลย แอดมินจะเห็นชื่อรุ่น ราคา และข้อมูลสินค้าอัตโนมัติ
+        </div>
       </div>
 
       <div class="toolbar" aria-label="ตัวกรองสินค้า">
@@ -97,14 +163,20 @@
         <button class="filter-btn" data-filter="lowest">ราคาต่ำสุด</button>
       </div>
 
+      <div class="quick-picks">
+        <button class="mini-chip" data-filter-shortcut="lowest">ดูรุ่นเริ่มต้นราคาถูก</button>
+        <button class="mini-chip" data-filter-shortcut="banking">ดูรุ่นรองรับแอปธนาคาร</button>
+        <button class="mini-chip" data-filter-shortcut="tablet">ดูแท็บเล็ตใส่ซิมได้</button>
+      </div>
+
       <div class="product-grid" id="productGrid" aria-live="polite"></div>
     </section>
 
     <section class="campaign-preview section-pad">
       <div class="section-head align-left">
         <span class="eyebrow">AD CREATIVE</span>
-        <h2>ภาพแคมเปญพร้อมใช้ลง Facebook/IG</h2>
-        <p>ใช้เป็นภาพหลักในเซลเพจ หรือดึงไปใช้ประกอบโพสต์/โฆษณาได้</p>
+        <h2>ภาพแคมเปญพร้อมใช้ลง Facebook / IG</h2>
+        <p>ใช้เป็นภาพหลักในเซลเพจหรือโพสต์ขาย ช่วยสร้างบรรยากาศโปรโมชันที่ดูแรงและน่าทักมากขึ้น</p>
       </div>
       <div class="creative-grid">
         <img src="assets/campaign/phone-clearance-hero.png" alt="ภาพโฆษณาโปรเคลียร์สต๊อกมือถือ" />
@@ -115,14 +187,14 @@
     <section class="section-pad split-section">
       <div>
         <span class="eyebrow">BUYING GUIDE</span>
-        <h2>ไม่แน่ใจเลือกรุ่นไหน?</h2>
-        <p>ให้แอดมินช่วยคัดรุ่นตามงบและการใช้งาน เช่น เครื่องสำรอง เครื่องให้ผู้ใหญ่ เครื่องสำหรับร้านค้า ไรเดอร์ นักเรียน หรือดูวิดีโอ/โซเชียลเป็นหลัก</p>
+        <h2>เลือกไม่ถูก? ให้แอดมินคัดรุ่นให้ตามงบ</h2>
+        <p>เหมาะสำหรับลูกค้าที่อยากได้คำแนะนำเร็ว ๆ ว่ารุ่นไหนเหมาะกับผู้ใหญ่ เด็กนักเรียน ร้านค้า ไรเดอร์ เครื่องสำรอง หรือคนที่เน้นแอปธนาคาร</p>
         <ul class="check-list">
           <li>งบต่ำกว่า 1,500 บาท: เน้นคุ้มค่า ใช้งานพื้นฐาน</li>
           <li>งบ 1,500–1,900 บาท: จอใหญ่ แบตอึด ใช้งานรอบด้าน</li>
           <li>แท็บเล็ต: เหมาะดูหนัง เรียนออนไลน์ ไลฟ์ และใช้งานจอใหญ่</li>
         </ul>
-        <button class="btn btn-primary" data-scroll-to="lead-form">ให้แอดมินช่วยเลือก</button>
+        <button class="btn btn-primary pulse" data-scroll-to="lead-form">ให้แอดมินช่วยเลือกตอนนี้</button>
       </div>
       <div class="preview-phone">
         <img src="assets/campaign/mobile-salespage-preview.png" alt="ตัวอย่างหน้าเซลเพจมือถือ" />
@@ -132,8 +204,8 @@
     <section class="reviews section-pad" id="reviews">
       <div class="section-head">
         <span class="eyebrow">CUSTOMER VOICE</span>
-        <h2>เสียงจากลูกค้า</h2>
-        <p>ตัวอย่างรีวิวเพื่อสร้างความมั่นใจบนหน้าเซลเพจ สามารถแก้เป็นรีวิวจริงของร้านได้</p>
+        <h2>ลูกค้าชอบเพราะตัดสินใจง่าย</h2>
+        <p>ยิ่งหน้าเพจอ่านง่ายและแอดมินตอบได้ตรงรุ่น ลูกค้าก็ยิ่งปิดการขายได้ไวขึ้น</p>
       </div>
       <div class="review-grid">
         <article class="review-card">
@@ -143,7 +215,7 @@
         </article>
         <article class="review-card">
           <div class="stars">★★★★★</div>
-          <p>“เครื่องมาถึงไว แพ็กดี แอดมินแนะนำรุ่นตามงบให้ละเอียด”</p>
+          <p>“แค่กดรุ่นที่สนใจแล้วทักแชท แอดมินตอบกลับมาตรงรุ่นเลย สะดวกมาก”</p>
           <strong>คุณวิชัย</strong><span>TIMI T29</span>
         </article>
         <article class="review-card">
@@ -158,12 +230,13 @@
       <div class="lead-card">
         <div class="lead-copy">
           <span class="eyebrow">RESERVE NOW</span>
-          <h2>กรอกข้อมูลให้แอดมินเช็กสต๊อก</h2>
-          <p>ข้อมูลจะช่วยให้ทีมงานแนะนำรุ่นที่ตรงงบและติดต่อกลับได้เร็วขึ้น</p>
+          <h2>จองก่อน แอดมินเช็กสต๊อกให้ไว</h2>
+          <p>กรอกข้อมูลสั้น ๆ แล้วระบบจะเปิดแชทพร้อมข้อมูลเบื้องต้น ช่วยให้แอดมินตอบโปรโมชั่นและเช็กของได้เร็วขึ้น</p>
           <div class="mini-benefits">
             <span>✅ ไม่ผูกมัดการซื้อ</span>
             <span>✅ เช็กสต๊อกก่อนจ่าย</span>
             <span>✅ แนะนำรุ่นตามงบ</span>
+            <span>✅ ใช้ได้ทั้งลูกค้าที่รู้รุ่นแล้วและยังลังเล</span>
           </div>
         </div>
         <form class="lead-form" id="customerLeadForm">
@@ -200,7 +273,7 @@
             <input type="checkbox" required />
             <span>ยินยอมให้ร้านติดต่อกลับเพื่อแจ้งรายละเอียดสินค้า โปรโมชัน และข้อเสนอที่เกี่ยวข้อง</span>
           </label>
-          <button class="btn btn-primary full" type="submit">ส่งข้อมูลให้แอดมิน</button>
+          <button class="btn btn-primary full pulse" type="submit">ส่งข้อมูลให้แอดมินตอนนี้</button>
           <p class="form-note" id="formNote">หลังส่งข้อมูล ระบบจะเตรียมข้อความให้คุณคัดลอกไปส่งในแชทได้ทันที</p>
         </form>
       </div>
@@ -216,6 +289,10 @@
   </footer>
 
   <div class="sticky-cta" role="region" aria-label="ปุ่มสั่งซื้อด่วน">
+    <div class="sticky-copy">
+      <strong>โปรกำลังมาแรง</strong>
+      <small>คลิกรุ่นที่สนใจแล้วทักแชทได้ทันที</small>
+    </div>
     <button class="btn btn-primary" data-scroll-to="lead-form">จอง/เช็กสต๊อก</button>
     <a class="btn btn-line" id="lineCta" href="#" target="_blank" rel="noopener">ทัก LINE</a>
   </div>
