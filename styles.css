@@ -159,7 +159,7 @@ button { cursor: pointer; }
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, rgba(255,255,255,.7), transparent 35%);
+  background: linear-gradient(180deg, rgba(255,255,255,.35), transparent 30%);
   pointer-events: none;
 }
 .hero {
@@ -174,10 +174,12 @@ button { cursor: pointer; }
   font-size: clamp(40px, 5.5vw, 76px);
   line-height: .96;
   letter-spacing: -.05em;
+  color: #1b2436;
+  text-shadow: 0 2px 0 rgba(255,255,255,.35);
 }
 .hero-copy h1 span {
-  color: var(--primary);
-  text-shadow: 0 8px 30px rgba(30,64,255,.12);
+  color: #3a56ff;
+  text-shadow: 0 10px 26px rgba(58,86,255,.18);
 }
 .hero-copy p {
   margin: 0;
