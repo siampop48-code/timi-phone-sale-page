@@ -18,7 +18,7 @@
 }
 
 * { box-sizing: border-box; }
-html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; overflow-x: hidden; }
 body {
   margin: 0;
   color: var(--ink);
@@ -27,6 +27,7 @@ body {
     radial-gradient(circle at 10% 0%, rgba(30, 64, 255, .12), transparent 32rem),
     radial-gradient(circle at 100% 0%, rgba(255, 180, 0, .08), transparent 30rem),
     linear-gradient(180deg, #edf3ff 0%, #f8faff 28%, #f6f8ff 100%);
+  overflow-x: hidden;
 }
 img { display: block; max-width: 100%; }
 a { color: inherit; text-decoration: none; }
@@ -138,10 +139,11 @@ button { cursor: pointer; }
   background: #fff;
   border: 1px solid rgba(30,64,255,.14);
 }
+.btn-messenger,
 .btn-line {
   color: #fff;
-  background: linear-gradient(135deg, #12c35f, #029647);
-  box-shadow: 0 14px 26px rgba(18,195,95,.22);
+  background: linear-gradient(135deg, #0084ff, #005bd8);
+  box-shadow: 0 14px 26px rgba(0,132,255,.22);
 }
 .btn-lg { min-height: 56px; padding: 14px 26px; font-size: 17px; }
 .pulse { animation: pulse 1.8s ease-in-out infinite; }
@@ -703,6 +705,8 @@ button { cursor: pointer; }
 }
 .consent input { width: 18px; height: 18px; margin-top: 4px; }
 .form-note { margin: 0; color: var(--muted); font-size: 14px; }
+.form-note.is-success { color: #057a43; font-weight: 800; }
+.form-note.is-warning { color: #9a5b00; font-weight: 800; }
 
 .site-footer {
   max-width: var(--max);
@@ -777,8 +781,11 @@ button { cursor: pointer; }
   .desktop-nav { display: none; }
   .site-header { padding: 12px 12px; }
   .site-header::before { inset: 6px; }
+  .site-header > .btn { display: none; }
   .section-pad { padding: 56px 16px; }
   .hero { padding-top: 28px; gap: 24px; }
+  .hero-alerts { flex-direction: column; }
+  .hero-alert { width: 100%; min-width: 0; }
   .hero-copy p,
   .section-head p,
   .split-section p,
@@ -802,7 +809,14 @@ button { cursor: pointer; }
     flex-wrap: wrap;
   }
   .sticky-copy { width: 100%; margin-right: 0; }
-  .sticky-cta .btn { flex: 1; min-width: calc(50% - 5px); }
+  .sticky-cta .btn {
+    flex: 1;
+    min-width: 0;
+    max-width: calc(50% - 5px);
+    padding-inline: 10px;
+    font-size: 14px;
+    white-space: nowrap;
+  }
   .site-footer {
     padding-bottom: 120px;
     flex-direction: column;
