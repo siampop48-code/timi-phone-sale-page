@@ -593,7 +593,7 @@
           <span>ราคาและของแถมอาจเปลี่ยนเมื่อของล็อตนี้หมด</span>
         </div>
         <div class="side-card-actions">
-          <button class="btn-line">💬 ทัก LINE ตอนนี้</button>
+          <a class="btn-line" href="https://m.me/170306732996781">💬 ทัก Messenger ตอนนี้</a>
           <button class="btn-ghost-w" style="color:#fff;border-color:rgba(255,255,255,.2);background:transparent;" onclick="document.getElementById('deals').scrollIntoView({behavior:'smooth'})">เลือกดูรุ่นก่อน</button>
         </div>
       </div>
@@ -703,8 +703,8 @@
         <input type="tel" placeholder="08x-xxx-xxxx"/>
       </div>
       <div class="form-group">
-        <label>LINE ID</label>
-        <input type="text" placeholder="ใส่ LINE ID หรือเว้นว่าง"/>
+        <label>Messenger / Facebook</label>
+        <input type="text" placeholder="ชื่อ Facebook หรือเบอร์ติดต่อกลับ"/>
       </div>
       <div class="form-group">
         <label>จังหวัด</label>
@@ -742,8 +742,8 @@
         <textarea rows="3" placeholder="เช่น ใช้แอปธนาคาร / ซื้อให้ผู้ใหญ่ / ต้องการเก็บปลายทาง"></textarea>
       </div>
     </div>
-    <button class="btn-submit" onclick="alert('✅ ส่งข้อมูลแล้ว! แอดมินจะติดต่อกลับเร็วๆ นี้')">
-      🚀 ส่งข้อมูลให้แอดมินตอนนี้
+    <button class="btn-submit" onclick="location.href='https://m.me/170306732996781'">
+      🚀 ทักแอดมินผ่าน Messenger ตอนนี้
     </button>
   </div>
 </div>
@@ -760,12 +760,14 @@
     <small>คลิกรุ่นที่สนใจแล้วทักแชทได้ทันที</small>
   </div>
   <div class="sticky-actions">
-    <button class="btn-line-sticky" onclick="alert('เปิด LINE')">💬 ทัก LINE</button>
+    <a class="btn-line-sticky" href="https://m.me/170306732996781">💬 Messenger</a>
     <button class="btn-cta-sticky" onclick="document.getElementById('form').scrollIntoView({behavior:'smooth'})">จอง/เช็กสต๊อก</button>
   </div>
 </div>
 
 <script>
+const MESSENGER_URL = "https://m.me/170306732996781";
+
 const products = [
   { id:"timi-t25", name:"TIMI T25", price:1790, oldPrice:2490, badge:"ขายดี", badgeClass:"badge-hot", sub:"จอใหญ่ 6.92\" แบตอึด", specs:["จอ 6.92\"","แบต 6500mAh","6+128GB","Android 13"], tags:["phone","banking"], featured:true },
   { id:"timi-t29", name:"TIMI T29", price:1790, oldPrice:2390, badge:"ราคาพิเศษ", badgeClass:"badge-sale", sub:"จอใหญ่เต็มตา แบตอึดเต็มวัน", specs:["RAM 6GB","ROM 128GB","จอใหญ่","แบต 6500mAh"], tags:["phone","banking"] },
@@ -807,7 +809,7 @@ function renderProducts() {
   const grid = document.getElementById("productGrid");
   const filtered = currentFilter === "all" ? products : products.filter(p => p.tags.includes(currentFilter));
   grid.innerHTML = filtered.map(p => `
-    <div class="product-card${p.featured?' featured':''}" onclick="openChat('${p.name}', ${p.price})">
+    <div class="product-card${p.featured?' featured':''}" onclick="location.href='${messengerLink(p)}'">
       <div class="card-badge ${p.badgeClass}">${p.badge}</div>
       <div class="card-img">
         <img src="${imageMap[p.id]||''}" alt="${p.name}"
@@ -827,9 +829,23 @@ function renderProducts() {
   `).join("");
 }
 
-function openChat(name, price) {
-  alert(`✅ คัดลอกแล้ว!\n\nสนใจ: ${name} ราคา ${price.toLocaleString("th-TH")} บาท\n\nวางข้อความนี้ในแชท LINE / Messenger`);
+function messengerLink(product) {
+  const message = `สนใจ ${product.name} ราคา ${product.price.toLocaleString("th-TH")} บาท`;
+  return `${MESSENGER_URL}?ref=${encodeURIComponent(message)}`;
 }
+
+function openMessenger(message = "") {
+  const url = message ? `${MESSENGER_URL}?ref=${encodeURIComponent(message)}` : MESSENGER_URL;
+  location.href = url;
+}
+
+function openMessengerWithForm() {
+  const selected = document.getElementById("productSelect")?.value || "ให้แอดมินช่วยแนะนำรุ่น";
+  openMessenger(`จอง/เช็กสต๊อก: ${selected}`);
+}
+
+window.openMessenger = openMessenger;
+window.openMessengerWithForm = openMessengerWithForm;
 
 renderProducts();
 
