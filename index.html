@@ -1,883 +1,323 @@
 <!doctype html>
 <html lang="th">
 <head>
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>VALUE CLEARANCE — มือถือเคลียร์สต๊อก ราคาพิเศษ</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com"/>
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;700;800;900&family=Barlow+Condensed:wght@700;800;900&display=swap" rel="stylesheet"/>
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    :root {
-      --bg: #fff8f5;
-      --surface: #ffffff;
-      --surface2: #fff0ea;
-      --card: #ffffff;
-      --border: rgba(17,24,39,.09);
-      --primary: #e63000;
-      --primary2: #b52200;
-      --red: #dc2626;
-      --orange: #ea6000;
-      --warn: #ffb400;
-      --green: #0dac5d;
-      --ink: #0f0f0f;
-      --muted: #5e4a3a;
-      --line-green: #00b900;
-      --dark: #0f0f0f;
-      --shadow: 0 20px 55px rgba(180,40,0,.13);
-      --shadow-soft: 0 10px 28px rgba(180,40,0,.08);
-      --radius: 26px;
-      --radius-sm: 16px;
-    }
-    html { scroll-behavior: smooth; }
-    body {
-      font-family: "Noto Sans Thai", system-ui, sans-serif;
-      color: var(--ink);
-      line-height: 1.5;
-      overflow-x: hidden;
-      background:
-        radial-gradient(circle at 8% 0%, rgba(230,48,0,.10), transparent 30rem),
-        radial-gradient(circle at 95% 10%, rgba(255,122,26,.10), transparent 28rem),
-        linear-gradient(180deg, #fff0ea 0%, #fff6f2 28%, #fff8f5 100%);
-    }
-    img { display: block; max-width: 100%; }
-    a { color: inherit; text-decoration: none; }
-    button { cursor: pointer; font: inherit; border: none; }
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>มือถือเคลียร์สต๊อก ราคาพิเศษ | VALUE CLEARANCE</title>
+  <meta name="description" content="มือถือและแท็บเล็ตจอใหญ่ ราคาพิเศษ พร้อมใช้งาน รองรับแอปธนาคาร แบตอึด ส่งไว มีรับประกัน" />
+  <meta property="og:title" content="มือถือเคลียร์สต๊อก ราคาพิเศษ" />
+  <meta property="og:description" content="ดีลมือถือจอใหญ่ เริ่มต้น 1,290 บาท พร้อมใช้งาน ส่งไว รับประกัน" />
+  <meta property="og:image" content="assets/campaign/phone-clearance-hero.png" />
+  <meta property="og:type" content="website" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <script src="config.js"></script>
+  <script>
+    // [Meta Pixel] เปลี่ยน Pixel ID ได้ที่ config.js > facebookPixelId ก่อนนำเว็บขึ้นใช้งานจริง
+    (function () {
+      const pixelId = (window.SALES_PAGE_CONFIG?.facebookPixelId || "").trim();
+      const isPixelReady = pixelId && !pixelId.includes("YOUR_");
+      window.__META_PIXEL_READY__ = false;
 
-    /* TICKER */
-    .ticker {
-      background: linear-gradient(90deg, #1a0000, #e63000, #1a0000);
-      padding: 10px 0; overflow: hidden;
-    }
-    .ticker-track {
-      display: flex; gap: 28px; white-space: nowrap;
-      min-width: max-content;
-      animation: slide 22s linear infinite;
-      font-size: 13px; font-weight: 800; color: #fff;
-    }
-    @keyframes slide { from { transform: translateX(0); } to { transform: translateX(-50%); } }
-    .ticker-track span::before { content: "⚡ "; }
+      if (!isPixelReady) return;
 
-    /* HEADER */
-    .header {
-      position: sticky; top: 0; z-index: 100;
-      max-width: 1180px; margin: 0 auto;
-      padding: 14px 18px;
-      display: flex; align-items: center; justify-content: space-between; gap: 18px;
-    }
-    .header::before {
-      content: "";
-      position: absolute; inset: 8px 12px; z-index: -1;
-      border-radius: 999px;
-      background: rgba(255,255,255,.84);
-      border: 1px solid rgba(255,255,255,.72);
-      backdrop-filter: blur(18px);
-      box-shadow: var(--shadow-soft);
-    }
-    .logo { display: flex; align-items: center; gap: 10px; font-weight: 900; font-size: 18px; }
-    .logo-icon {
-      width: 40px; height: 40px; border-radius: 14px;
-      background: linear-gradient(135deg, #e63000, #ff7a1a);
-      box-shadow: 0 10px 20px rgba(30,64,255,.22);
-      display: grid; place-items: center;
-      font-size: 18px; font-weight: 900; color: #fff;
-    }
-    .logo strong { display: block; line-height: 1; letter-spacing: .08em; color: #e63000; }
-    .logo small { display: block; font-size: 11px; font-weight: 400; color: var(--muted); letter-spacing: .12em; }
-    .header-cta {
-      background: linear-gradient(135deg, #e63000, #b52200);
-      color: #fff; font-weight: 900; font-size: 14px;
-      padding: 11px 22px; border-radius: 999px;
-      white-space: nowrap;
-      box-shadow: 0 14px 30px rgba(230,48,0,.28);
-      transition: transform .15s, filter .15s;
-    }
-    .header-cta:hover { transform: translateY(-2px); filter: brightness(1.05); }
+      !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+      n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+      n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+      t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+      document,'script','https://connect.facebook.net/en_US/fbevents.js');
 
-    /* HERO */
-    .hero {
-      padding: 48px 20px 50px;
-      max-width: 1180px; margin: 0 auto;
-      display: grid; grid-template-columns: 1.05fr .95fr;
-      gap: 36px; align-items: start;
-      position: relative;
-    }
-    .hero-eyebrow {
-      display: inline-flex; align-items: center; gap: 8px;
-      color: #e63000; font-size: 13px; font-weight: 900;
-      letter-spacing: .1em; text-transform: uppercase;
-      margin-bottom: 14px;
-    }
-    .hero h1 {
-      font-family: "Barlow Condensed", "Noto Sans Thai", sans-serif;
-      font-size: clamp(44px, 5.5vw, 72px);
-      font-weight: 900; line-height: 1.0; letter-spacing: -.02em;
-      color: #0f0f0f;
-      text-shadow: 0 2px 0 rgba(255,255,255,.35);
-      margin-bottom: 16px; text-transform: uppercase;
-    }
-    .hero h1 em {
-      font-style: normal; color: #e63000;
-      text-shadow: 0 10px 26px rgba(230,48,0,.18);
-    }
-    .hero-sub { font-size: 17px; color: var(--muted); max-width: 520px; margin-bottom: 22px; line-height: 1.85; }
-
-    /* Hero Alert Pills */
-    .hero-alerts { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 22px; }
-    .hero-alert {
-      min-width: 220px; padding: 14px 16px; border-radius: 18px;
-      color: #fff; box-shadow: var(--shadow-soft);
-    }
-    .hero-alert strong, .hero-alert span { display: block; }
-    .hero-alert span { margin-top: 4px; opacity: .94; }
-    .hero-alert.hot { background: linear-gradient(135deg, #ef4444, #f97316); }
-    .hero-alert.warn { background: linear-gradient(135deg, #0f172a, #1d4ed8); }
-
-    /* Countdown */
-    .countdown-wrap { margin-bottom: 26px; }
-    .countdown-label { font-size: 12px; color: var(--muted); letter-spacing: .08em; text-transform: uppercase; margin-bottom: 8px; font-weight: 700; }
-    .countdown-boxes { display: flex; gap: 8px; align-items: center; }
-    .cd-box {
-      background: linear-gradient(145deg, #fff, #fff0e8);
-      border: 1px solid rgba(230,48,0,.15);
-      border-radius: var(--radius-sm); box-shadow: var(--shadow-soft);
-      padding: 10px 16px; text-align: center; min-width: 68px;
-    }
-    .cd-num { font-size: 30px; font-weight: 900; font-variant-numeric: tabular-nums; line-height: 1; color: var(--primary); }
-    .cd-unit { font-size: 11px; color: var(--muted); margin-top: 2px; }
-    .cd-sep { font-size: 24px; font-weight: 900; color: var(--red); opacity: .7; }
-
-    .hero-btns { display: flex; gap: 12px; flex-wrap: wrap; }
-    .btn-fire {
-      background: linear-gradient(135deg, #e63000, #b52200);
-      color: #fff; font-weight: 900; font-size: 16px;
-      padding: 14px 28px; border-radius: 999px;
-      box-shadow: 0 14px 30px rgba(230,48,0,.30);
-      transition: transform .15s, filter .15s;
-      display: inline-flex; align-items: center; gap: 8px;
-      animation: pulse-red-btn 1.8s ease-in-out infinite;
-    }
-    .btn-fire:hover { transform: translateY(-2px); filter: brightness(1.05); }
-    @keyframes pulse-red-btn {
-      0%,100% { box-shadow: 0 0 0 0 rgba(230,48,0,.2), 0 14px 30px rgba(230,48,0,.30); }
-      50% { box-shadow: 0 0 0 10px rgba(230,48,0,0), 0 18px 32px rgba(230,48,0,.40); }
-    }
-    .btn-ghost-w {
-      background: #fff; color: #e63000; font-weight: 800; font-size: 16px;
-      padding: 13px 24px; border-radius: 999px;
-      border: 1px solid rgba(230,48,0,.2);
-      transition: background .15s;
-    }
-    .btn-ghost-w:hover { background: #fff0ea; }
-
-    /* Hero visual */
-    .hero-visual { position: relative; display: grid; gap: 16px; }
-    .hero-img-wrap {
-      position: relative; border-radius: var(--radius); overflow: hidden;
-      background: rgba(255,255,255,.9);
-      border: 1px solid rgba(255,255,255,.88);
-      box-shadow: var(--shadow);
-      padding: 14px;
-    }
-    .hero-img-wrap img { border-radius: 20px; width: 100%; }
-    .hero-badge {
-      position: absolute; top: 20px; right: 20px;
-      background: linear-gradient(135deg, #ef4444, #f97316);
-      color: #fff; font-size: 12px; font-weight: 900;
-      padding: 6px 14px; border-radius: 999px;
-      box-shadow: 0 4px 14px rgba(239,68,68,.45);
-      animation: pulse-red 2s ease-in-out infinite;
-    }
-    @keyframes pulse-red {
-      0%,100% { box-shadow: 0 4px 14px rgba(239,68,68,.45); }
-      50% { box-shadow: 0 4px 24px rgba(239,68,68,.75); }
-    }
-    .hero-side-card {
-      padding: 24px; color: #fff; border-radius: 28px;
-      background: linear-gradient(155deg, #091427, #14357b 58%, #0d2c65);
-      box-shadow: var(--shadow);
-    }
-    .hero-side-card h2 { margin: 10px 0 12px; font-size: 30px; line-height: 1.1; letter-spacing: -.02em; }
-    .rush-list { margin: 0; padding: 0; list-style: none; display: grid; gap: 10px; }
-    .rush-list li {
-      padding-left: 16px; position: relative;
-      color: rgba(255,255,255,.92); line-height: 1.65;
-    }
-    .rush-list li::before { content: "•"; position: absolute; left: 0; color: var(--warn); font-weight: 900; }
-    .countdown-card {
-      margin-top: 16px; padding: 16px 18px; border-radius: 20px;
-      background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.14);
-    }
-    .countdown-card small, .countdown-card span { display: block; color: rgba(255,255,255,.8); }
-    .countdown-card strong {
-      display: block; margin: 4px 0 6px;
-      color: #ffd44d; font-size: clamp(28px,4vw,40px); letter-spacing: .04em;
-    }
-    .side-card-actions { display: flex; gap: 10px; margin-top: 18px; }
-    .btn-line {
-      background: linear-gradient(135deg, #12c35f, #029647);
-      color: #fff; font-weight: 900; font-size: 14px;
-      padding: 11px 18px; border-radius: 999px;
-      box-shadow: 0 14px 26px rgba(18,195,95,.22);
-    }
-
-    /* Stock bar */
-    .hero-stock-bar {
-      background: rgba(8,17,36,.82); backdrop-filter: blur(10px);
-      border-radius: 16px; margin-top: 6px;
-      padding: 14px 20px;
-    }
-    .stock-label { font-size: 12px; color: rgba(255,255,255,.7); margin-bottom: 6px; }
-    .stock-track { height: 7px; background: rgba(255,255,255,.15); border-radius: 999px; overflow: hidden; }
-    .stock-fill {
-      height: 100%; width: 28%;
-      background: linear-gradient(90deg, #ef4444, #f97316);
-      border-radius: 999px; position: relative;
-    }
-    .stock-fill::after {
-      content: ""; position: absolute; inset: 0;
-      background: linear-gradient(90deg, transparent 60%, rgba(255,255,255,.3) 100%);
-      animation: shimmer 1.5s ease-in-out infinite;
-    }
-    @keyframes shimmer { 0%,100%{opacity:0} 50%{opacity:1} }
-    .stock-note { font-size: 11px; color: #fca5a5; margin-top: 5px; font-weight: 700; }
-
-    /* TRUST BAR */
-    .trust-bar {
-      background: rgba(255,255,255,.9); border-top: 1px solid rgba(230,48,0,.10); border-bottom: 1px solid rgba(230,48,0,.10);
-      padding: 18px 20px;
-    }
-    .trust-inner {
-      max-width: 1180px; margin: 0 auto;
-      display: flex; justify-content: center; gap: 40px; flex-wrap: wrap;
-    }
-    .trust-item { display: flex; align-items: center; gap: 10px; font-size: 14px; font-weight: 700; color: var(--ink); }
-    .trust-icon { font-size: 22px; }
-
-    /* PRODUCTS */
-    .section { padding: 60px 20px; max-width: 1180px; margin: 0 auto; }
-    .section-head { text-align: center; margin-bottom: 32px; }
-    .eyebrow-tag {
-      display: inline-block;
-      color: var(--primary); font-size: 13px; font-weight: 900;
-      letter-spacing: .1em; text-transform: uppercase;
-      margin-bottom: 10px;
-    }
-    .section-head h2 {
-      font-family: "Barlow Condensed", "Noto Sans Thai", sans-serif;
-      font-size: clamp(30px, 4vw, 48px); font-weight: 900;
-      text-transform: uppercase; margin-bottom: 8px; letter-spacing: -.02em;
-      color: #0f0f0f;
-    }
-    .section-head h2 em { font-style: normal; color: #e63000; }
-    .section-head p { color: var(--muted); font-size: 16px; max-width: 520px; margin: 0 auto; line-height: 1.8; }
-
-    /* Deal notice */
-    .deal-notice {
-      max-width: 860px; margin: 0 auto 20px;
-      padding: 14px 16px; color: #fff;
-      background: linear-gradient(90deg, #1a0000, #e63000);
-      border-radius: 16px; box-shadow: var(--shadow-soft);
-    }
-
-    /* Filters */
-    .filters { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; margin-bottom: 28px; }
-    .filter-btn {
-      background: #fff; color: #0f172a;
-      border: 1px solid rgba(17,24,39,.08); border-radius: 999px;
-      padding: 10px 18px; font-size: 13px; font-weight: 900;
-      min-height: 44px; transition: all .15s;
-    }
-    .filter-btn:hover, .filter-btn.active {
-      background: #e63000; color: #fff;
-      box-shadow: 0 12px 22px rgba(230,48,0,.22);
-    }
-
-    /* Product grid */
-    .product-grid {
-      display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-      gap: 18px;
-    }
-    .product-card {
-      background: rgba(255,255,255,.95); border: 1px solid rgba(255,255,255,.88);
-      border-radius: 26px; overflow: hidden;
-      box-shadow: var(--shadow-soft);
-      transition: transform .22s, box-shadow .22s;
-      cursor: pointer; position: relative;
-    }
-    .product-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 18px 40px rgba(22,34,83,.14);
-    }
-    .product-card.featured {
-      box-shadow: 0 0 0 2px #e63000, var(--shadow);
-    }
-    .card-badge {
-      position: absolute; top: 12px; left: 12px; z-index: 2;
-      font-size: 11px; font-weight: 900; letter-spacing: .04em;
-      padding: 5px 11px; border-radius: 999px; color: #fff;
-      text-transform: uppercase;
-    }
-    .badge-hot { background: linear-gradient(135deg, #ef4444, #f97316); }
-    .badge-new { background: linear-gradient(135deg, #7c3aed, #6d28d9); }
-    .badge-sale { background: linear-gradient(135deg, #ea6000, #e63000); }
-    .badge-cheap { background: linear-gradient(135deg, var(--green), #059669); }
-    .card-img {
-      aspect-ratio: 1 / 1;
-      display: flex; align-items: center; justify-content: center; overflow: hidden;
-      background: radial-gradient(circle at 20% 0%, rgba(255,255,255,.95), transparent 16rem),
-                  linear-gradient(145deg, #fff8f5, #ffe8da 70%);
-      position: relative;
-    }
-    .card-img img { width: 100%; height: 100%; object-fit: contain; padding: 20px; }
-    .card-img-placeholder {
-      width: 100%; height: 100%; display: flex;
-      align-items: center; justify-content: center;
-      font-size: 64px; opacity: .35;
-    }
-    .card-body { padding: 18px; }
-    .card-name { font-size: 20px; font-weight: 900; margin-bottom: 4px; letter-spacing: -.02em; color: var(--ink); }
-    .card-sub { font-size: 13px; color: var(--muted); margin-bottom: 10px; line-height: 1.55; }
-    .card-specs { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 14px; }
-    .spec-chip {
-      font-size: 12px; background: #fff5f0;
-      border: 1px solid rgba(230,48,0,.10); border-radius: 8px;
-      padding: 4px 9px; color: #384152;
-    }
-    .spec-chip::before { content: "✓ "; color: var(--green); font-weight: 900; }
-    .card-price-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
-    .card-price { font-size: 32px; font-weight: 900; color: #e63000; letter-spacing: -.04em; line-height: 1; }
-    .card-price .baht { font-size: 16px; font-weight: 700; color: var(--ink); }
-    .card-old-price { font-size: 13px; color: var(--muted); text-decoration: line-through; }
-    .btn-order {
-      width: 100%; padding: 12px;
-      background: linear-gradient(135deg, #e63000, #b52200);
-      color: #fff; font-weight: 900; font-size: 14px;
-      border-radius: 999px;
-      box-shadow: 0 12px 22px rgba(230,48,0,.26);
-      transition: transform .15s, filter .15s;
-      display: flex; align-items: center; justify-content: center; gap: 6px;
-    }
-    .btn-order:hover { transform: translateY(-2px); filter: brightness(1.05); }
-
-    /* URGENCY STRIP */
-    .urgency-strip {
-      background: rgba(255,255,255,.88);
-      border-top: 1px solid rgba(230,48,0,.10); border-bottom: 1px solid rgba(230,48,0,.10);
-      padding: 40px 20px;
-    }
-    .urgency-inner {
-      max-width: 1180px; margin: 0 auto;
-      display: grid; grid-template-columns: repeat(3,1fr); gap: 20px;
-    }
-    .urgency-item {
-      padding: 24px; border-radius: 22px;
-      background: rgba(255,255,255,.88);
-      border: 1px solid rgba(255,255,255,.82);
-      box-shadow: var(--shadow-soft);
-    }
-    .urgency-item.highlight { background: linear-gradient(135deg,#fff6dc,#fff1bb); border-color: rgba(255,196,0,.32); }
-    .urgency-icon { font-size: 28px; margin-bottom: 10px; }
-    .urgency-title { font-size: 20px; font-weight: 900; margin-bottom: 6px; color: var(--ink); }
-    .urgency-desc { font-size: 14px; color: var(--muted); line-height: 1.7; }
-
-    /* REVIEWS */
-    .reviews { padding: 60px 20px; }
-    .reviews-inner { max-width: 1180px; margin: 0 auto; }
-    .review-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; margin-top: 32px; }
-    .review-card {
-      background: #fff; border: 1px solid rgba(255,255,255,.85);
-      border-radius: 24px; padding: 24px; box-shadow: var(--shadow-soft);
-    }
-    .stars { color: #ffb000; font-size: 20px; margin-bottom: 10px; letter-spacing: 2px; }
-    .review-text { font-size: 14px; color: #334155; line-height: 1.75; margin-bottom: 14px; }
-    .review-author { font-size: 14px; font-weight: 800; color: var(--ink); }
-    .review-product { font-size: 12px; color: var(--muted); }
-
-    /* LEAD FORM */
-    .form-section { padding: 60px 20px; max-width: 680px; margin: 0 auto; }
-    .form-card {
-      background: linear-gradient(145deg, rgba(255,255,255,.98), rgba(255,240,230,.92));
-      border: 1px solid rgba(255,255,255,.9);
-      border-radius: var(--radius); padding: 40px;
-      box-shadow: var(--shadow);
-    }
-    .form-title {
-      font-family: "Barlow Condensed", "Noto Sans Thai", sans-serif;
-      font-size: 38px; font-weight: 900; text-transform: uppercase;
-      margin-bottom: 6px; color: #0f0f0f; letter-spacing: -.02em;
-    }
-    .form-title em { font-style: normal; color: #e63000; }
-    .form-sub { color: var(--muted); font-size: 14px; margin-bottom: 20px; line-height: 1.7; }
-    .mini-checks { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 24px; }
-    .check-pill {
-      font-size: 13px; font-weight: 600;
-      background: rgba(255,255,255,.9); border: 1px solid rgba(17,24,39,.06);
-      color: var(--ink); border-radius: 14px; padding: 10px 14px;
-    }
-    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-    .form-group { display: flex; flex-direction: column; gap: 6px; }
-    .form-group.full { grid-column: 1 / -1; }
-    label { font-size: 13px; font-weight: 800; color: #243042; }
-    input, select, textarea {
-      background: #fff; border: 1px solid rgba(17,24,39,.12);
-      color: var(--ink); border-radius: 14px;
-      padding: 13px 14px; font-size: 14px; font: inherit;
-      transition: border-color .15s, outline .15s;
-    }
-    input:focus, select:focus, textarea:focus {
-      outline: 3px solid rgba(230,48,0,.12);
-      border-color: rgba(230,48,0,.28);
-    }
-    .btn-submit {
-      width: 100%; margin-top: 20px;
-      background: linear-gradient(135deg, #e63000, #b52200);
-      color: #fff; font-weight: 900; font-size: 16px;
-      padding: 16px; border-radius: 999px;
-      box-shadow: 0 14px 30px rgba(230,48,0,.30);
-      transition: transform .15s, filter .15s;
-      animation: pulse-red-btn 1.8s ease-in-out infinite;
-    }
-    .btn-submit:hover { transform: scale(1.02); filter: brightness(1.05); }
-
-    /* STICKY BOTTOM */
-    .sticky-bar {
-      position: fixed;
-      left: 50%; bottom: 18px; z-index: 200;
-      transform: translateX(-50%);
-      width: min(calc(100% - 24px), 900px);
-      background: rgba(8,17,36,.92); backdrop-filter: blur(12px);
-      border: 1px solid rgba(255,255,255,.08);
-      border-radius: 22px; padding: 12px 16px;
-      box-shadow: 0 24px 60px rgba(8,17,36,.28);
-      display: flex; align-items: center; justify-content: space-between; gap: 12px;
-    }
-    .sticky-text strong { font-size: 15px; font-weight: 800; color: #fff; }
-    .sticky-text small { display: block; font-size: 12px; color: rgba(255,255,255,.65); }
-    .sticky-actions { display: flex; gap: 10px; }
-    .btn-line-sticky {
-      background: linear-gradient(135deg, #12c35f, #029647); color: #fff;
-      font-weight: 800; font-size: 13px; padding: 10px 18px;
-      border-radius: 999px; white-space: nowrap;
-      box-shadow: 0 10px 20px rgba(18,195,95,.22);
-    }
-    .btn-cta-sticky {
-      background: linear-gradient(135deg, #e63000, #b52200);
-      color: #fff; font-weight: 800; font-size: 13px;
-      padding: 10px 18px; border-radius: 999px; white-space: nowrap;
-      box-shadow: 0 10px 20px rgba(230,48,0,.28);
-    }
-
-    /* FOOTER */
-    .footer {
-      max-width: 1180px; margin: 0 auto;
-      padding: 30px 20px 100px;
-      display: flex; align-items: center; justify-content: space-between; gap: 18px;
-      color: var(--muted);
-    }
-    .footer-logo { font-weight: 900; font-size: 18px; color: var(--ink); display: block; margin-bottom: 4px; }
-    .footer p { font-size: 13px; }
-
-    /* Mobile */
-    @media (max-width: 900px) {
-      .hero { grid-template-columns: 1fr; }
-      .hero-visual .hero-img-wrap { display: none; }
-      .urgency-inner { grid-template-columns: 1fr; }
-      .review-grid { grid-template-columns: 1fr; }
-    }
-    @media (max-width: 700px) {
-      .trust-inner { gap: 20px; }
-      .trust-item { font-size: 13px; }
-      .form-grid { grid-template-columns: 1fr; }
-      .sticky-text small { display: none; }
-      .footer { flex-direction: column; align-items: flex-start; }
-    }
-  </style>
+      fbq("init", pixelId);
+      fbq("track", "PageView");
+      window.__META_PIXEL_READY__ = true;
+    })();
+  </script>
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-
-<!-- Ticker -->
-<div class="ticker">
-  <div class="ticker-track">
-    <span>โปรเคลียร์สต๊อกล็อตนี้จำนวนจำกัด</span>
-    <span>ราคาเริ่มต้นเพียง 1,290 บาท</span>
-    <span>สินค้าบางสีหมดไว แนะนำทักแชททันที</span>
-    <span>คลิกที่สินค้าเพื่อส่งชื่อรุ่นหาแอดมินอัตโนมัติ</span>
-    <span>โปรเคลียร์สต๊อกล็อตนี้จำนวนจำกัด</span>
-    <span>ราคาเริ่มต้นเพียง 1,290 บาท</span>
-    <span>สินค้าบางสีหมดไว แนะนำทักแชททันที</span>
-    <span>คลิกที่สินค้าเพื่อส่งชื่อรุ่นหาแอดมินอัตโนมัติ</span>
-  </div>
-</div>
-
-<!-- Header -->
-<header class="header">
-  <div class="logo">
-    <div class="logo-icon">V</div>
-    <div>
-      <span>VALUE CLEARANCE</span>
-      <small>มือถือ &amp; แท็บเล็ต ราคาพิเศษ</small>
+  <div class="announcement">
+    <div class="announcement-track">
+      <span>⚡ โปรเคลียร์สต๊อกล็อตนี้จำนวนจำกัด</span>
+      <span>🔥 ราคาเริ่มต้นเพียง 1,290 บาท</span>
+      <span>📦 สินค้าบางสีหมดไว แนะนำทักแชททันที</span>
+      <span>💬 คลิกที่สินค้าเพื่อส่งชื่อรุ่นหาแอดมินอัตโนมัติ</span>
+      <span>⚡ โปรเคลียร์สต๊อกล็อตนี้จำนวนจำกัด</span>
+      <span>🔥 ราคาเริ่มต้นเพียง 1,290 บาท</span>
     </div>
   </div>
-  <button class="header-cta" onclick="document.getElementById('form').scrollIntoView({behavior:'smooth'})">
-    🔥 จองด่วนผ่านแชท
-  </button>
-</header>
 
-<!-- Hero -->
-<section>
-  <div class="hero">
-    <div class="hero-copy">
-      <div class="hero-eyebrow">CLEARANCE SALE • พร้อมส่ง • รับประกัน</div>
-      <h1>เคลียร์สต๊อก<br/><em>ราคาพิเศษ</em><br/>จำนวนจำกัด</h1>
-      <p class="hero-sub">รวมมือถือและแท็บเล็ตจอใหญ่คัดมาเฉพาะรุ่นที่คุ้มที่สุด ใช้งานได้จริง รองรับแอปธนาคาร ส่งไว มีรับประกัน</p>
+  <header class="site-header" id="top">
+    <a class="brand" href="#top" aria-label="กลับด้านบน">
+      <span class="brand-icon">⌁</span>
+      <span>
+        <strong>VALUE</strong>
+        <small>CLEARANCE</small>
+      </span>
+    </a>
+    <nav class="desktop-nav" aria-label="เมนูหลัก">
+      <a href="#deals">ดีลวันนี้</a>
+      <a href="#why">จุดเด่น</a>
+      <a href="#reviews">รีวิว</a>
+      <a href="#lead-form">จองเครื่อง</a>
+    </nav>
+    <button class="btn btn-primary" data-scroll-to="lead-form">จองด่วนผ่านแชท</button>
+  </header>
 
-      <div class="price-pill">
-        <span class="from">ราคาเริ่มต้น</span>
-        <span class="price" id="heroPrice">1,290</span>
-        <span class="unit">บาท</span>
+  <main>
+    <section class="hero-shell">
+      <section class="hero section-pad">
+        <div class="hero-copy">
+          <span class="eyebrow">CLEARANCE SALE • พร้อมส่ง • อ่านง่าย • ทักง่าย</span>
+          <h1>เคลียร์สต๊อก <span>ราคาพิเศษ</span><br />อ่านง่าย ชวนตัดสินใจไว</h1>
+          <p>รวมมือถือและแท็บเล็ตจอใหญ่ที่เน้น “คุ้ม ใช้งานได้จริง และทักสั่งง่าย” เหมาะสำหรับลูกค้าที่ต้องการเครื่องพร้อมใช้ในงบสบายกระเป๋า</p>
+
+          <div class="hero-alerts">
+            <div class="hero-alert hot">
+              <strong>🔥 ดีลมาแรง</strong>
+              <span>เริ่มต้นเพียง <b id="heroMinPrice">1,290</b> บาท</span>
+            </div>
+            <div class="hero-alert warn">
+              <strong>⏰ รอบโปรวันนี้</strong>
+              <span>เหลือเวลา <b id="heroCountdown">--:--:--</b></span>
+            </div>
+          </div>
+
+          <div class="hero-actions">
+            <button class="btn btn-primary btn-lg pulse" data-scroll-to="deals">ดูสินค้าราคาพิเศษ</button>
+            <button class="btn btn-ghost btn-lg" data-scroll-to="lead-form">ให้แอดมินช่วยเลือก</button>
+          </div>
+
+          <div class="trust-row" aria-label="จุดเด่นร้าน">
+            <div><strong id="catalogCount">11 รุ่น</strong><span>รวมมือถือและแท็บเล็ต</span></div>
+            <div><strong>ทักง่าย</strong><span>แตะสินค้าส่งเข้าแชทได้เลย</span></div>
+            <div><strong>พร้อมใช้</strong><span>คัดรุ่นคุ้ม เน้นใช้งานจริง</span></div>
+          </div>
+        </div>
+
+        <div class="hero-visual-wrap">
+          <div class="hero-visual">
+            <img src="assets/campaign/phone-clearance-hero.png" alt="ภาพโปรเคลียร์สต๊อกมือถือราคาพิเศษ" />
+          </div>
+          <aside class="hero-side-card">
+            <span class="eyebrow">PROMO NOW</span>
+            <h2>ทักก่อน ได้สิทธิ์ก่อน</h2>
+            <ul class="rush-list">
+              <li>คลิกที่รูปสินค้า → ระบบแนบชื่อรุ่นให้อัตโนมัติ</li>
+              <li>แอดมินรู้ทันทีว่าลูกค้าสนใจรุ่นไหน</li>
+              <li>ตอบโปร/สี/สต๊อกได้ตรงรุ่น เร็วขึ้น</li>
+            </ul>
+            <div class="countdown-card">
+              <small>ปิดรับรอบโปรโมชั่นวันนี้ใน</small>
+              <strong id="countdownText">--:--:--</strong>
+              <span>ราคาและของแถมอาจเปลี่ยนเมื่อของล็อตนี้หมด</span>
+            </div>
+            <div class="side-card-actions">
+              <a class="btn btn-messenger" id="heroLineBtn" href="#" target="_blank" rel="noopener" data-chat-general data-contact-location="hero-side">ทัก Messenger ตอนนี้</a>
+              <button class="btn btn-ghost" data-scroll-to="deals">เลือกดูรุ่นก่อน</button>
+            </div>
+          </aside>
+        </div>
+      </section>
+    </section>
+
+    <section class="urgency-strip section-pad">
+      <div class="urgency-card">
+        <span>🚚 พร้อมส่ง</span>
+        <strong>ลูกค้าทักแล้วแอดมินตอบได้เร็ว</strong>
+        <p>เพราะระบบส่งชื่อรุ่นที่ลูกค้าคลิกเข้าแชทได้ทันที</p>
+      </div>
+      <div class="urgency-card">
+        <span>📌 อ่านง่าย</span>
+        <strong>แยกรุ่น ราคา และสเปกชัด</strong>
+        <p>ช่วยให้ตัดสินใจง่ายขึ้นและกดแชทได้เร็วขึ้น</p>
+      </div>
+      <div class="urgency-card highlight">
+        <span>🔥 รีบทักก่อน</span>
+        <strong>สินค้าบางรุ่น/บางสีออกไว</strong>
+        <p>โดยเฉพาะรุ่นราคาคุ้มและรุ่นรองรับแอปธนาคาร</p>
+      </div>
+    </section>
+
+    <section class="benefit-strip" id="why">
+      <article>
+        <span class="icon">📱</span>
+        <strong>จอใหญ่ สบายตา</strong>
+        <p>เหมาะกับดูวิดีโอ เล่นโซเชียล ใช้งานทั่วไป</p>
+      </article>
+      <article>
+        <span class="icon">🔋</span>
+        <strong>แบตอึด</strong>
+        <p>คัดรุ่นที่ตอบโจทย์ใช้งานได้ยาวตลอดวัน</p>
+      </article>
+      <article>
+        <span class="icon">🏦</span>
+        <strong>รองรับแอปสำคัญ</strong>
+        <p>เหมาะกับลูกค้าที่ต้องการเครื่องพร้อมใช้</p>
+      </article>
+      <article>
+        <span class="icon">💬</span>
+        <strong>สั่งง่ายในแชท</strong>
+        <p>แตะสินค้าแล้วส่งชื่อรุ่นเข้า Messenger ได้ทันที</p>
+      </article>
+    </section>
+
+    <section class="section-pad" id="deals">
+      <div class="section-head">
+        <span class="eyebrow">HOT DEALS</span>
+        <h2>รุ่นน่ากดซื้อที่สุดตอนนี้</h2>
+        <p>แตะที่รูปสินค้า ชื่อสินค้า หรือปุ่มสั่งซื้อ ระบบจะส่งชื่อรุ่นที่สนใจเข้าแชทให้แอดมินทันที</p>
       </div>
 
-      <div class="countdown-wrap">
-        <div class="countdown-label">⏰ ปิดรับโปรโมชั่นรอบนี้ใน</div>
-        <div class="countdown-boxes">
-          <div class="cd-box">
-            <div class="cd-num" id="cdH">00</div>
-            <div class="cd-unit">ชั่วโมง</div>
-          </div>
-          <div class="cd-sep">:</div>
-          <div class="cd-box">
-            <div class="cd-num" id="cdM">00</div>
-            <div class="cd-unit">นาที</div>
-          </div>
-          <div class="cd-sep">:</div>
-          <div class="cd-box">
-            <div class="cd-num" id="cdS">00</div>
-            <div class="cd-unit">วินาที</div>
-          </div>
+      <div class="deal-notice">
+        <div>
+          <strong>⚡ เคล็ดลับปิดการขายเร็วขึ้น:</strong>
+          คลิกรุ่นที่สนใจแล้วทักแชทเลย แอดมินจะเห็นชื่อรุ่น ราคา และข้อมูลสินค้าอัตโนมัติ
         </div>
       </div>
 
-      <div class="hero-btns">
-        <button class="btn-fire" onclick="document.getElementById('deals').scrollIntoView({behavior:'smooth'})">
-          🛒 ดูสินค้าราคาพิเศษ
-        </button>
-        <button class="btn-ghost-w" onclick="document.getElementById('form').scrollIntoView({behavior:'smooth'})">
-          💬 ให้แอดมินช่วยเลือก
-        </button>
+      <div class="toolbar" aria-label="ตัวกรองสินค้า">
+        <button class="filter-btn is-active" data-filter="all">ทั้งหมด</button>
+        <button class="filter-btn" data-filter="phone">มือถือ</button>
+        <button class="filter-btn" data-filter="tablet">แท็บเล็ต</button>
+        <button class="filter-btn" data-filter="banking">รองรับแอปธนาคาร</button>
+        <button class="filter-btn" data-filter="lowest">ราคาต่ำสุด</button>
       </div>
-    </div>
 
-    <div class="hero-visual">
-      <div class="hero-img-wrap">
-        <img src="assets/campaign/phone-clearance-hero.png" alt="โปรเคลียร์สต๊อกมือถือราคาพิเศษ" onerror="this.parentNode.innerHTML='<div style=\'width:100%;aspect-ratio:4/3;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;color:#b0bec5;font-size:14px;\'>📱<span>ภาพโปรโมชั่น</span></div>'"/>
-        <div class="hero-badge">🔥 สต๊อกเหลือน้อย</div>
+      <div class="quick-picks">
+        <button class="mini-chip" data-filter-shortcut="lowest">ดูรุ่นเริ่มต้นราคาถูก</button>
+        <button class="mini-chip" data-filter-shortcut="banking">ดูรุ่นรองรับแอปธนาคาร</button>
+        <button class="mini-chip" data-filter-shortcut="tablet">ดูแท็บเล็ตใส่ซิมได้</button>
       </div>
-      <div class="hero-stock-bar">
-        <div class="stock-label">สินค้าในล็อตนี้เหลือแค่</div>
-        <div class="stock-track"><div class="stock-fill"></div></div>
-        <div class="stock-note">⚠️ เหลือประมาณ 28% เท่านั้น</div>
+
+      <div class="product-grid" id="productGrid" aria-live="polite"></div>
+    </section>
+
+    <section class="campaign-preview section-pad">
+      <div class="section-head align-left">
+        <span class="eyebrow">AD CREATIVE</span>
+        <h2>ภาพแคมเปญพร้อมใช้ลง Facebook / IG</h2>
+        <p>ใช้เป็นภาพหลักในเซลเพจหรือโพสต์ขาย ช่วยสร้างบรรยากาศโปรโมชันที่ดูแรงและน่าทักมากขึ้น</p>
       </div>
-      <div class="hero-side-card">
-        <span style="font-size:11px; font-weight:900; letter-spacing:.1em; color:rgba(255,255,255,.6); text-transform:uppercase;">PROMO NOW</span>
-        <h2>ทักก่อน ได้สิทธิ์ก่อน</h2>
-        <ul class="rush-list">
-          <li>คลิกที่รูปสินค้า → ระบบแนบชื่อรุ่นให้อัตโนมัติ</li>
-          <li>แอดมินรู้ทันทีว่าลูกค้าสนใจรุ่นไหน</li>
-          <li>ตอบโปร/สี/สต๊อกได้ตรงรุ่น เร็วขึ้น</li>
+      <div class="creative-grid">
+        <img src="assets/campaign/phone-clearance-hero.png" alt="ภาพโฆษณาโปรเคลียร์สต๊อกมือถือ" />
+        <img src="assets/campaign/tablet-clearance-hero.png" alt="ภาพโฆษณาแท็บเล็ตและมือถือจอใหญ่" />
+      </div>
+    </section>
+
+    <section class="section-pad split-section">
+      <div>
+        <span class="eyebrow">BUYING GUIDE</span>
+        <h2>เลือกไม่ถูก? ให้แอดมินคัดรุ่นให้ตามงบ</h2>
+        <p>เหมาะสำหรับลูกค้าที่อยากได้คำแนะนำเร็ว ๆ ว่ารุ่นไหนเหมาะกับผู้ใหญ่ เด็กนักเรียน ร้านค้า ไรเดอร์ เครื่องสำรอง หรือคนที่เน้นแอปธนาคาร</p>
+        <ul class="check-list">
+          <li>งบต่ำกว่า 1,500 บาท: เน้นคุ้มค่า ใช้งานพื้นฐาน</li>
+          <li>งบ 1,500–1,900 บาท: จอใหญ่ แบตอึด ใช้งานรอบด้าน</li>
+          <li>แท็บเล็ต: เหมาะดูหนัง เรียนออนไลน์ ไลฟ์ และใช้งานจอใหญ่</li>
         </ul>
-        <div class="countdown-card">
-          <small>ปิดรับรอบโปรโมชั่นวันนี้ใน</small>
-          <strong id="sideCountdown">--:--:--</strong>
-          <span>ราคาและของแถมอาจเปลี่ยนเมื่อของล็อตนี้หมด</span>
+        <button class="btn btn-primary pulse" data-scroll-to="lead-form">ให้แอดมินช่วยเลือกตอนนี้</button>
+      </div>
+      <div class="preview-phone">
+        <img src="assets/campaign/mobile-salespage-preview.png" alt="ตัวอย่างหน้าเซลเพจมือถือ" />
+      </div>
+    </section>
+
+    <section class="reviews section-pad" id="reviews">
+      <div class="section-head">
+        <span class="eyebrow">CUSTOMER VOICE</span>
+        <h2>ลูกค้าชอบเพราะตัดสินใจง่าย</h2>
+        <p>ยิ่งหน้าเพจอ่านง่ายและแอดมินตอบได้ตรงรุ่น ลูกค้าก็ยิ่งปิดการขายได้ไวขึ้น</p>
+      </div>
+      <div class="review-grid">
+        <article class="review-card">
+          <div class="stars">★★★★★</div>
+          <p>“จอใหญ่ดีมาก แบตอึด ใช้งานโซเชียลได้สบาย คุ้มเกินราคา”</p>
+          <strong>คุณกานต์</strong><span>TIMI T25</span>
+        </article>
+        <article class="review-card">
+          <div class="stars">★★★★★</div>
+          <p>“แค่กดรุ่นที่สนใจแล้วทักแชท แอดมินตอบกลับมาตรงรุ่นเลย สะดวกมาก”</p>
+          <strong>คุณวิชัย</strong><span>TIMI T29</span>
+        </article>
+        <article class="review-card">
+          <div class="stars">★★★★★</div>
+          <p>“ซื้อให้คุณพ่อใช้ ตัวหนังสือใหญ่ เสียงดัง ราคาไม่แรง”</p>
+          <strong>คุณปุ้ย</strong><span>TWZ V9</span>
+        </article>
+      </div>
+    </section>
+
+    <section class="lead-section section-pad" id="lead-form">
+      <div class="lead-card">
+        <div class="lead-copy">
+          <span class="eyebrow">RESERVE NOW</span>
+          <h2>จองก่อน แอดมินเช็กสต๊อกให้ไว</h2>
+          <p>กรอกข้อมูลสั้น ๆ แล้วระบบจะเปิดแชทพร้อมข้อมูลเบื้องต้น ช่วยให้แอดมินตอบโปรโมชั่นและเช็กของได้เร็วขึ้น</p>
+          <div class="mini-benefits">
+            <span>✅ ไม่ผูกมัดการซื้อ</span>
+            <span>✅ เช็กสต๊อกก่อนจ่าย</span>
+            <span>✅ แนะนำรุ่นตามงบ</span>
+            <span>✅ ใช้ได้ทั้งลูกค้าที่รู้รุ่นแล้วและยังลังเล</span>
+          </div>
         </div>
-        <div class="side-card-actions">
-          <a class="btn-line" href="https://m.me/170306732996781">💬 ทัก Messenger ตอนนี้</a>
-          <button class="btn-ghost-w" style="color:#fff;border-color:rgba(255,255,255,.2);background:transparent;" onclick="document.getElementById('deals').scrollIntoView({behavior:'smooth'})">เลือกดูรุ่นก่อน</button>
-        </div>
+        <form class="lead-form" id="customerLeadForm">
+          <label>ชื่อ / ชื่อเล่น
+            <input type="text" name="name" placeholder="เช่น คุณป๊อป" required />
+          </label>
+          <label>เบอร์โทร
+            <input type="tel" name="phone" placeholder="เช่น 08x-xxx-xxxx" required />
+          </label>
+          <label>Facebook / Messenger / LINE ID
+            <input type="text" name="line" placeholder="ใส่ชื่อ Facebook, Messenger หรือ LINE ID ถ้ามี" />
+          </label>
+          <label>จังหวัด
+            <input type="text" name="province" placeholder="เช่น นนทบุรี / กรุงเทพฯ" />
+          </label>
+          <label>งบประมาณ
+            <select name="budget">
+              <option value="">เลือกงบประมาณ</option>
+              <option value="ไม่เกิน 1,500 บาท">ไม่เกิน 1,500 บาท</option>
+              <option value="1,500 - 1,900 บาท">1,500 - 1,900 บาท</option>
+              <option value="2,000 - 3,000 บาท">2,000 - 3,000 บาท</option>
+              <option value="ยังไม่แน่ใจ ให้แอดมินแนะนำ">ยังไม่แน่ใจ ให้แอดมินแนะนำ</option>
+            </select>
+          </label>
+          <label>รุ่นที่สนใจ
+            <select name="product" id="productSelect">
+              <option value="">เลือกรุ่นที่สนใจ</option>
+            </select>
+          </label>
+          <label class="full">หมายเหตุเพิ่มเติม
+            <textarea name="note" rows="3" placeholder="เช่น ใช้แอปธนาคาร / ซื้อให้ผู้ใหญ่ / ต้องการเก็บปลายทาง"></textarea>
+          </label>
+          <label class="consent full">
+            <input type="checkbox" required />
+            <span>ยินยอมให้ร้านติดต่อกลับเพื่อแจ้งรายละเอียดสินค้า โปรโมชัน และข้อเสนอที่เกี่ยวข้อง</span>
+          </label>
+          <button class="btn btn-primary full pulse" type="submit">ส่งข้อมูลให้แอดมินตอนนี้</button>
+          <p class="form-note" id="formNote">หลังส่งข้อมูล ระบบจะบันทึก Lead, คัดลอกข้อความสรุป และเปิด Messenger ให้ส่งหาแอดมินทันที</p>
+        </form>
       </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div>
+      <strong>VALUE CLEARANCE</strong>
+      <p>มือถือและแท็บเล็ตเคลียร์สต๊อก ราคาพิเศษ จำนวนจำกัด</p>
     </div>
-  </div>
-</section>
+    <a href="#top">กลับด้านบน ↑</a>
+  </footer>
 
-<!-- Trust Bar -->
-<div class="trust-bar">
-  <div class="trust-inner">
-    <div class="trust-item"><span class="trust-icon">📱</span>11 รุ่น มือถือ + แท็บเล็ต</div>
-    <div class="trust-item"><span class="trust-icon">🏦</span>รองรับแอปธนาคาร</div>
-    <div class="trust-item"><span class="trust-icon">🚚</span>พร้อมส่ง ส่งไว</div>
-    <div class="trust-item"><span class="trust-icon">🛡️</span>มีรับประกัน</div>
-    <div class="trust-item"><span class="trust-icon">💬</span>ทักง่าย ตอบไว</div>
-  </div>
-</div>
-
-<!-- Products -->
-<section class="section" id="deals">
-  <div class="section-head">
-    <div class="eyebrow-tag">🔥 HOT DEALS</div>
-    <h2>รุ่นน่าซื้อ<em>ที่สุด</em>ตอนนี้</h2>
-    <p>แตะที่รูปสินค้าเพื่อส่งชื่อรุ่นที่สนใจให้แอดมินทันที</p>
-  </div>
-
-  <div class="filters">
-    <button class="filter-btn active" onclick="filterProducts('all',this)">ทั้งหมด</button>
-    <button class="filter-btn" onclick="filterProducts('phone',this)">มือถือ</button>
-    <button class="filter-btn" onclick="filterProducts('tablet',this)">แท็บเล็ต</button>
-    <button class="filter-btn" onclick="filterProducts('banking',this)">รองรับแอปธนาคาร</button>
-    <button class="filter-btn" onclick="filterProducts('cheap',this)">ราคาต่ำสุด</button>
-  </div>
-
-  <div class="product-grid" id="productGrid"></div>
-</section>
-
-<!-- Urgency Strip -->
-<div class="urgency-strip">
-  <div class="urgency-inner">
-    <div class="urgency-item">
-      <div class="urgency-icon">⚡</div>
-      <div class="urgency-title">สต๊อกมีจำกัด</div>
-      <div class="urgency-desc">สินค้าบางรุ่น/บางสีออกเร็วมาก โดยเฉพาะรุ่นที่รองรับแอปธนาคาร</div>
+  <div class="sticky-cta" role="region" aria-label="ปุ่มสั่งซื้อด่วน">
+    <div class="sticky-copy">
+      <strong>โปรกำลังมาแรง</strong>
+      <small>คลิกรุ่นที่สนใจแล้วทักแชทได้ทันที</small>
     </div>
-    <div class="urgency-item">
-      <div class="urgency-icon">💸</div>
-      <div class="urgency-title">ราคาโปรนี้ไม่แน่ใจนาน</div>
-      <div class="urgency-desc">ราคาและของแถมอาจเปลี่ยนได้เมื่อล็อตนี้หมด ยิ่งรีบยิ่งได้คุ้ม</div>
-    </div>
-    <div class="urgency-item">
-      <div class="urgency-icon">✅</div>
-      <div class="urgency-title">จองก่อน จ่ายทีหลัง</div>
-      <div class="urgency-desc">ไม่ผูกมัด เช็กสต๊อกก่อน ค่อยยืนยัน แอดมินตอบไว</div>
-    </div>
+    <button class="btn btn-primary" data-scroll-to="lead-form">จอง/เช็กสต๊อก</button>
+    <a class="btn btn-messenger" id="lineCta" href="#" target="_blank" rel="noopener" data-chat-general data-contact-location="sticky">ทัก Messenger</a>
   </div>
-</div>
 
-<!-- Reviews -->
-<section class="reviews" id="reviews">
-  <div class="reviews-inner">
-    <div class="section-head">
-      <div class="eyebrow-tag">⭐ รีวิวจากลูกค้า</div>
-      <h2>ลูกค้าพูดถึง<em>เรา</em>อย่างไร</h2>
-    </div>
-    <div class="review-grid">
-      <div class="review-card">
-        <div class="stars">★★★★★</div>
-        <p class="review-text">"จอใหญ่ดีมาก แบตอึด ใช้งานโซเชียลได้สบาย คุ้มเกินราคา"</p>
-        <div class="review-author">คุณกานต์</div>
-        <div class="review-product">TIMI T25</div>
-      </div>
-      <div class="review-card">
-        <div class="stars">★★★★★</div>
-        <p class="review-text">"แค่กดรุ่นที่สนใจแล้วทักแชท แอดมินตอบกลับมาตรงรุ่นเลย สะดวกมาก ไม่ต้องพิมพ์เองเลย"</p>
-        <div class="review-author">คุณวิชัย</div>
-        <div class="review-product">TIMI T29</div>
-      </div>
-      <div class="review-card">
-        <div class="stars">★★★★★</div>
-        <p class="review-text">"ซื้อให้คุณพ่อใช้ ตัวหนังสือใหญ่ เสียงดัง ราคาไม่แรง พ่อชอบมาก"</p>
-        <div class="review-author">คุณปุ้ย</div>
-        <div class="review-product">TWZ V9</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- Lead Form -->
-<div class="form-section" id="form">
-  <div class="form-card">
-    <div class="eyebrow-tag" style="margin-bottom:14px;">📋 จองสินค้า</div>
-    <div class="form-title">จอง<em>ก่อน</em><br/>แอดมินเช็กให้ไว</div>
-    <div class="form-sub">กรอกข้อมูลสั้นๆ แล้วระบบจะเปิดแชทพร้อมข้อมูลเบื้องต้น ช่วยให้แอดมินตอบโปรและเช็กของได้เร็วขึ้น</div>
-    <div class="mini-checks">
-      <div class="check-pill">✅ ไม่ผูกมัดการซื้อ</div>
-      <div class="check-pill">✅ เช็กสต๊อกก่อนจ่าย</div>
-      <div class="check-pill">✅ แนะนำรุ่นตามงบ</div>
-    </div>
-    <div class="form-grid">
-      <div class="form-group">
-        <label>ชื่อ / ชื่อเล่น</label>
-        <input type="text" placeholder="เช่น คุณป๊อป"/>
-      </div>
-      <div class="form-group">
-        <label>เบอร์โทร</label>
-        <input type="tel" placeholder="08x-xxx-xxxx"/>
-      </div>
-      <div class="form-group">
-        <label>Messenger / Facebook</label>
-        <input type="text" placeholder="ชื่อ Facebook หรือเบอร์ติดต่อกลับ"/>
-      </div>
-      <div class="form-group">
-        <label>จังหวัด</label>
-        <input type="text" placeholder="เช่น กรุงเทพฯ"/>
-      </div>
-      <div class="form-group">
-        <label>งบประมาณ</label>
-        <select>
-          <option value="">เลือกงบประมาณ</option>
-          <option>ไม่เกิน 1,500 บาท</option>
-          <option>1,500 - 1,900 บาท</option>
-          <option>2,000 - 3,000 บาท</option>
-          <option>ยังไม่แน่ใจ ให้แอดมินแนะนำ</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label>รุ่นที่สนใจ</label>
-        <select id="productSelect">
-          <option value="">เลือกรุ่นที่สนใจ</option>
-          <option>TIMI T25 — 1,790 บาท</option>
-          <option>TIMI T29 — 1,790 บาท</option>
-          <option>TIMI T18 — 1,590 บาท</option>
-          <option>TIMI T20 — 1,790 บาท</option>
-          <option>TIMI T30s — 1,890 บาท</option>
-          <option>TIMI T15s — 1,890 บาท</option>
-          <option>TIMI T3 — 1,790 บาท</option>
-          <option>TIMI T1A — 1,990 บาท</option>
-          <option>TIMI T-1s — 2,690 บาท</option>
-          <option>TWZ V9 — 1,390 บาท</option>
-          <option>TWZ V1 — 1,290 บาท</option>
-        </select>
-      </div>
-      <div class="form-group full">
-        <label>หมายเหตุเพิ่มเติม</label>
-        <textarea rows="3" placeholder="เช่น ใช้แอปธนาคาร / ซื้อให้ผู้ใหญ่ / ต้องการเก็บปลายทาง"></textarea>
-      </div>
-    </div>
-    <button class="btn-submit" onclick="location.href='https://m.me/170306732996781'">
-      🚀 ทักแอดมินผ่าน Messenger ตอนนี้
-    </button>
-  </div>
-</div>
-
-<footer class="footer">
-  <div class="footer-logo">VALUE CLEARANCE</div>
-  <p>มือถือและแท็บเล็ตเคลียร์สต๊อก ราคาพิเศษ จำนวนจำกัด</p>
-</footer>
-
-<!-- Sticky Bar -->
-<div class="sticky-bar">
-  <div class="sticky-text">
-    <strong>🔥 โปรกำลังมาแรง — สต๊อกเหลือน้อย!</strong>
-    <small>คลิกรุ่นที่สนใจแล้วทักแชทได้ทันที</small>
-  </div>
-  <div class="sticky-actions">
-    <a class="btn-line-sticky" href="https://m.me/170306732996781">💬 Messenger</a>
-    <button class="btn-cta-sticky" onclick="document.getElementById('form').scrollIntoView({behavior:'smooth'})">จอง/เช็กสต๊อก</button>
-  </div>
-</div>
-
-<script>
-const MESSENGER_URL = "https://m.me/170306732996781";
-
-const products = [
-  { id:"timi-t25", name:"TIMI T25", price:1790, oldPrice:2490, badge:"ขายดี", badgeClass:"badge-hot", sub:"จอใหญ่ 6.92\" แบตอึด", specs:["จอ 6.92\"","แบต 6500mAh","6+128GB","Android 13"], tags:["phone","banking"], featured:true },
-  { id:"timi-t29", name:"TIMI T29", price:1790, oldPrice:2390, badge:"ราคาพิเศษ", badgeClass:"badge-sale", sub:"จอใหญ่เต็มตา แบตอึดเต็มวัน", specs:["RAM 6GB","ROM 128GB","จอใหญ่","แบต 6500mAh"], tags:["phone","banking"] },
-  { id:"timi-t18", name:"TIMI T18", price:1590, oldPrice:2190, badge:"ประหยัด", badgeClass:"badge-cheap", sub:"จอ 6.8\" รองรับแอปธนาคาร", specs:["จอ 6.8\"","รองรับแอปธนาคาร","เล่นโซเชียล","ราคาคุ้ม"], tags:["phone","banking"] },
-  { id:"timi-t30s", name:"TIMI T30s", price:1890, oldPrice:2590, badge:"NEW", badgeClass:"badge-new", sub:"จอใหญ่ แบตอึด Android 13", specs:["จอ 6.92\"","แบต 6500mAh","6+128GB","Android 13"], tags:["phone","banking"] },
-  { id:"timi-t20", name:"TIMI T20", price:1790, oldPrice:2390, badge:"คุ้ม", badgeClass:"badge-sale", sub:"เครื่องพร้อมใช้ ราคาสบาย", specs:["จอใหญ่","แบตอึด","รองรับแอปสำคัญ","พร้อมใช้งาน"], tags:["phone","banking"] },
-  { id:"timi-t15s", name:"TIMI T15s", price:1890, oldPrice:2490, badge:"สเปคดี", badgeClass:"badge-sale", sub:"จอ 6.92\" เล่นได้ 2 หน้าจอ", specs:["MTK 6580A","จอ 6.92\"","แบต 6500mAh","ROM 256GB"], tags:["phone"] },
-  { id:"timi-t3", name:"TIMI T3", price:1790, oldPrice:2290, badge:"หลายสี", badgeClass:"badge-sale", sub:"ดีไซน์บาง สีสวย", specs:["กล้องคู่ AI","สีให้เลือก","เครื่องสำรอง","ดีไซน์บาง"], tags:["phone"] },
-  { id:"timi-t1a", name:"TIMI T1A", price:1990, oldPrice:2790, badge:"แท็บเล็ต", badgeClass:"badge-new", sub:"แท็บเล็ตจอใหญ่ ใส่ซิมได้", specs:["จอใหญ่","ใส่ซิมได้","ดูหนัง/เรียน","แบตอึด"], tags:["tablet"] },
-  { id:"timi-t1s", name:"TIMI T-1s", price:2690, oldPrice:3490, badge:"4G LTE", badgeClass:"badge-new", sub:"แท็บเล็ต 10.5\" Android 15", specs:["จอ 10.5\"","Android 15","แบต 6800mAh","พร้อมอุปกรณ์"], tags:["tablet"] },
-  { id:"twz-v9", name:"TWZ V9", price:1390, oldPrice:1990, badge:"คุ้มค่า", badgeClass:"badge-cheap", sub:"จอ 6.82\" ราคาดี", specs:["จอ 6.82\"","ดูวิดีโอ","พร้อมใช้","ราคาสบาย"], tags:["phone","cheap"] },
-  { id:"twz-v1", name:"TWZ V1", price:1290, oldPrice:1790, badge:"ถูกสุด", badgeClass:"badge-cheap", sub:"เครื่องเริ่มต้น ราคาประหยัด", specs:["จอ 6.5\"","แบต 3000mAh","ใช้พื้นฐาน","เครื่องสำรอง"], tags:["phone","cheap"] }
-];
-
-const imageMap = {
-  "timi-t1a":"assets/products/timi-t1a.png",
-  "timi-t25":"assets/products/timi-t25.png",
-  "timi-t20":"assets/products/timi-t20.jpg",
-  "timi-t15s":"assets/products/timi-t15s.png",
-  "timi-t30s":"assets/products/timi-t30s.jpg",
-  "timi-t3":"assets/products/timi-t3.jpg",
-  "timi-t29":"assets/products/timi-t29.jpg",
-  "timi-t1s":"assets/products/timi-t1s.jpg",
-  "timi-t18":"assets/products/timi-t18.png",
-  "twz-v1":"assets/products/twz-v1.jpg",
-  "twz-v9":"assets/products/twz-v9.png"
-};
-
-let currentFilter = "all";
-
-function filterProducts(tag, btn) {
-  currentFilter = tag;
-  document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
-  if(btn) btn.classList.add("active");
-  renderProducts();
-}
-
-function renderProducts() {
-  const grid = document.getElementById("productGrid");
-  const filtered = currentFilter === "all" ? products : products.filter(p => p.tags.includes(currentFilter));
-  grid.innerHTML = filtered.map(p => `
-    <div class="product-card${p.featured?' featured':''}" onclick="location.href='${messengerLink(p)}'">
-      <div class="card-badge ${p.badgeClass}">${p.badge}</div>
-      <div class="card-img">
-        <img src="${imageMap[p.id]||''}" alt="${p.name}"
-          onerror="this.parentNode.innerHTML='<div class=card-img-placeholder>📱</div>'"/>
-      </div>
-      <div class="card-body">
-        <div class="card-name">${p.name}</div>
-        <div class="card-sub">${p.sub}</div>
-        <div class="card-specs">${p.specs.map(s=>`<span class="spec-chip">${s}</span>`).join("")}</div>
-        <div class="card-price-row">
-          <div class="card-price">${p.price.toLocaleString("th-TH")}<span class="baht"> ฿</span></div>
-          <div class="card-old-price">${p.oldPrice.toLocaleString("th-TH")} บาท</div>
-        </div>
-        <button class="btn-order">💬 ส่งรุ่นนี้ให้แอดมิน</button>
-      </div>
-    </div>
-  `).join("");
-}
-
-function messengerLink(product) {
-  const message = `สนใจ ${product.name} ราคา ${product.price.toLocaleString("th-TH")} บาท`;
-  return `${MESSENGER_URL}?ref=${encodeURIComponent(message)}`;
-}
-
-function openMessenger(message = "") {
-  const url = message ? `${MESSENGER_URL}?ref=${encodeURIComponent(message)}` : MESSENGER_URL;
-  location.href = url;
-}
-
-function openMessengerWithForm() {
-  const selected = document.getElementById("productSelect")?.value || "ให้แอดมินช่วยแนะนำรุ่น";
-  openMessenger(`จอง/เช็กสต๊อก: ${selected}`);
-}
-
-window.openMessenger = openMessenger;
-window.openMessengerWithForm = openMessengerWithForm;
-
-renderProducts();
-
-// Countdown timer — reset to midnight each day
-function updateCountdown() {
-  const now = new Date();
-  const end = new Date(); end.setHours(23,59,59,999);
-  const diff = end - now;
-  const h = Math.floor(diff/3600000);
-  const m = Math.floor((diff%3600000)/60000);
-  const s = Math.floor((diff%60000)/1000);
-  const fmt = n => String(n).padStart(2,"0");
-  document.getElementById("cdH").textContent = fmt(h);
-  document.getElementById("cdM").textContent = fmt(m);
-  document.getElementById("cdS").textContent = fmt(s);
-}
-updateCountdown();
-setInterval(updateCountdown, 1000);
-
-function updateSideCountdown() {
-  const now = new Date();
-  const end = new Date(); end.setHours(23,59,59,999);
-  const diff = end - now;
-  const h = Math.floor(diff/3600000);
-  const m = Math.floor((diff%3600000)/60000);
-  const s = Math.floor((diff%60000)/1000);
-  const fmt = n => String(n).padStart(2,"0");
-  const el = document.getElementById("sideCountdown");
-  if(el) el.textContent = `${fmt(h)}:${fmt(m)}:${fmt(s)}`;
-}
-updateSideCountdown();
-setInterval(updateSideCountdown, 1000);
-</script>
+  <script src="script.js"></script>
 </body>
 </html>
