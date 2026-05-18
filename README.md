@@ -1,80 +1,96 @@
 # Sales Page มือถือเคลียร์สต๊อก
 
-ไฟล์นี้เป็น Sales Page แบบ Static Website สำหรับอัปขึ้น GitHub Pages ได้ทันที ใช้รูปแคมเปญและรูปสินค้าที่เตรียมไว้ในโฟลเดอร์ `assets/`
+Static Sale Page สำหรับอัปขึ้น GitHub Pages, Cloudflare Pages, Netlify หรือโฮสต์ static ทั่วไปได้ทันที พร้อมระบบ Messenger Lead, Google Sheets capture และ Meta Pixel tracking
 
 ## โครงสร้างไฟล์
 
 ```text
-index.html      หน้าเว็บหลัก
+index.html      หน้าเว็บหลัก + Meta Pixel base ใน <head>
 styles.css      ดีไซน์/Responsive
-script.js       ข้อมูลสินค้า + ระบบกรองสินค้า + ฟอร์ม Lead + ลิงก์ส่งรุ่นเข้าแชท
-config.js       ตั้งค่าร้าน, LINE, Messenger, Pixel, Google Form
+script.js       สินค้า, ฟอร์ม Lead, Messenger automation, Google Sheets, Meta events
+config.js       จุดตั้งค่า Messenger, Pixel ID, Google Apps Script Web App URL
 assets/         รูปสินค้าและรูปแคมเปญ
 ```
 
-## วิธีอัปขึ้น GitHub Pages
+## สิ่งที่ต้องแก้ก่อนใช้งานจริง
 
-1. สร้าง Repository ใหม่ใน GitHub เช่น `phone-clearance-salespage`
-2. อัปโหลดไฟล์ทั้งหมดในโฟลเดอร์นี้ขึ้นไปที่ Repository
-3. ไปที่ `Settings` > `Pages`
-4. Source เลือก `Deploy from a branch`
-5. Branch เลือก `main` และ Folder เลือก `/root`
-6. กด Save แล้วรอ GitHub สร้างลิงก์เว็บให้
-
-## สิ่งที่ควรแก้ก่อนใช้งานจริง
-
-เปิดไฟล์ `config.js` แล้วแก้ข้อมูลร้านของคุณ:
+เปิด `config.js` แล้วตั้งค่าหลัก:
 
 ```js
-preferredChat: "line", // ใช้ "line" หรือ "messenger"
+preferredChat: "messenger",
+messengerUrl: "https://m.me/170306732996781",
+messengerPageIdOrUsername: "170306732996781",
 
-// ถ้าใช้ LINE OA เป็นหลัก
-lineUrl: "https://line.me/R/ti/p/@YOUR_LINE_OA",
-lineOaId: "@YOUR_LINE_OA",
+// วาง Meta Pixel ID จริง
+facebookPixelId: "YOUR_META_PIXEL_ID",
 
-// ถ้าใช้ Messenger เป็นหลัก
-messengerUrl: "https://m.me/YOUR_FACEBOOK_PAGE",
-messengerPageIdOrUsername: "YOUR_FACEBOOK_PAGE",
-
-phone: "YOUR_PHONE_NUMBER",
-facebookPixelId: "",
+googleSheets: {
+  enabled: false,
+  webAppUrl: "YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL"
+}
 ```
 
-ถ้ายังไม่มี Pixel ให้เว้นว่างไว้ก่อนได้
+ถ้ายังไม่มี Google Apps Script ให้ปล่อย `enabled: false` ไว้ก่อนได้ หน้าเว็บยังเปิด Messenger และคัดลอกข้อความ Lead ได้ตามปกติ
 
-## ระบบส่งข้อมูลสินค้าที่ลูกค้าคลิกเข้าแชท
+## Messenger Automation
 
-เวอร์ชันนี้แก้ให้แล้ว:
+- ปุ่ม Sticky, ปุ่ม Hero และปุ่มบนการ์ดสินค้าเปิด Messenger ที่ `https://m.me/170306732996781`
+- URL จะส่งค่า `ref` เช่น source, product id, price เพื่อช่วยระบุแหล่งที่มา
+- เพราะ Messenger ไม่รองรับการเติมข้อความยาวผ่าน URL โดยตรง ระบบจึงคัดลอกข้อความสรุปไว้ให้ลูกค้าวางในแชท
+- ฟอร์ม Lead จะจัดข้อความจากชื่อ, เบอร์โทร, จังหวัด, งบประมาณ, รุ่นที่เลือก และหมายเหตุให้พร้อมส่งหาแอดมิน
 
-- ลูกค้ากดที่รูปสินค้า ชื่อสินค้า หรือปุ่ม `ส่งรุ่นนี้ให้แอดมิน`
-- ระบบจะเปิด LINE OA หรือ Messenger ตามค่าที่ตั้งใน `preferredChat`
-- ข้อความจะมีข้อมูลรุ่น ราคา จุดเด่น รหัสสินค้า และลิงก์หน้าเว็บ
-- ระบบคัดลอกข้อความไว้ให้อัตโนมัติ เผื่อบางเครื่องไม่เติมข้อความในช่องแชท
+## Google Sheets Capture
 
-ตัวอย่างข้อความที่แอดมินจะได้รับเมื่อผู้ใช้กดส่ง:
+ฟอร์มส่งข้อมูลไป Google Apps Script Web App แบบเบื้องหลังด้วย `fetch` ใน `script.js`
 
-```text
-สวัสดีครับ สนใจโปรเคลียร์สต๊อก
-รุ่นที่สนใจ: TIMI T25
-ราคาโปร: 1,790 บาท
-หมวดสินค้า: มือถือ
-สเปก/จุดเด่น:
-• จอ 6.92 นิ้ว
-• แบต 6500mAh
-• 6+128GB
-• Android 13
-รหัสสินค้า: timi-t25
-แหล่งที่มา: LINE Product Click
-ลิงก์หน้าเว็บ: https://yourdomain.github.io/phone-clearance-salespage/
+ตั้งค่าใน `config.js`:
 
-รบกวนแอดมินเช็กสต๊อก สีที่มี และโปรล่าสุดให้หน่อยครับ
+```js
+googleSheets: {
+  enabled: true,
+  webAppUrl: "https://script.google.com/macros/s/XXXXX/exec"
+}
 ```
 
-หมายเหตุ: GitHub Pages เป็นเว็บ Static จึงไม่มีระบบหลังบ้านที่ส่งข้อความหาแอดมินเองทันทีแบบไม่ผ่านการกดยืนยันของลูกค้า วิธีที่ปลอดภัยและทำได้ฟรีคือเปิดแชทพร้อมข้อความรุ่นที่สนใจ แล้วให้ลูกค้ากดส่งข้อความหาแอดมิน
+ตัวอย่าง Apps Script ฝั่ง Google Sheets:
 
-## วิธีแก้ราคา/สินค้า
+```js
+function doPost(e) {
+  const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Leads");
+  const data = JSON.parse(e.postData.contents);
 
-เปิดไฟล์ `script.js` แล้วแก้ในตัวแปร `products` เช่น:
+  sheet.appendRow([
+    data.createdAt,
+    data.name,
+    data.phone,
+    data.line,
+    data.province,
+    data.budget,
+    data.productName || data.product,
+    data.productPrice,
+    data.note,
+    data.source,
+    data.pageUrl
+  ]);
+
+  return ContentService
+    .createTextOutput(JSON.stringify({ ok: true }))
+    .setMimeType(ContentService.MimeType.JSON);
+}
+```
+
+## Meta Pixel Events
+
+- `PageView` ยิงจาก Pixel base ใน `<head>`
+- `ViewContent` ยิงเมื่อหน้าโหลดเสร็จ
+- `Lead` และ `Contact` ยิงเมื่อส่งฟอร์มสำเร็จ หรือคลิกปุ่ม Messenger สำคัญ
+- `ProductInterest` เป็น custom event สำหรับคลิกสินค้าแต่ละรุ่น
+
+ถ้าไม่ใส่ `facebookPixelId` หรือยังเป็น `YOUR_META_PIXEL_ID` ระบบจะไม่โหลด Pixel เพื่อป้องกันการยิงข้อมูลผิดบัญชี
+
+## แก้สินค้า/ราคา
+
+แก้ข้อมูลสินค้าใน `products` ที่ `script.js`:
 
 ```js
 {
@@ -85,48 +101,3 @@ facebookPixelId: "",
   subtitle: "จอใหญ่ 6.92 นิ้ว แบตอึด",
 }
 ```
-
-## การเก็บข้อมูลลูกค้า
-
-ตอนนี้ฟอร์มจะเก็บข้อมูลล่าสุดไว้ใน Local Storage เปิดแชทพร้อมข้อมูลลูกค้า และคัดลอกข้อความให้ลูกค้านำไปส่งแชทได้ทันที
-
-ถ้าต้องการส่งข้อมูลเข้า Google Sheets:
-
-1. สร้าง Google Form พร้อมช่อง: ชื่อ, เบอร์, LINE, จังหวัด, งบประมาณ, รุ่นที่สนใจ, หมายเหตุ
-2. ตั้งค่าให้ Google Form ส่งคำตอบเข้า Google Sheets
-3. นำ `formResponse` URL และ `entry.xxxxx` ของแต่ละช่องมาใส่ใน `config.js`
-4. เปลี่ยน `enabled: false` เป็น `enabled: true`
-
-ตัวอย่าง:
-
-```js
-googleForm: {
-  enabled: true,
-  formAction: "https://docs.google.com/forms/d/e/FORM_ID/formResponse",
-  fields: {
-    name: "entry.111111111",
-    phone: "entry.222222222",
-    line: "entry.333333333",
-    province: "entry.444444444",
-    budget: "entry.555555555",
-    product: "entry.666666666",
-    note: "entry.777777777"
-  }
-}
-```
-
-## หมายเหตุ
-
-- หน้าเว็บนี้เป็น Static Website ใช้ได้กับ GitHub Pages, Cloudflare Pages, Netlify และโฮสต์ฟรีทั่วไป
-- รูปภาพในโฟลเดอร์ `assets/campaign/` คือภาพแคมเปญที่ใช้เป็น Hero/โฆษณา
-- รูปภาพในโฟลเดอร์ `assets/products/` คือรูปสินค้าแต่ละรุ่น
-
-
-## จุดที่แก้เพิ่มในเวอร์ชันนี้
-
-- เพิ่ม `preferredChat` ใน `config.js`
-- เพิ่ม `lineOaId` และ `lineOaMessageBase` สำหรับเปิด LINE OA พร้อมข้อความสินค้า
-- เพิ่ม `messengerPageIdOrUsername` สำหรับเปิด Messenger พร้อม ref ของรุ่นสินค้า
-- เปลี่ยนการ์ดสินค้าให้คลิกที่รูป/ชื่อสินค้าแล้วส่งข้อมูลรุ่นเข้าแชทได้
-- ปุ่ม `ส่งรุ่นนี้ให้แอดมิน` จะสร้างข้อความเฉพาะรุ่น เช่น รุ่น ราคา สเปก และรหัสสินค้า
-- ฟอร์ม Lead หลังส่งแล้วจะเปิดแชทพร้อมข้อมูลลูกค้าให้แอดมินทันที
