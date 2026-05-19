@@ -1,0 +1,1460 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>มือถือเคลียร์สต๊อก ราคาพิเศษ | VALUE CLEARANCE</title>
+  <meta name="description" content="มือถือและแท็บเล็ตจอใหญ่ ราคาพิเศษ พร้อมใช้งาน รองรับแอปธนาคาร แบตอึด ส่งไว มีรับประกัน"/>
+  <meta property="og:title" content="มือถือเคลียร์สต๊อก ราคาพิเศษ"/>
+  <meta property="og:description" content="ดีลมือถือจอใหญ่ เริ่มต้น 1,290 บาท"/>
+  <meta property="og:image" content="../assets/campaign/phone-clearance-hero.png"/>
+  <meta property="og:type" content="website"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;600;700;800;900&family=Barlow+Condensed:wght@700;800;900&display=swap" rel="stylesheet"/>
+  <script>
+/*
+  แก้ค่าตรงนี้ก่อนอัปขึ้น GitHub Pages
+
+  สิ่งที่เพิ่มในเวอร์ชันนี้:
+  - Messenger ถูกตั้งเป็นช่องทางหลักของ Sale Page
+  - เมื่อกดสินค้า/ปุ่มทักแชท ระบบจะเปิด Messenger พร้อม ref ของรุ่น/แหล่งที่มา
+  - ระบบจะคัดลอกข้อความสรุป Lead หรือข้อมูลสินค้าไว้ให้ลูกค้าวางในแชทอีกชั้นหนึ่ง
+  - ระบบรองรับการส่งข้อมูลไป Google Apps Script Web App เพื่อเก็บลง Google Sheets
+  - Meta Pixel ถูกฝังใน <head> และยิง ViewContent, Lead, Contact ตามพฤติกรรมลูกค้า
+
+  วิธีตั้งค่าแบบเร็ว:
+  1) Messenger หลักของร้าน:
+     preferredChat: "messenger"
+     messengerUrl: "https://m.me/170306732996781"
+     messengerPageIdOrUsername: "170306732996781"
+
+  2) Meta Pixel:
+     facebookPixelId: "วาง Pixel ID ที่นี่"
+
+  3) Google Sheets:
+     googleSheetsUrl: "วาง URL ของ Google Apps Script Web App ที่นี่"
+     googleSheets.enabled: true
+     googleSheets.webAppUrl: "วาง URL ของ Google Apps Script Web App ที่นี่"
+*/
+window.SALES_PAGE_CONFIG = {
+  shopName: "VALUE CLEARANCE",
+  tagline: "มือถือจอใหญ่ ราคาคุ้ม พร้อมใช้งาน",
+
+  // [Chat Channel] เลือกช่องทางหลักเมื่อกดสินค้า: "messenger" คือค่าแนะนำสำหรับหน้านี้
+  preferredChat: "messenger",
+
+  // [LINE Fallback] เก็บไว้เป็นช่องทางสำรอง หากอนาคตต้องกลับไปใช้ LINE OA
+  lineUrl: "https://line.me/R/ti/p/@YOUR_LINE_OA",
+  lineOaId: "@YOUR_LINE_OA",
+  // ถ้ามีลิงก์ LINE OA แบบพิเศษ สามารถใส่เองได้ เช่น https://line.me/R/oaMessage/%40YOUR_LINE_OA/
+  // ระบบจะเติมข้อความตามหลัง ? ให้อัตโนมัติ
+  lineOaMessageBase: "",
+
+  // [Messenger] ลิงก์หลักของเพจ Facebook ที่ใช้รับ Lead จาก Sale Page
+  messengerUrl: "https://m.me/170306732996781",
+  messengerPageIdOrUsername: "170306732996781",
+
+  phone: "YOUR_PHONE_NUMBER",
+  // TODO: รอใส่ Pixel ID จาก Meta Events Manager (Chrome session ปัจจุบันยังเปิด Events Manager ไม่สำเร็จ)
+  facebookPixelId: "",
+
+  // [Messenger Automation] true = คัดลอกข้อความสรุปไว้ให้ลูกค้าวางใน Messenger เพราะ m.me ไม่รองรับ prefill ข้อความยาวโดยตรง
+  autoCopyMessage: true,
+
+  // [Google Sheets] Web App URL จาก Apps Script สำหรับบันทึก Lead เข้า Google Sheets
+  googleSheetsUrl: "https://script.google.com/macros/s/AKfycbyaj0XPTR7laRkSAHMVWZaZtSeGnejkvhW45q8i0pRAoW2O400bATjP-mih1FFodAeHwA/exec",
+
+  googleSheets: {
+    // [Google Sheets] true = เปิดการส่งข้อมูลฟอร์มไป Google Sheets แบบเบื้องหลัง
+    enabled: true,
+    // [Google Sheets] วาง URL ที่ได้จาก Deploy > Web app เช่น https://script.google.com/macros/s/XXXXX/exec
+    webAppUrl: "https://script.google.com/macros/s/AKfycbyaj0XPTR7laRkSAHMVWZaZtSeGnejkvhW45q8i0pRAoW2O400bATjP-mih1FFodAeHwA/exec"
+  }
+};
+
+</script>
+  <script>
+    (function(){
+      const pid=(window.SALES_PAGE_CONFIG?.facebookPixelId||"").trim();
+      const ok=pid&&!pid.includes("YOUR_");
+      window.__META_PIXEL_READY__=false;
+      if(!ok)return;
+      !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+      fbq("init",pid);fbq("track","PageView");window.__META_PIXEL_READY__=true;
+    })();
+  </script>
+  <style>
+/* ═══════════════════════════════════════════
+   VALUE CLEARANCE — Mobile-First Sales Page
+   Theme: Black / Red / Orange
+   ═══════════════════════════════════════════ */
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --red:    #e63000;
+  --red2:   #b52200;
+  --orange: #ff7a1a;
+  --dark:   #0f0f0f;
+  --ink:    #1a0a00;
+  --muted:  #6b4c38;
+  --card:   #ffffff;
+  --border: rgba(230,48,0,.10);
+  --bg:     #fff8f5;
+  --shadow: 0 12px 40px rgba(180,40,0,.12);
+  --shadow-sm: 0 4px 16px rgba(180,40,0,.08);
+  --radius: 20px;
+  --radius-sm: 14px;
+  --r: 999px;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: "Noto Sans Thai", system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+img { display: block; max-width: 100%; }
+a { color: inherit; text-decoration: none; }
+button { cursor: pointer; font: inherit; border: none; background: none; }
+
+/* ── TICKER ── */
+.ticker { background: linear-gradient(90deg,#1a0000,#e63000,#1a0000); overflow: hidden; padding: 9px 0; }
+.ticker-track {
+  display: flex; gap: 36px; white-space: nowrap; min-width: max-content;
+  animation: ticker-slide 22s linear infinite;
+  font-size: .75rem; font-weight: 800; color: #fff; letter-spacing: .04em;
+}
+@keyframes ticker-slide { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+
+/* ── HEADER ── */
+.site-header {
+  position: sticky; top: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  padding: .75rem 1rem;
+  background: rgba(255,248,245,.92); backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--border);
+}
+.brand { display: flex; align-items: center; gap: .6rem; }
+.brand-icon {
+  width: 36px; height: 36px; border-radius: 10px; display: grid; place-items: center;
+  background: linear-gradient(135deg,var(--red),var(--orange));
+  font-size: 1rem; font-weight: 900; color: #fff;
+  box-shadow: 0 6px 16px rgba(230,48,0,.3);
+}
+.brand strong { display: block; font-size: .95rem; font-weight: 900; color: var(--red); line-height: 1; }
+.brand small  { display: block; font-size: .65rem; color: var(--muted); letter-spacing: .12em; }
+.desktop-nav { display: none; }
+@media(min-width:700px){ .desktop-nav{display:flex;gap:1.4rem;} .desktop-nav a{font-size:.875rem;font-weight:700;color:var(--ink);} .desktop-nav a:hover{color:var(--red);} }
+
+/* ── BUTTONS ── */
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: .4rem; border-radius: var(--r); font-weight: 800; white-space: nowrap; transition: transform .15s, filter .15s; min-height: 44px; padding: .6rem 1.2rem; font-size: .9rem; }
+.btn:hover { transform: translateY(-2px); filter: brightness(1.06); }
+.btn:active { transform: scale(.97); }
+
+.btn-primary  { background: linear-gradient(135deg,var(--red),var(--red2)); color: #fff; box-shadow: 0 10px 24px rgba(230,48,0,.28); }
+.btn-fire     { background: linear-gradient(135deg,var(--red),var(--red2)); color: #fff; box-shadow: 0 10px 24px rgba(230,48,0,.28); animation: pulse-btn 1.9s ease-in-out infinite; }
+.btn-fire-sm  { background: linear-gradient(135deg,var(--red),var(--red2)); color: #fff; padding: .5rem 1rem; font-size: .8rem; min-height: 36px; }
+.btn-messenger{ background: linear-gradient(135deg,#0a7cff,#0060d1); color: #fff; box-shadow: 0 10px 24px rgba(10,124,255,.25); }
+.btn-ghost    { background: transparent; color: var(--red); border: 1.5px solid var(--red); }
+.btn-ghost:hover{ background: rgba(230,48,0,.06); }
+.btn-lg       { padding: .85rem 1.8rem; font-size: 1rem; min-height: 52px; }
+.btn-sm       { padding: .5rem .9rem; font-size: .78rem; min-height: 38px; }
+
+@keyframes pulse-btn {
+  0%,100%{ box-shadow: 0 10px 24px rgba(230,48,0,.28); }
+  50%{ box-shadow: 0 10px 36px rgba(230,48,0,.55); }
+}
+
+/* ── VIDEO HERO ── */
+/* ── HERO (original two-column layout) ── */
+.hero-shell {
+  background: linear-gradient(180deg,#fff0ea 0%,#fff8f5 60%,#fff8f5 100%);
+}
+.hero {
+  display: grid; grid-template-columns: 1fr;
+  gap: 1.6rem; align-items: start;
+}
+@media(min-width:900px){
+  .hero { grid-template-columns: 1.1fr 0.9fr; gap: 2.4rem; align-items: center; }
+}
+
+.hero-copy .eyebrow { color: var(--red); font-size: .72rem; letter-spacing: .12em; font-weight: 900; text-transform: uppercase; display: block; margin-bottom: .7rem; }
+.hero-copy h1 {
+  font-family: "Barlow Condensed","Noto Sans Thai",sans-serif;
+  font-size: clamp(2rem,8vw,3rem); font-weight: 900; line-height: 1.0;
+  text-transform: uppercase; letter-spacing: -.02em; color: #0f0f0f; margin-bottom: .7rem;
+}
+.hero-copy h1 span { color: var(--red); }
+.hero-copy > p { font-size: .9rem; color: var(--muted); line-height: 1.75; margin-bottom: 1rem; }
+
+.hero-alerts { display: flex; gap: .6rem; flex-wrap: wrap; margin-bottom: 1rem; }
+.hero-alert {
+  flex: 1; min-width: 140px; border-radius: var(--radius-sm);
+  padding: .7rem .9rem; color: #fff; font-size: .8rem; line-height: 1.4;
+}
+.hero-alert strong { display: block; font-size: .82rem; margin-bottom: 2px; }
+.hero-alert.hot  { background: linear-gradient(135deg,#e63000,#b52200); }
+.hero-alert.warn { background: linear-gradient(135deg,#1a0000,#e63000); }
+
+.hero-actions { display: flex; gap: .7rem; flex-wrap: wrap; margin-bottom: 1.1rem; }
+.hero-actions .btn { flex: 1; min-width: 130px; }
+
+.trust-row {
+  display: flex; gap: .5rem; flex-wrap: wrap;
+  padding: .8rem; background: #fff;
+  border-radius: var(--radius-sm); border: 1px solid var(--border);
+}
+.trust-row div { flex: 1; min-width: 80px; text-align: center; }
+.trust-row strong { display: block; font-size: .85rem; font-weight: 900; color: var(--red); }
+.trust-row span   { font-size: .7rem; color: var(--muted); }
+
+/* right column */
+.hero-visual-wrap { display: flex; flex-direction: column; gap: 1rem; }
+
+/* video slot — replaces campaign image */
+.hero-video-slot {
+  position: relative; border-radius: var(--radius); overflow: hidden;
+  box-shadow: 0 20px 50px rgba(180,40,0,.16), 0 0 0 1px var(--border);
+  background: #0f0f0f;
+}
+.hero-video-slot canvas { display: block; width: 100%; }
+.vid-ui { position: absolute; bottom: 0; left: 0; right: 0; }
+.vid-progress-bar { height: 3px; background: rgba(255,255,255,.15); }
+.vid-progress-fill { height: 100%; width: 0%; background: var(--red); transition: width .3s linear; }
+
+/* side card */
+.hero-side-card {
+  padding: 1.3rem; border-radius: var(--radius);
+  background: linear-gradient(155deg,#0f0f0f,#1e0a00 55%,#0f0f0f);
+  color: #fff; box-shadow: var(--shadow);
+}
+.hero-side-card .eyebrow { color: rgba(255,255,255,.55); font-size: .65rem; }
+.hero-side-card h2 { font-size: 1.15rem; font-weight: 900; margin: .4rem 0 .7rem; }
+.rush-list { list-style: none; padding: 0; display: flex; flex-direction: column; gap: .5rem; margin-bottom: .9rem; }
+.rush-list li { font-size: .78rem; color: rgba(255,255,255,.88); padding-left: 1rem; position: relative; line-height: 1.5; }
+.rush-list li::before { content: "•"; position: absolute; left: 0; color: var(--orange); font-weight: 900; }
+.countdown-card {
+  background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.12);
+  border-radius: var(--radius-sm); padding: .8rem 1rem; margin-bottom: .9rem;
+}
+.countdown-card small, .countdown-card span { display: block; font-size: .72rem; color: rgba(255,255,255,.65); }
+.countdown-card strong { display: block; font-size: 1.7rem; font-weight: 900; color: #ffd44d; letter-spacing: .05em; margin: .2rem 0 .3rem; font-variant-numeric: tabular-nums; }
+.side-card-actions { display: flex; gap: .5rem; flex-wrap: wrap; }
+.side-card-actions .btn { flex: 1; font-size: .8rem; min-height: 42px; }
+.btn-ghost.side { border-color: rgba(255,255,255,.2); color: #fff; }
+.btn-ghost.side:hover { background: rgba(255,255,255,.08); }
+
+/* ── URGENCY STRIP ── */
+.urgency-strip {
+  display: grid; grid-template-columns: repeat(3,1fr); gap: .8rem;
+  padding: 1.2rem 1rem;
+  background: #fff; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+}
+@media(max-width:600px){ .urgency-strip{grid-template-columns:1fr;} }
+
+.urgency-card { padding: 1rem; border-radius: var(--radius-sm); border: 1px solid var(--border); text-align: center; }
+.urgency-card.highlight { background: linear-gradient(135deg,#fff0e8,#ffe4d4); border-color: rgba(230,48,0,.18); }
+.urg-icon { font-size: 1.6rem; display: block; margin-bottom: .4rem; }
+.urgency-card strong { display: block; font-size: .95rem; font-weight: 900; color: var(--ink); margin-bottom: .3rem; }
+.urgency-card p { font-size: .8rem; color: var(--muted); line-height: 1.5; }
+
+/* ── BENEFITS ── */
+.benefit-strip {
+  display: grid; grid-template-columns: repeat(2,1fr); gap: .8rem;
+  padding: 1.4rem 1rem; max-width: 1100px; margin: 0 auto;
+}
+@media(min-width:700px){ .benefit-strip{grid-template-columns:repeat(4,1fr);} }
+
+.benefit-card {
+  padding: 1.2rem; border-radius: var(--radius-sm);
+  background: #fff; border: 1px solid var(--border); box-shadow: var(--shadow-sm);
+  text-align: center;
+}
+.bicon { font-size: 1.8rem; display: block; margin-bottom: .5rem; }
+.benefit-card strong { display: block; font-size: .9rem; font-weight: 900; color: var(--ink); margin-bottom: .25rem; }
+.benefit-card p { font-size: .78rem; color: var(--muted); }
+
+/* ── SECTION COMMON ── */
+.section-pad { padding: 2rem 1rem; max-width: 1100px; margin: 0 auto; }
+.section-head { text-align: center; margin-bottom: 1.4rem; }
+.eyebrow { display: inline-block; font-size: .72rem; font-weight: 900; letter-spacing: .12em; text-transform: uppercase; color: var(--red); margin-bottom: .5rem; }
+.section-head h2 {
+  font-family: "Barlow Condensed","Noto Sans Thai",sans-serif;
+  font-size: clamp(1.6rem,5vw,2.4rem); font-weight: 900; text-transform: uppercase;
+  color: #0f0f0f; margin-bottom: .4rem; letter-spacing: -.02em;
+}
+.section-head p { font-size: .875rem; color: var(--muted); max-width: 520px; margin: 0 auto; line-height: 1.7; }
+
+.deal-notice {
+  background: linear-gradient(90deg,#1a0000,#e63000);
+  color: #fff; font-size: .82rem; border-radius: var(--radius-sm);
+  padding: .75rem 1rem; margin-bottom: 1rem; line-height: 1.5;
+}
+
+/* ── FILTERS ── */
+.toolbar { display: flex; gap: .5rem; flex-wrap: wrap; justify-content: center; margin-bottom: .8rem; overflow-x: auto; padding-bottom: 2px; }
+.filter-btn {
+  min-height: 40px; padding: .45rem .95rem; border-radius: var(--r);
+  font-size: .82rem; font-weight: 800; white-space: nowrap;
+  background: #fff; color: var(--ink); border: 1.5px solid var(--border);
+  transition: all .15s;
+}
+.filter-btn.is-active, .filter-btn:hover { background: var(--red); color: #fff; border-color: var(--red); box-shadow: 0 6px 16px rgba(230,48,0,.22); }
+
+.quick-picks { display: flex; gap: .5rem; flex-wrap: wrap; justify-content: center; margin-bottom: 1.2rem; }
+.mini-chip {
+  font-size: .78rem; font-weight: 700; padding: .4rem .9rem; border-radius: var(--r);
+  background: rgba(230,48,0,.08); border: 1px solid rgba(230,48,0,.18); color: var(--red);
+  min-height: 36px; transition: all .15s;
+}
+.mini-chip:hover { background: rgba(230,48,0,.15); }
+
+/* ── PRODUCT GRID ── */
+.product-grid {
+  display: grid; gap: .9rem;
+  grid-template-columns: repeat(2, 1fr);
+}
+@media(min-width:600px){ .product-grid{grid-template-columns:repeat(3,1fr);} }
+@media(min-width:900px){ .product-grid{grid-template-columns:repeat(4,1fr);} }
+
+.product-card {
+  background: var(--card); border-radius: var(--radius); overflow: hidden;
+  border: 1px solid var(--border); box-shadow: var(--shadow-sm);
+  transition: transform .2s, box-shadow .2s;
+}
+.product-card.is-featured { border-color: var(--red); box-shadow: 0 0 0 1.5px var(--red), var(--shadow); }
+.product-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
+
+.product-media {
+  position: relative; display: block; width: 100%; padding: 0;
+  background: linear-gradient(145deg,#fff8f5,#ffe8da);
+  aspect-ratio: 1/1; overflow: hidden;
+}
+.product-media img { width: 100%; height: 100%; object-fit: contain; padding: .9rem; transition: transform .25s; }
+.product-media:hover img { transform: scale(1.05); }
+.badge {
+  position: absolute; top: .55rem; left: .55rem;
+  background: var(--red); color: #fff; font-size: .65rem; font-weight: 900;
+  padding: .28rem .6rem; border-radius: var(--r); letter-spacing: .04em;
+}
+
+.product-body { padding: .75rem; }
+.product-title-link {
+  display: block; text-align: left; padding: 0;
+  font-size: .95rem; font-weight: 900; color: var(--ink); margin-bottom: .2rem;
+  transition: color .15s;
+}
+.product-title-link:hover { color: var(--red); }
+.subtitle { font-size: .72rem; color: var(--muted); margin-bottom: .5rem; line-height: 1.4; }
+
+.specs { list-style: none; margin-bottom: .6rem; display: flex; flex-direction: column; gap: .18rem; }
+.specs li { font-size: .72rem; color: #4a3020; line-height: 1.4; padding-left: 1rem; position: relative; }
+.specs li::before { content: "✓"; position: absolute; left: 0; color: var(--red); font-weight: 900; }
+
+.price-row { margin-bottom: .5rem; }
+.price-row small { font-size: .65rem; color: var(--muted); display: block; }
+.price { font-family: "Barlow Condensed","Noto Sans Thai",sans-serif; font-size: 1.5rem; font-weight: 900; color: var(--red); line-height: 1; letter-spacing: -.02em; }
+.price small { font-size: .75rem; font-family: "Noto Sans Thai",sans-serif; font-weight: 700; color: var(--ink); letter-spacing: 0; }
+
+.rush-note { font-size: .65rem; color: var(--muted); line-height: 1.4; margin-bottom: .55rem; }
+
+.card-actions { display: flex; gap: .4rem; }
+.card-actions .btn { flex: 1; font-size: .75rem; min-height: 38px; padding: .4rem .5rem; }
+.btn-primary.card-btn { background: linear-gradient(135deg,var(--red),var(--red2)); color: #fff; }
+.btn-ghost.card-btn  { border-color: var(--border); color: var(--muted); font-size: .72rem; }
+
+/* ── REVIEWS ── */
+.reviews { background: #fff; padding: 2rem 1rem; }
+.reviews .reviews-inner, .reviews { max-width: 1100px; margin: 0 auto; }
+.review-grid { display: grid; gap: .8rem; grid-template-columns: 1fr; margin-top: 1.2rem; }
+@media(min-width:700px){ .review-grid{grid-template-columns:repeat(3,1fr);} }
+
+.review-card {
+  padding: 1.2rem; border-radius: var(--radius);
+  background: var(--bg); border: 1px solid var(--border); box-shadow: var(--shadow-sm);
+}
+.stars { font-size: 1rem; color: #f59e0b; margin-bottom: .5rem; letter-spacing: 2px; }
+.review-card p { font-size: .82rem; color: #3a2010; line-height: 1.7; margin-bottom: .75rem; }
+.review-card strong { font-size: .85rem; font-weight: 900; color: var(--ink); display: block; }
+.review-card span   { font-size: .72rem; color: var(--muted); }
+
+/* ── LEAD FORM ── */
+.lead-section { background: linear-gradient(180deg,#fff8f5,#fff0e8); padding: 2rem 1rem; }
+.lead-card {
+  max-width: 760px; margin: 0 auto; display: grid; gap: 1.6rem;
+  background: #fff; border-radius: var(--radius);
+  border: 1px solid rgba(230,48,0,.14); box-shadow: var(--shadow);
+  padding: 1.6rem;
+}
+@media(min-width:760px){ .lead-card{grid-template-columns:1fr 1.2fr;} }
+
+.lead-copy h2 { font-family:"Barlow Condensed","Noto Sans Thai",sans-serif; font-size:clamp(1.5rem,5vw,2rem); font-weight:900; text-transform:uppercase; color:#0f0f0f; margin:.5rem 0; line-height:1.05; }
+.lead-copy p  { font-size:.83rem; color:var(--muted); margin-bottom:.8rem; line-height:1.7; }
+.mini-benefits{ display:flex; flex-wrap:wrap; gap:.45rem; }
+.mini-benefits span{ font-size:.75rem; font-weight:700; padding:.35rem .7rem; border-radius:var(--r); background:rgba(230,48,0,.07); border:1px solid rgba(230,48,0,.15); color:var(--ink); }
+
+.lead-form { display:grid; gap:.8rem; }
+.lead-form label { display:flex; flex-direction:column; gap:.3rem; font-size:.8rem; font-weight:800; color:#2a1000; }
+.lead-form input,
+.lead-form select,
+.lead-form textarea {
+  background:#fff; border:1.5px solid rgba(230,48,0,.15); color:var(--ink);
+  border-radius:var(--radius-sm); padding:.7rem .85rem; font:inherit; font-size:.875rem;
+  min-height:44px; transition:border-color .15s,outline .15s;
+}
+.lead-form input:focus,
+.lead-form select:focus,
+.lead-form textarea:focus { outline:3px solid rgba(230,48,0,.14); border-color:var(--red); }
+.lead-form .full { grid-column:1/-1; }
+.lead-form .consent { flex-direction:row; align-items:flex-start; gap:.5rem; }
+.lead-form .consent input { width:18px; height:18px; flex-shrink:0; margin-top:.1rem; }
+.lead-form .consent span { font-size:.75rem; font-weight:400; color:var(--muted); line-height:1.5; }
+.form-note { font-size:.72rem; color:var(--muted); line-height:1.5; }
+.form-note.is-success { color:#059669; }
+.form-note.is-warning { color:var(--red); }
+
+/* ── FOOTER ── */
+.site-footer {
+  background:#0f0f0f; color:rgba(255,255,255,.65);
+  padding:1.5rem 1rem; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:.8rem;
+  padding-bottom:6rem;
+}
+.site-footer strong { color:#fff; display:block; font-size:.95rem; margin-bottom:.25rem; }
+.site-footer p { font-size:.75rem; }
+.site-footer a { font-size:.8rem; color:var(--orange); font-weight:700; }
+
+/* ── STICKY CTA ── */
+.sticky-cta {
+  position:fixed; bottom:0; left:0; right:0; z-index:200;
+  background:rgba(15,15,15,.96); backdrop-filter:blur(12px);
+  border-top:1px solid rgba(255,255,255,.08);
+  padding:.7rem 1rem;
+  display:flex; align-items:center; justify-content:space-between; gap:.8rem;
+}
+.sticky-copy strong { display:block; font-size:.875rem; font-weight:800; color:#fff; }
+.sticky-copy small  { font-size:.72rem; color:rgba(255,255,255,.6); font-variant-numeric:tabular-nums; }
+.sticky-actions { display:flex; gap:.5rem; flex-shrink:0; }
+
+/* ── TOAST ── */
+.toast {
+  position:fixed; bottom:70px; left:50%; transform:translateX(-50%);
+  background:#0f0f0f; color:#fff; font-size:.8rem; font-weight:700;
+  padding:.7rem 1.2rem; border-radius:var(--r); z-index:999;
+  box-shadow:0 8px 24px rgba(0,0,0,.35);
+  max-width:calc(100vw - 2rem); text-align:center; line-height:1.4;
+  animation:toast-in .25s ease;
+}
+@keyframes toast-in{ from{opacity:0;transform:translateX(-50%) translateY(12px)} to{opacity:1;transform:translateX(-50%) translateY(0)} }
+
+/* ── UTILITIES ── */
+.pulse { animation:pulse-btn 1.9s ease-in-out infinite; }
+
+</style>
+</head>
+<body>
+
+<div class="ticker" aria-hidden="true">
+  <div class="ticker-track">
+    <span>⚡ โปรเคลียร์สต๊อกล็อตนี้จำนวนจำกัด</span>
+    <span>🔥 ราคาเริ่มต้นเพียง 1,290 บาท</span>
+    <span>📦 สินค้าบางสีหมดไว แนะนำทักแชททันที</span>
+    <span>💬 แตะสินค้า ส่งรุ่นเข้า Messenger อัตโนมัติ</span>
+    <span>⚡ โปรเคลียร์สต๊อกล็อตนี้จำนวนจำกัด</span>
+    <span>🔥 ราคาเริ่มต้นเพียง 1,290 บาท</span>
+    <span>📦 สินค้าบางสีหมดไว แนะนำทักแชททันที</span>
+    <span>💬 แตะสินค้า ส่งรุ่นเข้า Messenger อัตโนมัติ</span>
+  </div>
+</div>
+
+<header class="site-header" id="top">
+  <a class="brand" href="#top">
+    <span class="brand-icon">V</span>
+    <span><strong>VALUE</strong><small>CLEARANCE</small></span>
+  </a>
+  <nav class="desktop-nav">
+    <a href="#deals">ดีลวันนี้</a>
+    <a href="#why">จุดเด่น</a>
+    <a href="#reviews">รีวิว</a>
+    <a href="#lead-form">จอง</a>
+  </nav>
+  <button class="btn btn-primary" data-scroll-to="lead-form">🔥 จองด่วน</button>
+</header>
+
+<main>
+  <!-- HERO (original layout — video replaces campaign image) -->
+  <section class="hero-shell">
+    <section class="hero section-pad">
+      <div class="hero-copy">
+        <span class="eyebrow">CLEARANCE SALE • พร้อมส่ง • รองรับแอปธนาคาร</span>
+        <h1>เคลียร์สต๊อก <span>ราคาพิเศษ</span><br/>อ่านง่าย ชวนตัดสินใจไว</h1>
+        <p>รวมมือถือและแท็บเล็ตจอใหญ่ที่เน้น "คุ้ม ใช้งานได้จริง และทักสั่งง่าย" เหมาะสำหรับลูกค้าที่ต้องการเครื่องพร้อมใช้ในงบสบายกระเป๋า</p>
+
+        <div class="hero-alerts">
+          <div class="hero-alert hot">
+            <strong>🔥 ดีลมาแรง</strong>
+            <span>เริ่มต้นเพียง <b id="heroMinPrice">1,290</b> บาท</span>
+          </div>
+          <div class="hero-alert warn">
+            <strong>⏰ รอบโปรวันนี้</strong>
+            <span>เหลือเวลา <b id="heroCountdown">--:--:--</b></span>
+          </div>
+        </div>
+
+        <div class="hero-actions">
+          <button class="btn btn-fire btn-lg pulse" data-scroll-to="deals">🛒 ดูสินค้าราคาพิเศษ</button>
+          <button class="btn btn-ghost btn-lg" data-scroll-to="lead-form">ให้แอดมินช่วยเลือก</button>
+        </div>
+
+        <div class="trust-row">
+          <div><strong id="catalogCount">11 รุ่น</strong><span>รวมมือถือและแท็บเล็ต</span></div>
+          <div><strong>ทักง่าย</strong><span>แตะสินค้าส่งเข้าแชทได้เลย</span></div>
+          <div><strong>พร้อมใช้</strong><span>คัดรุ่นคุ้ม เน้นใช้งานจริง</span></div>
+        </div>
+      </div>
+
+      <div class="hero-visual-wrap">
+        <!-- วิดีโอโฆษณาแทนรูปโปรโมชั่น -->
+        <div class="hero-visual hero-video-slot">
+          <canvas id="adCanvas" aria-label="วิดีโอโฆษณาเคลียร์สต๊อก"></canvas>
+          <div class="vid-ui">
+            <div class="vid-progress-bar"><div class="vid-progress-fill" id="vidProgress"></div></div>
+          </div>
+        </div>
+
+        <aside class="hero-side-card">
+          <span class="eyebrow">PROMO NOW</span>
+          <h2>ทักก่อน ได้สิทธิ์ก่อน</h2>
+          <ul class="rush-list">
+            <li>คลิกที่รูปสินค้า → ระบบแนบชื่อรุ่นให้อัตโนมัติ</li>
+            <li>แอดมินรู้ทันทีว่าลูกค้าสนใจรุ่นไหน</li>
+            <li>ตอบโปร/สี/สต๊อกได้ตรงรุ่น เร็วขึ้น</li>
+          </ul>
+          <div class="countdown-card">
+            <small>ปิดรับรอบโปรโมชั่นวันนี้ใน</small>
+            <strong id="countdownText">--:--:--</strong>
+            <span>ราคาและของแถมอาจเปลี่ยนเมื่อของล็อตนี้หมด</span>
+          </div>
+          <div class="side-card-actions">
+            <a class="btn btn-messenger" id="heroLineBtn" href="#" target="_blank" rel="noopener" data-chat-general data-contact-location="hero-side">ทัก Messenger ตอนนี้</a>
+            <button class="btn btn-ghost side" data-scroll-to="deals">เลือกดูรุ่นก่อน</button>
+          </div>
+        </aside>
+      </div>
+    </section>
+  </section>
+
+  <!-- URGENCY -->
+  <section class="urgency-strip">
+    <div class="urgency-card"><span class="urg-icon">⚡</span><strong>สต๊อกมีจำกัด</strong><p>สินค้าบางรุ่น/สีออกไว โดยเฉพาะรุ่นรองรับแอปธนาคาร</p></div>
+    <div class="urgency-card highlight"><span class="urg-icon">🔥</span><strong>รีบทักก่อน</strong><p>แตะสินค้า → ส่งรุ่นเข้า Messenger แอดมินตอบได้เร็วขึ้น</p></div>
+    <div class="urgency-card"><span class="urg-icon">✅</span><strong>จองก่อน จ่ายทีหลัง</strong><p>เช็กสต๊อกก่อน ค่อยยืนยัน ไม่ผูกมัด</p></div>
+  </section>
+
+  <!-- BENEFITS -->
+  <section class="benefit-strip" id="why">
+    <article class="benefit-card"><span class="bicon">📱</span><strong>จอใหญ่ สบายตา</strong><p>ดูวิดีโอ เล่นโซเชียล ใช้งานทั่วไป</p></article>
+    <article class="benefit-card"><span class="bicon">🔋</span><strong>แบตอึดทั้งวัน</strong><p>คัดรุ่นที่ตอบโจทย์ใช้งานได้ยาว</p></article>
+    <article class="benefit-card"><span class="bicon">🏦</span><strong>รองรับแอปธนาคาร</strong><p>เครื่องพร้อมใช้ตั้งแต่วันแรก</p></article>
+    <article class="benefit-card"><span class="bicon">💬</span><strong>สั่งง่าย Messenger</strong><p>แตะสินค้า → เปิดแชทอัตโนมัติ</p></article>
+  </section>
+
+  <!-- PRODUCTS -->
+  <section class="section-pad" id="deals">
+    <div class="section-head">
+      <span class="eyebrow">🔥 HOT DEALS</span>
+      <h2>รุ่นน่ากดซื้อที่สุดตอนนี้</h2>
+      <p>แตะที่รูปสินค้าหรือปุ่ม → ระบบส่งชื่อรุ่นเข้า Messenger ให้แอดมินทันที</p>
+    </div>
+    <div class="deal-notice"><strong>⚡ เคล็ดลับ:</strong> คลิกรุ่นที่สนใจ แอดมินจะเห็นชื่อรุ่น ราคา และข้อมูลสินค้าอัตโนมัติ ตอบได้เร็วขึ้น</div>
+    <div class="toolbar">
+      <button class="filter-btn is-active" data-filter="all">ทั้งหมด</button>
+      <button class="filter-btn" data-filter="phone">มือถือ</button>
+      <button class="filter-btn" data-filter="tablet">แท็บเล็ต</button>
+      <button class="filter-btn" data-filter="banking">แอปธนาคาร</button>
+      <button class="filter-btn" data-filter="lowest">ถูกสุด</button>
+    </div>
+    <div class="quick-picks">
+      <button class="mini-chip" data-filter-shortcut="lowest">💰 ราคาต่ำสุด</button>
+      <button class="mini-chip" data-filter-shortcut="banking">🏦 รองรับแอปธนาคาร</button>
+      <button class="mini-chip" data-filter-shortcut="tablet">📺 แท็บเล็ตใส่ซิมได้</button>
+    </div>
+    <div class="product-grid" id="productGrid" aria-live="polite"></div>
+  </section>
+
+  <!-- REVIEWS -->
+  <section class="reviews section-pad" id="reviews">
+    <div class="section-head">
+      <span class="eyebrow">⭐ CUSTOMER VOICE</span>
+      <h2>ลูกค้าพูดถึงเราอย่างไร</h2>
+    </div>
+    <div class="review-grid">
+      <article class="review-card"><div class="stars">★★★★★</div><p>"จอใหญ่ดีมาก แบตอึด ใช้งานโซเชียลสบาย คุ้มเกินราคา"</p><strong>คุณกานต์</strong><span>TIMI T25</span></article>
+      <article class="review-card"><div class="stars">★★★★★</div><p>"แค่กดรุ่นที่สนใจแล้วทักแชท แอดมินตอบกลับมาตรงรุ่นเลย สะดวกมากครับ"</p><strong>คุณวิชัย</strong><span>TIMI T29</span></article>
+      <article class="review-card"><div class="stars">★★★★★</div><p>"ซื้อให้คุณพ่อใช้ ตัวหนังสือใหญ่ เสียงดัง ราคาไม่แรง พ่อชอบมาก"</p><strong>คุณปุ้ย</strong><span>TWZ V9</span></article>
+    </div>
+  </section>
+
+  <!-- LEAD FORM -->
+  <section class="lead-section section-pad" id="lead-form">
+    <div class="lead-card">
+      <div class="lead-copy">
+        <span class="eyebrow">RESERVE NOW</span>
+        <h2>จองก่อน<br/>แอดมินเช็กสต๊อกให้ไว</h2>
+        <p>กรอกข้อมูลสั้นๆ ระบบจะเปิด Messenger พร้อมรายละเอียด แอดมินตอบโปรได้เร็วขึ้น</p>
+        <div class="mini-benefits">
+          <span>✅ ไม่ผูกมัดการซื้อ</span>
+          <span>✅ เช็กสต๊อกก่อนจ่าย</span>
+          <span>✅ แนะนำรุ่นตามงบ</span>
+          <span>✅ ใช้ได้ทั้งรู้รุ่นแล้วและยังลังเล</span>
+        </div>
+      </div>
+      <form class="lead-form" id="customerLeadForm">
+        <label>ชื่อ / ชื่อเล่น<input type="text" name="name" placeholder="เช่น คุณป๊อป" required/></label>
+        <label>เบอร์โทร<input type="tel" name="phone" placeholder="08x-xxx-xxxx" required/></label>
+        <label>Facebook / Messenger / LINE ID<input type="text" name="line" placeholder="ชื่อ Facebook, Messenger หรือ LINE ID"/></label>
+        <label>จังหวัด<input type="text" name="province" placeholder="เช่น กรุงเทพฯ / นนทบุรี"/></label>
+        <label>งบประมาณ
+          <select name="budget">
+            <option value="">เลือกงบประมาณ</option>
+            <option value="ไม่เกิน 1,500 บาท">ไม่เกิน 1,500 บาท</option>
+            <option value="1,500 - 1,900 บาท">1,500 - 1,900 บาท</option>
+            <option value="2,000 - 3,000 บาท">2,000 - 3,000 บาท</option>
+            <option value="ยังไม่แน่ใจ ให้แอดมินแนะนำ">ยังไม่แน่ใจ ให้แอดมินแนะนำ</option>
+          </select>
+        </label>
+        <label>รุ่นที่สนใจ
+          <select name="product" id="productSelect"><option value="">เลือกรุ่นที่สนใจ</option></select>
+        </label>
+        <label class="full">หมายเหตุ<textarea name="note" rows="3" placeholder="เช่น ใช้แอปธนาคาร / ซื้อให้ผู้ใหญ่ / ต้องการเก็บปลายทาง"></textarea></label>
+        <label class="consent full"><input type="checkbox" required/><span>ยินยอมให้ร้านติดต่อกลับเพื่อแจ้งรายละเอียดสินค้าและโปรโมชัน</span></label>
+        <button class="btn btn-fire full" type="submit">🚀 ส่งข้อมูลให้แอดมินตอนนี้</button>
+        <p class="form-note" id="formNote">หลังส่ง ระบบคัดลอกข้อความสรุปและเปิด Messenger ให้ทันที</p>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div><strong>VALUE CLEARANCE</strong><p>มือถือและแท็บเล็ตเคลียร์สต๊อก ราคาพิเศษ จำนวนจำกัด</p></div>
+  <a href="#top">กลับด้านบน ↑</a>
+</footer>
+
+<div class="sticky-cta">
+  <div class="sticky-copy">
+    <strong>🔥 โปรกำลังมาแรง</strong>
+    <small id="countdownText">รีบทักก่อนโปรหมด</small>
+  </div>
+  <div class="sticky-actions">
+    <button class="btn btn-sm" data-scroll-to="lead-form">จองด่วน</button>
+    <a class="btn btn-messenger btn-sm" id="lineCta" href="#" target="_blank" rel="noopener" data-chat-general data-contact-location="sticky">💬 Messenger</a>
+  </div>
+</div>
+
+<script>
+const CONFIG = window.SALES_PAGE_CONFIG || {};
+
+const products = [
+  {
+    id: "timi-t31s",
+    name: "TIMI T31s",
+    price: 2290,
+    oldPrice: 3490,
+    badge: "4G LTE",
+    image: "../assets/products/timi-t30s.jpg",
+    tags: ["phone", "banking"],
+    sub: "Octa-core เร็ว เล่นได้ 2 หน้าจอ",
+    specs: ["MTK6762 Octa-core 2.0Ghz", "จอ 6.92\" IPS LCD", "แบต 6500mAh", "8GB RAM+512GB ROM", "13MP+8MP AI Camera", "Android 13", "4G LTE"]
+  },
+  {
+    id: "timi-t58",
+    name: "TIMI T58",
+    price: 1890,
+    oldPrice: 2890,
+    badge: "NEW",
+    image: "../assets/products/timi-t30s.jpg",
+    tags: ["phone", "banking"],
+    sub: "เล่นได้ 2 หน้าจอ AI Camera",
+    specs: ["MTK 6580A Quad-core 1.5Ghz", "จอ 6.92\" IPS LCD", "แบต 6500mAh", "6GB RAM+256GB ROM", "13MP+8MP AI Camera", "Android 13"]
+  },
+  {
+    id: "timi-t30s",
+    name: "TIMI T30s",
+    price: 1890,
+    oldPrice: 2590,
+    badge: "NEW",
+    image: "../assets/products/timi-t30s.jpg",
+    tags: ["phone", "banking"],
+    sub: "เล่นได้ 2 หน้าจอ Android 13",
+    specs: ["MTK 6580A Quad-core 1.5Ghz", "จอ 6.92\" IPS LCD", "แบต 6500mAh", "6GB RAM+256GB ROM", "13MP+8MP AI Camera", "Android 13"]
+  },
+  {
+    id: "timi-t25",
+    name: "TIMI T25",
+    price: 1790,
+    oldPrice: 2490,
+    badge: "ขายดี",
+    image: "../assets/products/timi-t25.png",
+    tags: ["phone", "banking"],
+    sub: "จอใหญ่ 6.92\" แบตอึด",
+    specs: ["จอ 6.92\" IPS LCD", "แบต 6500mAh", "6GB+128GB", "8MP+13MP", "Android 13"]
+  },
+  {
+    id: "timi-t29",
+    name: "TIMI T29",
+    price: 1790,
+    oldPrice: 2390,
+    badge: "NEW",
+    image: "../assets/products/timi-t29.jpg",
+    tags: ["phone", "banking"],
+    sub: "จอใหญ่เต็มตา แบตอึดเต็มวัน",
+    specs: ["RAM 6GB / ROM 128GB", "จอ 6.92\"", "แบต 6500mAh", "กล้อง 13MP", "ฟรีลำโพงบลูทูธมูลค่า 590 บ."]
+  },
+  {
+    id: "timi-t18",
+    name: "TIMI T18",
+    price: 1590,
+    oldPrice: 2190,
+    badge: "แอปธนาคาร",
+    image: "../assets/products/timi-t18.png",
+    tags: ["phone", "banking"],
+    sub: "จอ 6.8\" รองรับแอปธนาคาร",
+    specs: ["จอ 6.8\" IPS", "รองรับแอปธนาคาร", "กล้อง AI", "ราคาคุ้มค่า"]
+  },
+  {
+    id: "timi-t20",
+    name: "TIMI T20",
+    price: 1790,
+    oldPrice: 2390,
+    badge: "BUY1GET1",
+    image: "../assets/products/timi-t20.jpg",
+    tags: ["phone", "banking"],
+    sub: "ซื้อ 1 แถม 1 — เครื่องพร้อมใช้",
+    specs: ["จอใหญ่", "แบตอึด", "รองรับแอปสำคัญ", "พร้อมใช้งาน"]
+  },
+  {
+    id: "timi-t15s",
+    name: "TIMI T15s",
+    price: 1890,
+    oldPrice: 2490,
+    badge: "สเปคดี",
+    image: "../assets/products/timi-t15s.png",
+    tags: ["phone"],
+    sub: "เล่นได้ 2 หน้าจอ จอ 6.92\"",
+    specs: ["MTK 6580A Quad-core", "จอ 6.92\" IPS", "แบต 6500mAh", "6GB RAM+256GB ROM", "13MP+8MP AI Camera"]
+  },
+  {
+    id: "timi-t3",
+    name: "TIMI T3",
+    price: 1790,
+    oldPrice: 2290,
+    badge: "หลายสี",
+    image: "../assets/products/timi-t3.jpg",
+    tags: ["phone"],
+    sub: "ดีไซน์บาง สีสวย 4 สีให้เลือก",
+    specs: ["กล้องคู่ AI", "4 สีสวย ดำ/เขียว/ฟ้า/ม่วง", "ดีไซน์บางทันสมัย", "เครื่องสำรองพร้อมใช้"]
+  },
+  {
+    id: "timi-t1a",
+    name: "TIMI T1A",
+    price: 1990,
+    oldPrice: 2790,
+    badge: "แท็บเล็ต",
+    image: "../assets/products/timi-t1a.png",
+    tags: ["tablet"],
+    sub: "แท็บเล็ตจอใหญ่ ใส่ซิมได้",
+    specs: ["จอใหญ่", "ใส่ซิมโทรได้", "ดูหนัง/เรียนออนไลน์", "แบตอึด"]
+  },
+  {
+    id: "timi-t1s",
+    name: "TIMI T-1s",
+    price: 2690,
+    oldPrice: 3490,
+    badge: "4G LTE",
+    image: "../assets/products/timi-t1s.jpg",
+    tags: ["tablet"],
+    sub: "แท็บเล็ต 10.5\" Android 15",
+    specs: ["จอ 10.5\" QHD IPS", "Android 15", "แบต 6800mAh", "8GB RAM+512GB ROM", "8MP+13MP Camera"]
+  },
+  {
+    id: "twz-v9",
+    name: "TWZ V9",
+    price: 1390,
+    oldPrice: 1990,
+    badge: "คุ้มค่า",
+    image: "../assets/products/twz-v9.png",
+    tags: ["phone", "lowest"],
+    sub: "จอ 6.82\" ราคาดี",
+    specs: ["จอ 6.82\" HD IPS", "ดูวิดีโอ/เล่นโซเชียล", "พร้อมใช้งาน", "ราคาสบาย"]
+  },
+  {
+    id: "twz-v1",
+    name: "TWZ V1",
+    price: 1290,
+    oldPrice: 1790,
+    badge: "ถูกสุด",
+    image: "../assets/products/twz-v1.jpg",
+    tags: ["phone", "lowest"],
+    sub: "เครื่องเริ่มต้น ราคาประหยัด",
+    specs: ["จอ 6.53\" HD IPS", "แบต 3000mAh", "4 สีให้เลือก", "เครื่องสำรองราคาคุ้ม"]
+  }
+];
+
+const grid = document.querySelector("#productGrid");
+const productSelect = document.querySelector("#productSelect");
+const form = document.querySelector("#customerLeadForm");
+const lineCta = document.querySelector("#lineCta");
+const heroLineBtn = document.querySelector("#heroLineBtn");
+const formNote = document.querySelector("#formNote");
+const countdownEl = document.querySelector("#countdownText");
+const heroCountdownEl = document.querySelector("#heroCountdown");
+const catalogCountEl = document.querySelector("#catalogCount");
+const heroMinPriceEl = document.querySelector("#heroMinPrice");
+
+function money(value) {
+  return Number(value).toLocaleString("th-TH");
+}
+
+function isPlaceholder(value = "") {
+  return !value || value.includes("YOUR_") || value.includes("@YOUR_");
+}
+
+function getProduct(productIdOrName) {
+  return products.find(product =>
+    product.id === productIdOrName ||
+    product.name === productIdOrName ||
+    `${product.name} - ${money(product.price)} บาท` === productIdOrName ||
+    `${product.name} — ${money(product.price)} บาท` === productIdOrName
+  );
+}
+
+function buildProductMessage(product, source = "Product Click") {
+  const pageUrl = window.location.href.split("#")[0];
+  const specs = product.specs.slice(0, 4).map(spec => `• ${spec}`).join("\n");
+
+  return [
+    "สวัสดีครับ สนใจโปรเคลียร์สต๊อก",
+    `รุ่นที่สนใจ: ${product.name}`,
+    `ราคาโปร: ${money(product.price)} บาท`,
+    `หมวดสินค้า: ${product.category === "tablet" ? "แท็บเล็ต" : "มือถือ"}`,
+    "สเปก/จุดเด่น:",
+    specs,
+    `รหัสสินค้า: ${product.id}`,
+    `แหล่งที่มา: ${source}`,
+    `ลิงก์หน้าเว็บ: ${pageUrl}`,
+    "\nรบกวนแอดมินเช็กสต๊อก สีที่มี และโปรล่าสุดให้หน่อยครับ"
+  ].join("\n");
+}
+
+function buildGeneralMessage() {
+  const pageUrl = window.location.href.split("#")[0];
+
+  return [
+    "สวัสดีครับ สนใจโปรเคลียร์สต๊อกมือถือ/แท็บเล็ต",
+    `ลิงก์หน้าเว็บ: ${pageUrl}`,
+    "รบกวนแอดมินช่วยเช็กสต๊อกและแนะนำรุ่นที่เหมาะกับงบให้หน่อยครับ"
+  ].join("\n");
+}
+
+function buildLeadMessage(data) {
+  const selectedProduct = getProduct(data.get("product"));
+  const pageUrl = window.location.href.split("#")[0];
+  const productText = selectedProduct
+    ? `${selectedProduct.name} - ${money(selectedProduct.price)} บาท`
+    : data.get("product") || "ให้แอดมินแนะนำ";
+
+  // [Form Automation] จัดรูปแบบข้อความ Lead ให้พร้อมวางใน Messenger หลังลูกค้ากดส่งฟอร์ม
+  return [
+    "สวัสดีครับ ขอเช็กสต๊อกโปรเคลียร์สต๊อก",
+    "ข้อมูลลูกค้า:",
+    `ชื่อ: ${data.get("name") || "-"}`,
+    `เบอร์: ${data.get("phone") || "-"}`,
+    `ช่องทางติดต่อเพิ่มเติม: ${data.get("line") || "-"}`,
+    `จังหวัด: ${data.get("province") || "-"}`,
+    `งบประมาณ: ${data.get("budget") || "-"}`,
+    `รุ่นที่สนใจ: ${productText}`,
+    `หมายเหตุ: ${data.get("note") || "-"}`,
+    `แหล่งที่มา: Sale Page Form`,
+    `ลิงก์หน้าเว็บ: ${pageUrl}`,
+    "\nรบกวนแอดมินเช็กสต๊อก สีที่มี โปรล่าสุด และช่องทางจัดส่งให้หน่อยครับ"
+  ].join("\n");
+}
+
+function buildLeadPayload(data) {
+  const selectedProduct = getProduct(data.get("product"));
+
+  // [Google Sheets Payload] โครงสร้างข้อมูลนี้คือ payload ที่จะส่งให้ Google Apps Script Web App
+  return {
+    createdAt: new Date().toISOString(),
+    shopName: CONFIG.shopName || "VALUE CLEARANCE",
+    source: "sale-page-form",
+    pageUrl: window.location.href.split("#")[0],
+    name: data.get("name") || "",
+    phone: data.get("phone") || "",
+    line: data.get("line") || "",
+    province: data.get("province") || "",
+    budget: data.get("budget") || "",
+    product: data.get("product") || "",
+    productId: selectedProduct?.id || "",
+    productName: selectedProduct?.name || "",
+    productPrice: selectedProduct?.price || "",
+    note: data.get("note") || ""
+  };
+}
+
+function buildLineOaMessageUrl(base, message) {
+  const cleanBase = base.endsWith("/") ? base : `${base}/`;
+  return `${cleanBase}?${encodeURIComponent(message)}`;
+}
+
+function buildLineUrl(message) {
+  const lineOaMessageBase = (CONFIG.lineOaMessageBase || "").trim();
+  if (!isPlaceholder(lineOaMessageBase)) {
+    return buildLineOaMessageUrl(lineOaMessageBase, message);
+  }
+
+  const lineOaId = (CONFIG.lineOaId || "").trim();
+  if (!isPlaceholder(lineOaId)) {
+    const encodedLineId = encodeURIComponent(lineOaId);
+    return buildLineOaMessageUrl(`https://line.me/R/oaMessage/${encodedLineId}`, message);
+  }
+
+  const lineUrl = (CONFIG.lineUrl || "").trim();
+  if (!isPlaceholder(lineUrl) && lineUrl.includes("line.me")) {
+    return lineUrl;
+  }
+
+  return `https://line.me/R/share?text=${encodeURIComponent(message)}`;
+}
+
+function getMessengerPage() {
+  if (!isPlaceholder(CONFIG.messengerPageIdOrUsername)) return CONFIG.messengerPageIdOrUsername;
+
+  const url = CONFIG.messengerUrl || "";
+  if (!isPlaceholder(url) && url.includes("m.me/")) {
+    return url.split("m.me/")[1]?.split(/[/?#]/)[0];
+  }
+
+  return "";
+}
+
+function normalizeRefPart(value) {
+  // [Messenger Ref] ทำค่า ref ให้สั้นและปลอดภัยสำหรับ m.me โดยเก็บรุ่น/ราคา/แหล่งที่มาไว้ให้แอดมินหรือบอตอ่านต่อได้
+  return String(value || "")
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9_-]+/g, "-")
+    .replace(/^-+|-+$/g, "")
+    .slice(0, 80);
+}
+
+function buildMessengerRef(product, source = "general") {
+  const parts = [
+    normalizeRefPart(source),
+    normalizeRefPart(product?.id || product?.name || "clearance"),
+    product?.price ? `p${product.price}` : "",
+    Date.now().toString(36).slice(-6)
+  ].filter(Boolean);
+
+  return parts.join("_").slice(0, 240);
+}
+
+function buildMessengerUrl(product, message, source = "general") {
+  const page = getMessengerPage();
+  if (!page) return buildLineUrl(message);
+
+  const ref = buildMessengerRef(product, source);
+
+  return `https://m.me/${page}?ref=${encodeURIComponent(ref)}`;
+}
+
+function buildChatUrl(product, channel = CONFIG.preferredChat || "line") {
+  const message = product ? buildProductMessage(product, "Product Card") : buildGeneralMessage();
+  if (channel === "messenger") return buildMessengerUrl(product, message, product ? "product_card" : "general_cta");
+  return buildLineUrl(message);
+}
+
+async function copyText(text) {
+  if (!CONFIG.autoCopyMessage) return false;
+  if (!navigator.clipboard) return false;
+
+  try {
+    await navigator.clipboard.writeText(text);
+    return true;
+  } catch (error) {
+    return false;
+  }
+}
+
+function openProductChat(product, channel = CONFIG.preferredChat || "line") {
+  const message = buildProductMessage(product, channel === "messenger" ? "Messenger Product Click" : "LINE Product Click");
+  const url = channel === "messenger"
+    ? buildMessengerUrl(product, message, "product_card")
+    : buildLineUrl(message);
+
+  // [Lead Storage] เก็บความสนใจล่าสุดไว้ในเครื่องลูกค้าเพื่อช่วย debug/retarget flow ฝั่งหน้าเว็บ
+  localStorage.setItem("latestProductInterest", JSON.stringify({
+    createdAt: new Date().toISOString(),
+    productId: product.id,
+    productName: product.name,
+    price: product.price,
+    channel
+  }));
+
+  trackMetaCustomEvent("ProductInterest", {
+    product_id: product.id,
+    product_name: product.name,
+    content_name: product.name,
+    value: product.price,
+    currency: "THB",
+    channel
+  });
+
+  if (channel === "messenger") {
+    trackLeadAndContact({
+      content_name: product.name,
+      content_category: product.category,
+      content_ids: [product.id],
+      value: product.price,
+      currency: "THB",
+      contact_source: "product_card"
+    });
+  }
+
+  const copyPromise = copyText(message);
+  openExternalChat(url);
+
+  if (channel === "messenger") {
+    copyPromise.then(copied => showToast(copied
+      ? `เปิด Messenger แล้ว ข้อความของ ${product.name} ถูกคัดลอกไว้ให้วางในแชทแล้วครับ`
+      : `เปิด Messenger แล้ว หากระบบไม่วางข้อความให้อัตโนมัติ ให้แจ้งชื่อรุ่น ${product.name} กับแอดมินได้เลยครับ`
+    ));
+  } else {
+    copyPromise.then(copied => showToast(copied
+      ? `เปิด LINE พร้อมข้อความ ${product.name} แล้ว กดส่งให้แอดมินได้เลยครับ`
+      : `เปิด LINE แล้ว แจ้งชื่อรุ่น ${product.name} กับแอดมินได้เลยครับ`
+    ));
+  }
+}
+
+function openGeneralChat(location = "general_cta") {
+  const channel = CONFIG.preferredChat || "messenger";
+  const message = buildGeneralMessage();
+  const url = channel === "messenger"
+    ? buildMessengerUrl(null, message, location)
+    : buildLineUrl(message);
+
+  // [Meta Pixel Contact] ปุ่มทักแชทหลัก เช่น Sticky/Hero ถือเป็น Lead intent จึงยิง Lead และ Contact
+  if (channel === "messenger") {
+    trackLeadAndContact({
+      content_name: "General Messenger CTA",
+      content_category: "clearance_sale",
+      contact_source: location
+    });
+  }
+
+  const copyPromise = copyText(message);
+  openExternalChat(url);
+  copyPromise.then(copied => showToast(copied
+    ? "เปิด Messenger แล้ว ข้อความเริ่มต้นถูกคัดลอกไว้ให้วางในแชทแล้วครับ"
+    : "เปิด Messenger แล้ว แจ้งแอดมินว่าต้องการเช็กโปรเคลียร์สต๊อกได้เลยครับ"
+  ));
+}
+
+function renderProducts(filter = "all") {
+  let list = [...products];
+
+  if (filter === "lowest") {
+    list.sort((a, b) => a.price - b.price);
+  } else if (filter !== "all") {
+    list = list.filter(product => product.tags.includes(filter) || product.category === filter);
+  }
+
+  grid.innerHTML = list.map((product, index) => `
+    <article class="product-card ${index < 2 ? "is-featured" : ""}" data-id="${product.id}">
+      <button class="product-media product-chat-trigger" data-chat-product="${product.id}" data-channel="preferred" aria-label="สนใจ ${product.name} ราคา ${money(product.price)} บาท">
+        <span class="badge">${product.badge}</span>
+        <img src="${product.image}" alt="${product.name}" loading="lazy" />
+      </button>
+      <div class="product-body">
+        <button class="product-title-link" data-chat-product="${product.id}" data-channel="preferred" aria-label="ส่งข้อมูล ${product.name} ให้แอดมิน">
+          ${product.name}
+        </button>
+        <p class="subtitle">${product.subtitle}</p>
+        <ul class="specs">
+          ${product.specs.map(spec => `<li>${spec}</li>`).join("")}
+        </ul>
+        <div class="price-row">
+          <div class="price-wrap">
+            <small>ราคาโปรเคลียร์สต๊อก</small>
+            <div class="price">${money(product.price)}<small> บาท</small></div>
+          </div>
+        </div>
+        <div class="rush-note">⚡ คลิกสินค้าเพื่อส่งชื่อรุ่นเข้าแชทอัตโนมัติ แอดมินจะตอบโปรตรงรุ่นได้เร็วขึ้น</div>
+        <div class="card-actions">
+          <button class="btn btn-primary" data-chat-product="${product.id}" data-channel="preferred">ทักแอดมินรุ่นนี้</button>
+          <button class="btn btn-ghost" data-reserve-product="${product.id}">กรอกฟอร์ม</button>
+        </div>
+      </div>
+    </article>
+  `).join("");
+}
+
+function populateSelect() {
+  productSelect.innerHTML += products.map(product =>
+    `<option value="${product.name} - ${money(product.price)} บาท">${product.name} — ${money(product.price)} บาท</option>`
+  ).join("");
+}
+
+function scrollToId(id) {
+  document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+function showToast(text) {
+  const toast = document.createElement("div");
+  toast.className = "toast";
+  toast.textContent = text;
+  document.body.appendChild(toast);
+  setTimeout(() => toast.remove(), 4200);
+}
+
+function setFormNote(text, state = "") {
+  if (!formNote) return;
+  formNote.textContent = text;
+  formNote.classList.toggle("is-success", state === "success");
+  formNote.classList.toggle("is-warning", state === "warning");
+}
+
+function openExternalChat(url) {
+  // [Messenger Automation] เปิดแชททันทีจาก gesture ของผู้ใช้ เพื่อลดโอกาสโดน browser block popup
+  const chatWindow = window.open(url, "_blank");
+  if (chatWindow) {
+    chatWindow.opener = null;
+    return;
+  }
+  window.location.href = url;
+}
+
+function trackMetaEvent(eventName, params = {}) {
+  // [Meta Pixel Event] ฟังก์ชันกลางสำหรับยิง Standard Events: ViewContent, Lead, Contact
+  if (typeof window.fbq !== "function") return;
+
+  window.fbq("track", eventName, {
+    shop_name: CONFIG.shopName || "VALUE CLEARANCE",
+    page_url: window.location.href.split("#")[0],
+    ...params
+  });
+}
+
+function trackMetaCustomEvent(eventName, params = {}) {
+  // [Meta Pixel Custom] แยก custom event ไว้เพื่อไม่ปนกับ Standard Events ที่ใช้ทำแคมเปญ
+  if (typeof window.fbq !== "function") return;
+
+  window.fbq("trackCustom", eventName, {
+    shop_name: CONFIG.shopName || "VALUE CLEARANCE",
+    page_url: window.location.href.split("#")[0],
+    ...params
+  });
+}
+
+function trackLeadAndContact(params = {}) {
+  // [Meta Pixel Standard Events] ยิงทั้ง Lead และ Contact ตาม requirement เมื่อเกิดเจตนาติดต่อ/ส่งฟอร์ม
+  trackMetaEvent("Lead", params);
+  trackMetaEvent("Contact", params);
+}
+
+function initViewContentTracking() {
+  // [Meta Pixel ViewContent] รอให้หน้าโหลดเสร็จก่อนยิง ViewContent เพื่อบอกว่าเห็น Sale Page แล้ว
+  const sendViewContent = () => {
+    trackMetaEvent("ViewContent", {
+      content_name: "Timi Clearance Sale Page",
+      content_category: "clearance_sale",
+      value: Math.min(...products.map(product => product.price)),
+      currency: "THB"
+    });
+  };
+
+  if (document.readyState === "complete") {
+    sendViewContent();
+    return;
+  }
+
+  window.addEventListener("load", sendViewContent, { once: true });
+}
+
+function submitLeadToGoogleSheets(leadPayload) {
+  const sheets = CONFIG.googleSheets || {};
+  const webAppUrl = CONFIG.googleSheetsUrl || sheets.webAppUrl;
+
+  // [Google Sheets] วาง URL Web App ใน SALES_PAGE_CONFIG.googleSheetsUrl หรือ googleSheets.webAppUrl และเปลี่ยน enabled เป็น true
+  if (!sheets.enabled || isPlaceholder(webAppUrl)) {
+    return Promise.resolve({ skipped: true });
+  }
+
+  // [Google Sheets] ส่งแบบ no-cors + text/plain เพื่อให้ใช้กับ Google Apps Script Web App ได้ง่ายบน static hosting
+  return fetch(webAppUrl, {
+    method: "POST",
+    mode: "no-cors",
+    keepalive: true,
+    headers: { "Content-Type": "text/plain;charset=utf-8" },
+    body: JSON.stringify(leadPayload)
+  })
+    .then(() => ({ ok: true }))
+    .catch(error => {
+      console.warn("Google Sheets lead capture failed:", error);
+      return { ok: false, error };
+    });
+}
+
+function setFilter(filter) {
+  document.querySelectorAll(".filter-btn").forEach(btn => {
+    btn.classList.toggle("is-active", btn.dataset.filter === filter);
+  });
+  renderProducts(filter);
+  scrollToId("deals");
+}
+
+function initShortcuts() {
+  document.querySelectorAll("[data-filter-shortcut]").forEach(btn => {
+    btn.addEventListener("click", () => setFilter(btn.dataset.filterShortcut));
+  });
+}
+
+function updateCatalogStats() {
+  const minPrice = Math.min(...products.map(product => product.price));
+  if (catalogCountEl) catalogCountEl.textContent = `${products.length} รุ่น`;
+  if (heroMinPriceEl) heroMinPriceEl.textContent = money(minPrice);
+}
+
+function getEndOfDayTime() {
+  const now = new Date();
+  return new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59);
+}
+
+function formatCountdown(distance) {
+  const totalSeconds = Math.max(0, Math.floor(distance / 1000));
+  const hours = String(Math.floor(totalSeconds / 3600)).padStart(2, "0");
+  const minutes = String(Math.floor((totalSeconds % 3600) / 60)).padStart(2, "0");
+  const seconds = String(totalSeconds % 60).padStart(2, "0");
+  return `${hours}:${minutes}:${seconds}`;
+}
+
+function startCountdown() {
+  const update = () => {
+    const deadline = getEndOfDayTime();
+    const distance = deadline.getTime() - Date.now();
+    const text = formatCountdown(distance);
+    if (countdownEl) countdownEl.textContent = text;
+    if (heroCountdownEl) heroCountdownEl.textContent = text;
+  };
+  update();
+  setInterval(update, 1000);
+}
+
+renderProducts();
+populateSelect();
+updateCatalogStats();
+startCountdown();
+initViewContentTracking();
+initShortcuts();
+
+if (lineCta) {
+  lineCta.href = buildChatUrl(null, CONFIG.preferredChat || "messenger");
+}
+if (heroLineBtn) {
+  heroLineBtn.href = buildChatUrl(null, CONFIG.preferredChat || "messenger");
+}
+
+document.querySelectorAll("[data-scroll-to]").forEach(el => {
+  el.addEventListener("click", () => scrollToId(el.dataset.scrollTo));
+});
+
+document.querySelectorAll(".filter-btn").forEach(btn => {
+  btn.addEventListener("click", () => {
+    document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("is-active"));
+    btn.classList.add("is-active");
+    renderProducts(btn.dataset.filter);
+  });
+});
+
+document.addEventListener("click", event => {
+  const generalChatBtn = event.target.closest("[data-chat-general]");
+  if (generalChatBtn) {
+    event.preventDefault();
+    openGeneralChat(generalChatBtn.dataset.contactLocation || "general_cta");
+    return;
+  }
+
+  const chatBtn = event.target.closest("[data-chat-product]");
+  if (chatBtn) {
+    event.preventDefault();
+    const product = getProduct(chatBtn.dataset.chatProduct);
+    if (!product) return;
+    const channel = chatBtn.dataset.channel === "preferred" ? (CONFIG.preferredChat || "line") : chatBtn.dataset.channel;
+    openProductChat(product, channel);
+    return;
+  }
+
+  const reserveBtn = event.target.closest("[data-reserve-product]");
+  if (!reserveBtn) return;
+  const product = getProduct(reserveBtn.dataset.reserveProduct);
+  if (product) {
+    productSelect.value = `${product.name} - ${money(product.price)} บาท`;
+    scrollToId("lead-form");
+    showToast(`เลือก ${product.name} แล้ว กรอกข้อมูลเพื่อเช็กสต๊อกได้เลยครับ`);
+  }
+});
+
+form?.addEventListener("submit", event => {
+  event.preventDefault();
+
+  if (!form.checkValidity()) {
+    form.reportValidity();
+    return;
+  }
+
+  const data = new FormData(form);
+  const message = buildLeadMessage(data);
+  const leadPayload = buildLeadPayload(data);
+  const selectedProduct = getProduct(data.get("product"));
+  const channel = CONFIG.preferredChat || "messenger";
+  const url = channel === "messenger"
+    ? buildMessengerUrl(selectedProduct, message, "form_lead")
+    : buildLineUrl(message);
+
+  // [Lead Storage] เก็บ Lead ล่าสุดไว้ใน Local Storage เพื่อสำรองข้อมูลฝั่งหน้าเว็บ
+  localStorage.setItem("latestSalesLead", JSON.stringify(leadPayload));
+
+  setFormNote("กำลังบันทึกข้อมูลและเปิด Messenger...", "warning");
+
+  // [Google Sheets] ส่งข้อมูลเข้า Apps Script แบบเบื้องหลัง ไม่บล็อกการเปิด Messenger ของลูกค้า
+  submitLeadToGoogleSheets(leadPayload).then(result => {
+    if (result.skipped) {
+      setFormNote("เปิด Messenger แล้ว หากต้องการเก็บลง Google Sheets ให้ใส่ Web App URL ใน config.js", "warning");
+      return;
+    }
+
+    setFormNote(
+      result.ok ? "บันทึก Lead แล้ว และเปิด Messenger ให้ส่งข้อมูลหาแอดมินเรียบร้อย" : "เปิด Messenger แล้ว แต่ส่งข้อมูลไป Google Sheets ไม่สำเร็จ กรุณาตรวจ Web App URL",
+      result.ok ? "success" : "warning"
+    );
+  });
+
+  copyText(message);
+
+  trackLeadAndContact({
+    content_name: leadPayload.productName || leadPayload.product || "Clearance Lead Form",
+    content_category: selectedProduct?.category || "lead_form",
+    content_ids: selectedProduct ? [selectedProduct.id] : [],
+    value: selectedProduct?.price || 0,
+    currency: "THB",
+    contact_source: "lead_form"
+  });
+
+  openExternalChat(url);
+  showToast("ส่งข้อมูลแล้ว ระบบเปิดแชทพร้อมรายละเอียดให้ส่งหาแอดมินแล้วครับ");
+  form.reset();
+});
+
+</script>
+<script>
+/* ═══════════ CANVAS VIDEO AD ═══════════ */
+(function(){
+  const canvas=document.getElementById("adCanvas");
+  if(!canvas)return;
+    const SCENES=[
+    {type:"brand",bg:["#0f0f0f","#1a0000"],accent:"#e63000",lines:[{text:"VALUE",size:.14,weight:"900",color:"#fff",y:.34},{text:"CLEARANCE",size:.095,weight:"900",color:"#e63000",y:.49},{text:"SALE",size:.175,weight:"900",color:"#fff",y:.66}],sub:"เคลียร์สต๊อกมือถือ + แท็บเล็ต 13 รุ่น",dur:2400},
+    {type:"price",bg:["#e63000","#b52200"],accent:"#fff",lines:[{text:"เริ่มต้นเพียง",size:.062,weight:"700",color:"rgba(255,255,255,.85)",y:.3},{text:"1,290",size:.22,weight:"900",color:"#fff",y:.51},{text:"บาท",size:.08,weight:"800",color:"rgba(255,255,255,.9)",y:.66}],sub:"13 รุ่นให้เลือก • รองรับแอปธนาคาร",dur:2200},
+    {type:"product",bg:["#0a0a14","#150a1a"],accent:"#a855f7",img:"../assets/products/timi-t30s.jpg",badge:"4G LTE • Octa-core",name:"TIMI T31s",spec:"MTK6762 • 8GB+512GB • 6.92 นิ้ว IPS",price:"2,290 บาท",dur:2800},
+    {type:"product",bg:["#111","#1a0f00"],accent:"#ff7a1a",img:"../assets/products/timi-t30s.jpg",badge:"เล่นได้ 2 หน้าจอ",name:"TIMI T58",spec:"จอ 6.92 นิ้ว • 6GB+256GB • AI Camera",price:"1,890 บาท",dur:2800},
+    {type:"product",bg:["#0d1410","#0a1a0a"],accent:"#22c55e",img:"../assets/products/timi-t30s.jpg",badge:"เล่นได้ 2 หน้าจอ",name:"TIMI T30s",spec:"จอ 6.92 นิ้ว • 6GB+256GB • Android 13",price:"1,890 บาท",dur:2800},
+    {type:"product",bg:["#111","#1a0f0f"],accent:"#ff7a1a",img:"../assets/products/timi-t25.png",badge:"ขายดีอันดับ 1",name:"TIMI T25",spec:"จอ 6.92 นิ้ว • แบต 6500mAh • 6+128GB",price:"1,790 บาท",dur:2600},
+    {type:"cta",bg:["#0f0f0f","#200000"],accent:"#e63000",lines:[{text:"สต๊อกมีจำกัด!",size:.085,weight:"900",color:"#e63000",y:.27},{text:"ทักแชท",size:.17,weight:"900",color:"#fff",y:.46},{text:"ตอนนี้เลย",size:.17,weight:"900",color:"#ff7a1a",y:.63}],sub:"แตะสินค้า → เปิด Messenger อัตโนมัติ",dur:2400}
+  ];
+  const TOTAL=SCENES.reduce((s,sc)=>s+sc.dur,0);
+  let st=null,raf=null;
+  const imgs={};
+  SCENES.filter(sc=>sc.img).forEach(sc=>{const i=new Image();i.src=sc.img;imgs[sc.img]=i;});
+
+  function resize(){
+    const wr=canvas.parentElement;
+    const w=wr.clientWidth;
+    const h=Math.round(w*(16/9));
+    canvas.width=w*devicePixelRatio;canvas.height=h*devicePixelRatio;
+    canvas.style.width=w+"px";canvas.style.height=h+"px";
+  }
+  resize();window.addEventListener("resize",()=>{resize();});
+
+  function ease(t){return 1-Math.pow(1-t,3);}
+
+  function drawScene(ctx,w,h,sc,prog){
+    ctx.clearRect(0,0,w,h);
+    const g=ctx.createLinearGradient(0,0,0,h);g.addColorStop(0,sc.bg[0]);g.addColorStop(1,sc.bg[1]);
+    ctx.fillStyle=g;ctx.fillRect(0,0,w,h);
+
+    // grain
+    const step=Math.max(2,Math.floor(w/55));
+    ctx.save();ctx.globalAlpha=0.02;
+    for(let x=0;x<w;x+=step)for(let y=0;y<h;y+=step){const v=Math.random()>0.5?255:0;ctx.fillStyle=`rgb(${v},${v},${v})`;ctx.fillRect(x,y,step,step);}
+    ctx.restore();
+
+    const t=ease(Math.min(prog*2,1));
+
+    if(sc.type==="brand"||sc.type==="price"||sc.type==="cta"){
+      ctx.save();ctx.globalAlpha=0.1;ctx.beginPath();ctx.arc(w*.85,h*.2,w*.55,0,Math.PI*2);ctx.fillStyle=sc.accent;ctx.fill();ctx.restore();
+      sc.lines.forEach((line,i)=>{
+        const d=i*.14;const lp=ease(Math.max(0,Math.min((prog-d)*4,1)));
+        ctx.save();ctx.globalAlpha=lp;
+        ctx.font=`${line.weight} ${Math.round(w*line.size)}px "Barlow Condensed","Noto Sans Thai",sans-serif`;
+        ctx.textAlign="center";ctx.fillStyle=line.color;
+        ctx.fillText(line.text,w/2,h*line.y+(1-lp)*h*.04);ctx.restore();
+      });
+      if(sc.sub){ctx.save();ctx.globalAlpha=Math.min(prog*2,.72);ctx.font=`600 ${Math.round(w*.04)}px "Noto Sans Thai",sans-serif`;ctx.textAlign="center";ctx.fillStyle="rgba(255,255,255,.8)";ctx.fillText(sc.sub,w/2,h*.82);ctx.restore();}
+      ctx.save();ctx.globalAlpha=t*.9;ctx.strokeStyle=sc.accent;ctx.lineWidth=Math.max(2,w*.006);ctx.beginPath();ctx.moveTo(w*.5-w*.18*t,h*.74);ctx.lineTo(w*.5+w*.18*t,h*.74);ctx.stroke();ctx.restore();
+    }
+
+    if(sc.type==="product"){
+      const img=imgs[sc.img];
+      const is=w*.46;const ix=w/2-is/2;const iy=h*.07;
+      ctx.save();ctx.globalAlpha=t*.3;ctx.beginPath();ctx.arc(w/2,iy+is*.5,is*.45,0,Math.PI*2);ctx.fillStyle=sc.accent;ctx.filter=`blur(${Math.round(w*.04)}px)`;ctx.fill();ctx.filter="none";ctx.restore();
+      if(img&&img.complete&&img.naturalWidth){ctx.save();ctx.globalAlpha=ease(Math.min(prog*3,1));ctx.drawImage(img,ix,iy+(1-ease(Math.min(prog*3,1)))*h*.05,is,is);ctx.restore();}
+      else{ctx.save();ctx.globalAlpha=.4;ctx.font=`${Math.round(w*.18)}px sans-serif`;ctx.textAlign="center";ctx.fillText("📱",w/2,iy+is*.65);ctx.restore();}
+
+      const bf=Math.round(w*.036);ctx.font=`800 ${bf}px "Noto Sans Thai",sans-serif`;const bw=ctx.measureText(sc.badge).width+w*.04;const bh=bf*1.8;
+      ctx.save();ctx.globalAlpha=t;ctx.fillStyle="#e63000";ctx.beginPath();if(ctx.roundRect)ctx.roundRect(w*.05,iy+bh*.1,bw,bh,bh/2);else ctx.rect(w*.05,iy+bh*.1,bw,bh);ctx.fill();ctx.fillStyle="#fff";ctx.textAlign="left";ctx.fillText(sc.badge,w*.05+bw/2-ctx.measureText(sc.badge).width/2,iy+bh*.1+bh*.72);ctx.restore();
+
+      ctx.save();ctx.globalAlpha=ease(Math.min((prog-.1)*3,1));ctx.font=`900 ${Math.round(w*.10)}px "Barlow Condensed",sans-serif`;ctx.textAlign="center";ctx.fillStyle="#fff";ctx.fillText(sc.name,w/2,h*.655);ctx.restore();
+      ctx.save();ctx.globalAlpha=ease(Math.min((prog-.2)*3,1))*.8;ctx.font=`600 ${Math.round(w*.037)}px "Noto Sans Thai",sans-serif`;ctx.textAlign="center";ctx.fillStyle="rgba(255,255,255,.85)";ctx.fillText(sc.spec,w/2,h*.73);ctx.restore();
+      ctx.save();ctx.globalAlpha=ease(Math.min((prog-.3)*4,1));ctx.font=`900 ${Math.round(w*.09)}px "Barlow Condensed","Noto Sans Thai",sans-serif`;ctx.textAlign="center";ctx.fillStyle=sc.accent;ctx.fillText(sc.price,w/2,h*.84);ctx.restore();
+    }
+
+    // dots
+    const dr=Math.max(3,w*.012);const dg=dr*3.2;const dtw=SCENES.length*dg;
+    SCENES.forEach((_,i)=>{ctx.save();ctx.globalAlpha=.45;ctx.beginPath();ctx.arc(w/2-dtw/2+i*dg+dg/2,h*.935,dr,0,Math.PI*2);ctx.fillStyle="#fff";ctx.fill();ctx.restore();});
+    const ci=getCurrentIdx(st?performance.now()-st:0);
+    ctx.save();ctx.beginPath();ctx.arc(w/2-dtw/2+ci*dg+dg/2,h*.935,dr,0,Math.PI*2);ctx.fillStyle=sc.accent||"#e63000";ctx.fill();ctx.restore();
+  }
+
+  function getCurrentIdx(el){let a=0;for(let i=0;i<SCENES.length;i++){a+=SCENES[i].dur;if(el%TOTAL<a)return i;}return SCENES.length-1;}
+
+  function loop(ts){
+    if(!st)st=ts;
+    const el=(ts-st)%TOTAL;
+    let acc=0,si=0,se=0;
+    for(let i=0;i<SCENES.length;i++){if(el<acc+SCENES[i].dur){si=i;se=el-acc;break;}acc+=SCENES[i].dur;}
+    const ctx=canvas.getContext("2d");
+    drawScene(ctx,canvas.width,canvas.height,SCENES[si],se/SCENES[si].dur);
+    const bar=document.getElementById("vidProgress");
+    if(bar)bar.style.width=((el/TOTAL)*100)+"%";
+    raf=requestAnimationFrame(loop);
+  }
+  raf=requestAnimationFrame(loop);
+})();
+</script>
+</body>
+</html>
