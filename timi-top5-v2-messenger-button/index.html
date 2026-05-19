@@ -1,0 +1,329 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>มือถือเคลียร์สต๊อก ราคาพิเศษ | VALUE CLEARANCE</title>
+  <meta name="description" content="มือถือและแท็บเล็ตจอใหญ่ ราคาพิเศษ พร้อมใช้งาน รองรับแอปธนาคาร แบตอึด ส่งไว มีรับประกัน" />
+  <meta property="og:title" content="มือถือเคลียร์สต๊อก ราคาพิเศษ" />
+  <meta property="og:description" content="ดีลมือถือจอใหญ่ เริ่มต้น 1,100 บาท พร้อมใช้งาน ส่งไว รับประกัน" />
+  <meta property="og:image" content="../assets/campaign/phone-clearance-hero.png" />
+  <meta property="og:type" content="website" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <script src="config.js?v=20260519-root-config"></script>
+  <script>
+    // [Meta Pixel] เปลี่ยน Pixel ID ได้ที่ config.js > facebookPixelId; หากยังไม่พบให้คงค่า "" พร้อม TODO ไว้
+    (function () {
+      const pixelId = (window.SALES_PAGE_CONFIG?.facebookPixelId || "").trim();
+      const isPixelReady = pixelId && !pixelId.includes("YOUR_");
+      window.__META_PIXEL_READY__ = false;
+
+      if (!isPixelReady) return;
+
+      !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+      n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+      n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+      t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+      document,'script','https://connect.facebook.net/en_US/fbevents.js');
+
+      fbq("init", pixelId);
+      fbq("track", "PageView");
+      window.__META_PIXEL_READY__ = true;
+    })();
+  </script>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="announcement">
+    <div class="announcement-track">
+      <span>⚡ โปรเคลียร์สต๊อกล็อตนี้จำนวนจำกัด</span>
+      <span>🔥 ราคาเริ่มต้นเพียง 1,100 บาท</span>
+      <span>📦 สินค้าบางสีหมดไว แนะนำทักแชททันที</span>
+      <span>💬 คลิกที่สินค้าเพื่อส่งชื่อรุ่นหาแอดมินอัตโนมัติ</span>
+      <span>⚡ โปรเคลียร์สต๊อกล็อตนี้จำนวนจำกัด</span>
+      <span>🔥 ราคาเริ่มต้นเพียง 1,100 บาท</span>
+    </div>
+  </div>
+
+  <header class="site-header" id="top">
+    <a class="brand" href="#top" aria-label="กลับด้านบน">
+      <span class="brand-icon">⌁</span>
+      <span>
+        <strong>VALUE</strong>
+        <small>CLEARANCE</small>
+      </span>
+    </a>
+    <nav class="desktop-nav" aria-label="เมนูหลัก">
+      <a href="#deals">ดีลวันนี้</a>
+      <a href="#why">จุดเด่น</a>
+      <a href="#reviews">รีวิว</a>
+      <a href="#lead-form">จองเครื่อง</a>
+    </nav>
+    <button class="btn btn-primary" data-scroll-to="lead-form">จองด่วนผ่านแชท</button>
+  </header>
+
+  <main>
+    <section class="hero-shell">
+      <section class="hero section-pad">
+        <div class="hero-copy">
+          <span class="eyebrow">CLEARANCE SALE • พร้อมส่ง • อ่านง่าย • ทักง่าย</span>
+          <h1>เคลียร์สต๊อก <span>ราคาพิเศษ</span><br /><span class="hero-price-line">เริ่มต้นแค่  1,100 บาท</span> ของมีจำกัด</h1>
+          <p>รวมมือถือและแท็บเล็ตจอใหญ่ที่เน้น “คุ้ม ใช้งานได้จริง และทักสั่งง่าย” เหมาะสำหรับลูกค้าที่ต้องการเครื่องพร้อมใช้ในงบสบายกระเป๋า</p>
+
+          <!-- TOP 5 DYNAMIC RANKING WIDGET
+               แทนที่กล่อง "ดีลมาแรง" เดิม
+               render โดย JS ใน script.js (renderTop5)
+          -->
+          <div class="top5-widget" id="top5Widget" aria-label="สินค้าขายดี Top 5">
+            <div class="top5-header">
+              <span class="top5-trophy">🏆</span>
+              <div>
+                <strong>สินค้าขายดี TOP 5</strong>
+                <small>คำนวณผลรวมทุก 6 ชั่วโมง • คลิกเพื่อดูรายละเอียด</small>
+              </div>
+              <span class="top5-live-dot" aria-hidden="true"></span>
+            </div>
+            <!-- รายการ Top 5 — สร้างโดย renderTop5() ใน script.js -->
+            <ol class="top5-list" id="top5List" aria-live="polite"></ol>
+          </div>
+
+          <div class="hero-actions">
+            <button class="btn btn-primary btn-lg pulse" data-scroll-to="deals">ดูสินค้าราคาพิเศษ</button>
+            <button class="btn btn-ghost btn-lg" data-scroll-to="lead-form">ให้แอดมินช่วยเลือก</button>
+          </div>
+
+          <div class="trust-row" aria-label="จุดเด่นร้าน">
+            <div><strong id="catalogCount">13 รุ่น</strong><span>รวมมือถือและแท็บเล็ต</span></div>
+            <div><strong>ทักง่าย</strong><span>แตะสินค้าส่งเข้าแชทได้เลย</span></div>
+            <div><strong>พร้อมใช้</strong><span>คัดรุ่นคุ้ม เน้นใช้งานจริง</span></div>
+          </div>
+        </div>
+
+        <div class="hero-visual-wrap">
+          <div class="hero-visual">
+            <img src="../assets/campaign/phone-clearance-hero.png" alt="ภาพโปรเคลียร์สต๊อกมือถือราคาพิเศษ" />
+          </div>
+          <aside class="hero-side-card">
+            <span class="eyebrow">PROMO NOW</span>
+            <h2>ทักก่อน ได้สิทธิ์ก่อน</h2>
+            <ul class="rush-list">
+              <li>คลิกที่รูปสินค้า → ระบบแนบชื่อรุ่นให้อัตโนมัติ</li>
+              <li>แอดมินรู้ทันทีว่าลูกค้าสนใจรุ่นไหน</li>
+              <li>ตอบโปร/สี/สต๊อกได้ตรงรุ่น เร็วขึ้น</li>
+            </ul>
+            <div class="countdown-card">
+              <small>ปิดรับรอบโปรโมชั่นวันนี้ใน</small>
+              <strong id="countdownText">--:--:--</strong>
+              <span>ราคาและของแถมอาจเปลี่ยนเมื่อของล็อตนี้หมด</span>
+            </div>
+            <div class="side-card-actions">
+              <a class="btn btn-messenger" id="heroLineBtn" href="#" target="_blank" rel="noopener" data-chat-general data-contact-location="hero-side">ทัก Messenger ตอนนี้</a>
+              <button class="btn btn-ghost" data-scroll-to="deals">เลือกดูรุ่นก่อน</button>
+            </div>
+          </aside>
+        </div>
+      </section>
+    </section>
+
+    <section class="urgency-strip section-pad">
+      <div class="urgency-card">
+        <span>🚚 พร้อมส่ง</span>
+        <strong>ลูกค้าทักแล้วแอดมินตอบได้เร็ว</strong>
+        <p>เพราะระบบส่งชื่อรุ่นที่ลูกค้าคลิกเข้าแชทได้ทันที</p>
+      </div>
+      <div class="urgency-card">
+        <span>📌 อ่านง่าย</span>
+        <strong>แยกรุ่น ราคา และสเปกชัด</strong>
+        <p>ช่วยให้ตัดสินใจง่ายขึ้นและกดแชทได้เร็วขึ้น</p>
+      </div>
+      <div class="urgency-card highlight">
+        <span>🔥 รีบทักก่อน</span>
+        <strong>สินค้าบางรุ่น/บางสีออกไว</strong>
+        <p>โดยเฉพาะรุ่นราคาคุ้มและรุ่นรองรับแอปธนาคาร</p>
+      </div>
+    </section>
+
+    <section class="benefit-strip" id="why">
+      <article>
+        <span class="icon">📱</span>
+        <strong>จอใหญ่ สบายตา</strong>
+        <p>เหมาะกับดูวิดีโอ เล่นโซเชียล ใช้งานทั่วไป</p>
+      </article>
+      <article>
+        <span class="icon">🔋</span>
+        <strong>แบตอึด</strong>
+        <p>คัดรุ่นที่ตอบโจทย์ใช้งานได้ยาวตลอดวัน</p>
+      </article>
+      <article>
+        <span class="icon">🏦</span>
+        <strong>รองรับแอปสำคัญ</strong>
+        <p>เหมาะกับลูกค้าที่ต้องการเครื่องพร้อมใช้</p>
+      </article>
+      <article>
+        <span class="icon">💬</span>
+        <strong>สั่งง่ายในแชท</strong>
+        <p>แตะสินค้าแล้วส่งชื่อรุ่นเข้า Messenger ได้ทันที</p>
+      </article>
+    </section>
+
+    <section class="section-pad" id="deals">
+      <div class="section-head">
+        <span class="eyebrow">HOT DEALS</span>
+        <h2>รุ่นน่ากดซื้อที่สุดตอนนี้</h2>
+        <p>แตะที่รูปสินค้า ชื่อสินค้า หรือปุ่มสั่งซื้อ ระบบจะส่งชื่อรุ่นที่สนใจเข้าแชทให้แอดมินทันที</p>
+      </div>
+
+      <div class="deal-notice">
+        <div>
+          <strong>⚡ เคล็ดลับปิดการขายเร็วขึ้น:</strong>
+          คลิกรุ่นที่สนใจแล้วทักแชทเลย แอดมินจะเห็นชื่อรุ่น ราคา และข้อมูลสินค้าอัตโนมัติ
+        </div>
+      </div>
+
+      <div class="toolbar" aria-label="ตัวกรองสินค้า">
+        <button class="filter-btn is-active" data-filter="all">ทั้งหมด</button>
+        <button class="filter-btn" data-filter="phone">มือถือ</button>
+        <button class="filter-btn" data-filter="tablet">แท็บเล็ต</button>
+        <button class="filter-btn" data-filter="banking">รองรับแอปธนาคาร</button>
+        <button class="filter-btn" data-filter="lowest">ราคาต่ำสุด</button>
+      </div>
+
+      <div class="quick-picks">
+        <button class="mini-chip" data-filter-shortcut="lowest">ดูรุ่นเริ่มต้นราคาถูก</button>
+        <button class="mini-chip" data-filter-shortcut="banking">ดูรุ่นรองรับแอปธนาคาร</button>
+        <button class="mini-chip" data-filter-shortcut="tablet">ดูแท็บเล็ตใส่ซิมได้</button>
+      </div>
+
+      <div class="product-grid" id="productGrid" aria-live="polite"></div>
+    </section>
+
+    <section class="campaign-preview section-pad">
+      <div class="section-head align-left">
+        <span class="eyebrow">AD CREATIVE</span>
+        <h2>ภาพแคมเปญพร้อมใช้ลง Facebook / IG</h2>
+        <p>ใช้เป็นภาพหลักในเซลเพจหรือโพสต์ขาย ช่วยสร้างบรรยากาศโปรโมชันที่ดูแรงและน่าทักมากขึ้น</p>
+      </div>
+      <div class="creative-grid">
+        <img src="../assets/campaign/phone-clearance-hero.png" alt="ภาพโฆษณาโปรเคลียร์สต๊อกมือถือ" />
+        <img src="../assets/campaign/tablet-clearance-hero.png" alt="ภาพโฆษณาแท็บเล็ตและมือถือจอใหญ่" />
+      </div>
+    </section>
+
+    <section class="section-pad split-section">
+      <div>
+        <span class="eyebrow">BUYING GUIDE</span>
+        <h2>เลือกไม่ถูก? ให้แอดมินคัดรุ่นให้ตามงบ</h2>
+        <p>เหมาะสำหรับลูกค้าที่อยากได้คำแนะนำเร็ว ๆ ว่ารุ่นไหนเหมาะกับผู้ใหญ่ เด็กนักเรียน ร้านค้า ไรเดอร์ เครื่องสำรอง หรือคนที่เน้นแอปธนาคาร</p>
+        <ul class="check-list">
+          <li>งบต่ำกว่า 1,500 บาท: เน้นคุ้มค่า ใช้งานพื้นฐาน</li>
+          <li>งบ 1,500–1,900 บาท: จอใหญ่ แบตอึด ใช้งานรอบด้าน</li>
+          <li>แท็บเล็ต: เหมาะดูหนัง เรียนออนไลน์ ไลฟ์ และใช้งานจอใหญ่</li>
+        </ul>
+        <button class="btn btn-primary pulse" data-scroll-to="lead-form">ให้แอดมินช่วยเลือกตอนนี้</button>
+      </div>
+      <div class="preview-phone">
+        <img src="../assets/campaign/mobile-salespage-preview.png" alt="ตัวอย่างหน้าเซลเพจมือถือ" />
+      </div>
+    </section>
+
+    <section class="reviews section-pad" id="reviews">
+      <div class="section-head">
+        <span class="eyebrow">CUSTOMER VOICE</span>
+        <h2>ลูกค้าชอบเพราะตัดสินใจง่าย</h2>
+        <p>ยิ่งหน้าเพจอ่านง่ายและแอดมินตอบได้ตรงรุ่น ลูกค้าก็ยิ่งปิดการขายได้ไวขึ้น</p>
+      </div>
+      <div class="review-grid">
+        <article class="review-card">
+          <div class="stars">★★★★★</div>
+          <p>“จอใหญ่ดีมาก แบตอึด ใช้งานโซเชียลได้สบาย คุ้มเกินราคา”</p>
+          <strong>คุณกานต์</strong><span>TIMI T25</span>
+        </article>
+        <article class="review-card">
+          <div class="stars">★★★★★</div>
+          <p>“แค่กดรุ่นที่สนใจแล้วทักแชท แอดมินตอบกลับมาตรงรุ่นเลย สะดวกมาก”</p>
+          <strong>คุณวิชัย</strong><span>TIMI T29</span>
+        </article>
+        <article class="review-card">
+          <div class="stars">★★★★★</div>
+          <p>“ซื้อให้คุณพ่อใช้ ตัวหนังสือใหญ่ เสียงดัง ราคาไม่แรง”</p>
+          <strong>คุณปุ้ย</strong><span>TWZ V9</span>
+        </article>
+      </div>
+    </section>
+
+    <section class="lead-section section-pad" id="lead-form">
+      <div class="lead-card">
+        <div class="lead-copy">
+          <span class="eyebrow">RESERVE NOW</span>
+          <h2>จองก่อน แอดมินเช็กสต๊อกให้ไว</h2>
+          <p>กรอกข้อมูลสั้น ๆ แล้วระบบจะเปิดแชทพร้อมข้อมูลเบื้องต้น ช่วยให้แอดมินตอบโปรโมชั่นและเช็กของได้เร็วขึ้น</p>
+          <div class="mini-benefits">
+            <span>✅ ไม่ผูกมัดการซื้อ</span>
+            <span>✅ เช็กสต๊อกก่อนจ่าย</span>
+            <span>✅ แนะนำรุ่นตามงบ</span>
+            <span>✅ ใช้ได้ทั้งลูกค้าที่รู้รุ่นแล้วและยังลังเล</span>
+          </div>
+        </div>
+        <form class="lead-form" id="customerLeadForm">
+          <label>ชื่อ / ชื่อเล่น
+            <input type="text" name="name" placeholder="เช่น คุณป๊อป" required />
+          </label>
+          <label>เบอร์โทร
+            <input type="tel" name="phone" placeholder="เช่น 08x-xxx-xxxx" required />
+          </label>
+          <label>Facebook / Messenger / LINE ID
+            <input type="text" name="line" placeholder="ใส่ชื่อ Facebook, Messenger หรือ LINE ID ถ้ามี" />
+          </label>
+          <label>จังหวัด
+            <input type="text" name="province" placeholder="เช่น นนทบุรี / กรุงเทพฯ" />
+          </label>
+          <label>งบประมาณ
+            <select name="budget">
+              <option value="">เลือกงบประมาณ</option>
+              <option value="ไม่เกิน 1,500 บาท">ไม่เกิน 1,500 บาท</option>
+              <option value="1,500 - 1,900 บาท">1,500 - 1,900 บาท</option>
+              <option value="2,000 - 3,000 บาท">2,000 - 3,000 บาท</option>
+              <option value="ยังไม่แน่ใจ ให้แอดมินแนะนำ">ยังไม่แน่ใจ ให้แอดมินแนะนำ</option>
+            </select>
+          </label>
+          <label>รุ่นที่สนใจ
+            <select name="product" id="productSelect">
+              <option value="">เลือกรุ่นที่สนใจ</option>
+            </select>
+          </label>
+          <label class="full">หมายเหตุเพิ่มเติม
+            <textarea name="note" rows="3" placeholder="เช่น ใช้แอปธนาคาร / ซื้อให้ผู้ใหญ่ / ต้องการเก็บปลายทาง"></textarea>
+          </label>
+          <label class="consent full">
+            <input type="checkbox" required />
+            <span>ยินยอมให้ร้านติดต่อกลับเพื่อแจ้งรายละเอียดสินค้า โปรโมชัน และข้อเสนอที่เกี่ยวข้อง</span>
+          </label>
+          <button class="btn btn-primary full pulse" type="submit">ส่งข้อมูลให้แอดมินตอนนี้</button>
+          <p class="form-note" id="formNote">หลังส่งข้อมูล ระบบจะบันทึก Lead, คัดลอกข้อความสรุป และเปิด Messenger ให้ส่งหาแอดมินทันที</p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div>
+      <strong>VALUE CLEARANCE</strong>
+      <p>มือถือและแท็บเล็ตเคลียร์สต๊อก ราคาพิเศษ จำนวนจำกัด</p>
+    </div>
+    <a href="#top">กลับด้านบน ↑</a>
+  </footer>
+
+  <div class="sticky-cta" role="region" aria-label="ปุ่มสั่งซื้อด่วน">
+    <div class="sticky-copy">
+      <strong>โปรกำลังมาแรง</strong>
+      <small>คลิกรุ่นที่สนใจแล้วทักแชทได้ทันที</small>
+    </div>
+    <button class="btn btn-primary" data-scroll-to="lead-form">จอง/เช็กสต๊อก</button>
+    <a class="btn btn-messenger" id="lineCta" href="#" target="_blank" rel="noopener" data-chat-general data-contact-location="sticky">ทัก Messenger</a>
+  </div>
+
+  <script src="script.js?v=20260519-root-config"></script>
+</body>
+</html>
