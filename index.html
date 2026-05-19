@@ -14,7 +14,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
   <script src="config.js"></script>
   <script>
-    // [Meta Pixel] เปลี่ยน Pixel ID ได้ที่ config.js > facebookPixelId ก่อนนำเว็บขึ้นใช้งานจริง
+    // [Meta Pixel] เปลี่ยน Pixel ID ได้ที่ config.js > facebookPixelId; หากยังไม่พบให้คงค่า "" พร้อม TODO ไว้
     (function () {
       const pixelId = (window.SALES_PAGE_CONFIG?.facebookPixelId || "").trim();
       const isPixelReady = pixelId && !pixelId.includes("YOUR_");
