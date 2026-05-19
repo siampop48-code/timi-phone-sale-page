@@ -18,6 +18,7 @@
      facebookPixelId: "วาง Pixel ID ที่นี่"
 
   3) Google Sheets:
+     googleSheetsUrl: "วาง URL ของ Google Apps Script Web App ที่นี่"
      googleSheets.enabled: true
      googleSheets.webAppUrl: "วาง URL ของ Google Apps Script Web App ที่นี่"
 */
@@ -40,16 +41,19 @@ window.SALES_PAGE_CONFIG = {
   messengerPageIdOrUsername: "170306732996781",
 
   phone: "YOUR_PHONE_NUMBER",
-  // [Meta Pixel] วาง Pixel ID จริงตรงนี้ เช่น "123456789012345" เพื่อให้โค้ดใน <head> เริ่มทำงาน
-  facebookPixelId: "YOUR_META_PIXEL_ID",
+  // TODO: รอใส่ Pixel ID จาก Meta Events Manager เมื่อพบ Pixel/Data source ที่ถูกต้อง
+  facebookPixelId: "",
 
   // [Messenger Automation] true = คัดลอกข้อความสรุปไว้ให้ลูกค้าวางใน Messenger เพราะ m.me ไม่รองรับ prefill ข้อความยาวโดยตรง
   autoCopyMessage: true,
 
+  // [Google Sheets] Web App URL จาก Apps Script สำหรับบันทึก Lead เข้า Google Sheets
+  googleSheetsUrl: "https://script.google.com/macros/s/AKfycbyaj0XPTR7laRkSAHMVWZaZtSeGnejkvhW45q8i0pRAoW2O400bATjP-mih1FFodAeHwA/exec",
+
   googleSheets: {
-    // [Google Sheets] เปลี่ยนเป็น true หลัง deploy Google Apps Script Web App แล้ว
-    enabled: false,
+    // [Google Sheets] true = เปิดการส่งข้อมูลฟอร์มไป Google Sheets แบบเบื้องหลัง
+    enabled: true,
     // [Google Sheets] วาง URL ที่ได้จาก Deploy > Web app เช่น https://script.google.com/macros/s/XXXXX/exec
-    webAppUrl: "YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL"
+    webAppUrl: "https://script.google.com/macros/s/AKfycbyaj0XPTR7laRkSAHMVWZaZtSeGnejkvhW45q8i0pRAoW2O400bATjP-mih1FFodAeHwA/exec"
   }
 };
