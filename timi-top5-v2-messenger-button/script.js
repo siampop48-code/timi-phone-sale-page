@@ -361,7 +361,7 @@ function renderProducts(filter = "all") {
     <article class="product-card ${index < 2 ? "is-featured" : ""}" data-id="${product.id}">
       <button class="product-media product-chat-trigger" data-chat-product="${product.id}" data-channel="preferred" aria-label="สนใจ ${product.name} ราคา ${money(product.price)} บาท">
         <span class="badge">${product.badge}</span>
-        <img src="${product.image}" alt="${product.name}" loading="lazy" />
+        <img src="${product.image}" alt="${product.name}" loading="eager" />
       </button>
       <div class="product-body">
         <button class="product-title-link" data-chat-product="${product.id}" data-channel="preferred" aria-label="ส่งข้อมูล ${product.name} ให้แอดมิน">
@@ -852,7 +852,7 @@ function renderTop5() {
 <li class="top5-item" data-product-id="${p.id}" role="button" tabindex="0"
     aria-label="อันดับ ${i+1}: ${p.name} ราคา ${p.price} บาท">
   <span class="top5-rank ${RCLS[i]}">${LABELS[i]}</span>
-  <img class="top5-img" src="${p.image}" alt="${p.name}" loading="lazy"
+  <img class="top5-img" src="${p.image}" alt="${p.name}" loading="eager"
        onerror="this.style.opacity='.25'"/>
   <div class="top5-info">
     <div class="top5-name">${p.name}</div>
