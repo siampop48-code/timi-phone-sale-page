@@ -127,6 +127,7 @@ const products = [
 const grid = document.querySelector("#productGrid");
 const productSelect = document.querySelector("#productSelect");
 const form = document.querySelector("#customerLeadForm");
+const formNote = document.querySelector("#formNote");
 const lineCta = document.querySelector("#lineCta");
 const heroLineBtn = document.querySelector("#heroLineBtn");
 const countdownEl = document.querySelector("#countdownText");
@@ -177,16 +178,41 @@ function buildGeneralMessage() {
 }
 
 function buildLeadMessage(data) {
+  // [Form Automation] จัดรูปแบบข้อมูลจากฟอร์มให้พร้อมคัดลอกและส่งต่อเข้า Messenger
   return [
     "สวัสดีครับ ขอเช็กสต๊อกโปรเคลียร์สต๊อก",
     `ชื่อ: ${data.get("name") || "-"}`,
     `เบอร์: ${data.get("phone") || "-"}`,
-    `LINE: ${data.get("line") || "-"}`,
+    `ช่องทางติดต่อ: ${data.get("line") || "-"}`,
     `จังหวัด: ${data.get("province") || "-"}`,
     `งบประมาณ: ${data.get("budget") || "-"}`,
     `รุ่นที่สนใจ: ${data.get("product") || "ให้แอดมินแนะนำ"}`,
     `หมายเหตุ: ${data.get("note") || "-"}`
   ].join("\n");
+}
+
+function buildLeadPayload(data) {
+  // [Lead Payload] โครงสร้างข้อมูลที่ส่งไป Google Sheets เพื่อให้คอลัมน์อ่านง่ายและต่อแอดได้สะดวก
+  const selectedProduct = getProduct(data.get("product"));
+
+  return {
+    createdAt: new Date().toISOString(),
+    source: "timi-phone-sale-page-root",
+    pageUrl: window.location.href.split("#")[0],
+    shopName: CONFIG.shopName || "VALUE CLEARANCE",
+    name: data.get("name") || "",
+    phone: data.get("phone") || "",
+    contactId: data.get("line") || "",
+    province: data.get("province") || "",
+    budget: data.get("budget") || "",
+    product: data.get("product") || "",
+    productId: selectedProduct?.id || "",
+    productName: selectedProduct?.name || "",
+    productPrice: selectedProduct?.price || "",
+    note: data.get("note") || "",
+    referrer: document.referrer || "",
+    userAgent: navigator.userAgent || ""
+  };
 }
 
 function buildLineOaMessageUrl(base, message) {
@@ -225,20 +251,20 @@ function getMessengerPage() {
   return "";
 }
 
-function buildMessengerUrl(product, message) {
+function buildMessengerUrl(product, message, source = "general") {
   const page = getMessengerPage();
   if (!page) return buildLineUrl(message);
 
   const ref = product
     ? `product_${product.id}_${product.price}`
-    : "general_clearance_deal";
+    : `${source}_clearance_deal`;
 
   return `https://m.me/${page}?ref=${encodeURIComponent(ref)}`;
 }
 
 function buildChatUrl(product, channel = CONFIG.preferredChat || "line") {
   const message = product ? buildProductMessage(product, "Product Card") : buildGeneralMessage();
-  if (channel === "messenger") return buildMessengerUrl(product, message);
+  if (channel === "messenger") return buildMessengerUrl(product, message, product ? "product_card" : "general_cta");
   return buildLineUrl(message);
 }
 
@@ -279,7 +305,19 @@ async function openProductChat(product, channel = CONFIG.preferredChat || "line"
     });
   }
 
-  window.open(url, "_blank", "noopener");
+  if (channel === "messenger") {
+    // [Meta Pixel Contact] การคลิกการ์ดสินค้าเพื่อเปิด Messenger ถือเป็น Lead intent สำคัญ
+    trackLeadAndContact({
+      content_name: product.name,
+      content_category: product.category,
+      content_ids: [product.id],
+      value: product.price,
+      currency: "THB",
+      contact_source: "product_card"
+    });
+  }
+
+  openExternalChat(url);
 
   if (channel === "messenger") {
     showToast(`เปิด Messenger แล้ว ข้อความของ ${product.name} ถูกคัดลอกไว้ให้วางในแชทแล้วครับ`);
@@ -345,7 +383,27 @@ function showToast(text) {
   setTimeout(() => toast.remove(), 4200);
 }
 
+function setFormNote(text, state = "") {
+  // [Form UX] แจ้งสถานะการบันทึก Lead โดยไม่รบกวน flow การเปิด Messenger
+  if (!formNote) return;
+  formNote.textContent = text;
+  formNote.classList.toggle("is-success", state === "success");
+  formNote.classList.toggle("is-warning", state === "warning");
+}
+
+function openExternalChat(url) {
+  // [Messenger Automation] เปิดแชททันทีจาก gesture ของผู้ใช้ ลดโอกาส popup ถูกบล็อก
+  const chatWindow = window.open(url, "_blank");
+  if (chatWindow) {
+    chatWindow.opener = null;
+    return;
+  }
+
+  window.location.href = url;
+}
+
 function submitToGoogleForm(data) {
+  // [Legacy Google Form] เก็บไว้เผื่อยังต้องใช้ Google Form endpoint เดิมในอนาคต
   const gf = CONFIG.googleForm || {};
   if (!gf.enabled || !gf.formAction) return false;
 
@@ -359,12 +417,99 @@ function submitToGoogleForm(data) {
   return true;
 }
 
-function initPixel() {
-  if (!CONFIG.facebookPixelId) return;
-  const pixelId = CONFIG.facebookPixelId;
-  const script = document.createElement("script");
-  script.innerHTML = `!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window, document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init','${pixelId}');fbq('track','PageView');`;
-  document.head.appendChild(script);
+function submitLeadToGoogleSheets(leadPayload) {
+  const sheets = CONFIG.googleSheets || {};
+  const webAppUrl = CONFIG.googleSheetsUrl || sheets.webAppUrl;
+
+  // [Google Sheets] วาง Web App URL ใน config.js > googleSheetsUrl หรือ googleSheets.webAppUrl
+  if (!sheets.enabled || isPlaceholder(webAppUrl)) {
+    return Promise.resolve({ skipped: true });
+  }
+
+  // [Google Sheets] ส่งแบบ no-cors + text/plain เพื่อให้ทำงานกับ Google Apps Script Web App บน static hosting
+  return fetch(webAppUrl, {
+    method: "POST",
+    mode: "no-cors",
+    keepalive: true,
+    headers: { "Content-Type": "text/plain;charset=utf-8" },
+    body: JSON.stringify(leadPayload)
+  })
+    .then(() => ({ ok: true }))
+    .catch(error => {
+      console.warn("Google Sheets lead capture failed:", error);
+      return { ok: false, error };
+    });
+}
+
+function trackMetaEvent(eventName, params = {}) {
+  // [Meta Pixel Event] ฟังก์ชันกลางสำหรับยิง Standard Events: ViewContent, Lead, Contact
+  if (typeof window.fbq !== "function") return;
+
+  window.fbq("track", eventName, {
+    shop_name: CONFIG.shopName || "VALUE CLEARANCE",
+    page_url: window.location.href.split("#")[0],
+    ...params
+  });
+}
+
+function trackMetaCustomEvent(eventName, params = {}) {
+  // [Meta Pixel Custom] แยก custom event ไว้เพื่อไม่ปนกับ Standard Events ที่ใช้ทำแคมเปญ
+  if (typeof window.fbq !== "function") return;
+
+  window.fbq("trackCustom", eventName, {
+    shop_name: CONFIG.shopName || "VALUE CLEARANCE",
+    page_url: window.location.href.split("#")[0],
+    ...params
+  });
+}
+
+function trackLeadAndContact(params = {}) {
+  // [Meta Pixel Standard Events] ยิงทั้ง Lead และ Contact เมื่อมีเจตนาติดต่อหรือส่งฟอร์ม
+  trackMetaEvent("Lead", params);
+  trackMetaEvent("Contact", params);
+}
+
+function initViewContentTracking() {
+  // [Meta Pixel ViewContent] รอให้หน้าโหลดเสร็จก่อนยิง ViewContent เพื่อบันทึกการดู Sale Page
+  const sendViewContent = () => {
+    trackMetaEvent("ViewContent", {
+      content_name: "Timi Clearance Sale Page",
+      content_category: "clearance_sale",
+      value: Math.min(...products.map(product => product.price)),
+      currency: "THB"
+    });
+  };
+
+  if (document.readyState === "complete") {
+    sendViewContent();
+    return;
+  }
+
+  window.addEventListener("load", sendViewContent, { once: true });
+}
+
+function openGeneralChat(location = "general_cta") {
+  const channel = CONFIG.preferredChat || "messenger";
+  const message = buildGeneralMessage();
+  const url = channel === "messenger"
+    ? buildMessengerUrl(null, message, location)
+    : buildLineUrl(message);
+
+  // [Meta Pixel Contact] ปุ่ม Messenger หลัก เช่น Sticky/Hero ถือเป็น Lead intent
+  if (channel === "messenger") {
+    trackLeadAndContact({
+      content_name: "General Messenger CTA",
+      content_category: "clearance_sale",
+      contact_source: location
+    });
+  }
+
+  const copyPromise = copyText(message);
+  openExternalChat(url);
+  copyPromise.then(copied => showToast(copied
+    ? "เปิด Messenger แล้ว ข้อความเริ่มต้นถูกคัดลอกไว้ให้วางในแชทแล้วครับ"
+    : "เปิด Messenger แล้ว แจ้งแอดมินว่าต้องการเช็กโปรเคลียร์สต๊อกได้เลยครับ"
+  ));
 }
 
 function setFilter(filter) {
@@ -416,14 +561,14 @@ renderProducts();
 populateSelect();
 updateCatalogStats();
 startCountdown();
-initPixel();
+initViewContentTracking();
 initShortcuts();
 
 if (lineCta) {
-  lineCta.href = buildLineUrl(buildGeneralMessage());
+  lineCta.href = buildChatUrl(null, CONFIG.preferredChat || "messenger");
 }
 if (heroLineBtn) {
-  heroLineBtn.href = buildLineUrl(buildGeneralMessage());
+  heroLineBtn.href = buildChatUrl(null, CONFIG.preferredChat || "messenger");
 }
 
 document.querySelectorAll("[data-scroll-to]").forEach(el => {
@@ -439,6 +584,13 @@ document.querySelectorAll(".filter-btn").forEach(btn => {
 });
 
 document.addEventListener("click", event => {
+  const generalChatBtn = event.target.closest("[data-chat-general]");
+  if (generalChatBtn) {
+    event.preventDefault();
+    openGeneralChat(generalChatBtn.dataset.contactLocation || "general_cta");
+    return;
+  }
+
   const chatBtn = event.target.closest("[data-chat-product]");
   if (chatBtn) {
     event.preventDefault();
@@ -459,38 +611,55 @@ document.addEventListener("click", event => {
   }
 });
 
-form?.addEventListener("submit", async event => {
+form?.addEventListener("submit", event => {
   event.preventDefault();
-  const data = new FormData(form);
-  const message = buildLeadMessage(data);
 
-  localStorage.setItem("latestSalesLead", JSON.stringify({
-    createdAt: new Date().toISOString(),
-    name: data.get("name"),
-    phone: data.get("phone"),
-    line: data.get("line"),
-    province: data.get("province"),
-    budget: data.get("budget"),
-    product: data.get("product"),
-    note: data.get("note")
-  }));
-
-  submitToGoogleForm(data);
-  await copyText(message);
-
-  if (window.fbq) {
-    window.fbq("track", "Lead", {
-      content_name: data.get("product") || "Clearance Lead"
-    });
+  if (!form.checkValidity()) {
+    form.reportValidity();
+    return;
   }
 
+  const data = new FormData(form);
+  const message = buildLeadMessage(data);
+  const leadPayload = buildLeadPayload(data);
   const selectedProduct = getProduct(data.get("product"));
-  const channel = CONFIG.preferredChat || "line";
+  const channel = CONFIG.preferredChat || "messenger";
   const url = channel === "messenger"
-    ? buildMessengerUrl(selectedProduct, message)
+    ? buildMessengerUrl(selectedProduct, message, "form_lead")
     : buildLineUrl(message);
 
-  window.open(url, "_blank", "noopener");
+  // [Lead Storage] เก็บ Lead ล่าสุดไว้ใน Local Storage เพื่อสำรองข้อมูลฝั่งหน้าเว็บ
+  localStorage.setItem("latestSalesLead", JSON.stringify(leadPayload));
+
+  setFormNote("กำลังบันทึกข้อมูลและเปิด Messenger...", "warning");
+
+  // [Google Sheets] ส่งข้อมูลเข้า Apps Script แบบเบื้องหลัง ไม่บล็อกการเปิด Messenger ของลูกค้า
+  submitLeadToGoogleSheets(leadPayload).then(result => {
+    if (result.skipped) {
+      setFormNote("เปิด Messenger แล้ว หากต้องการเก็บลง Google Sheets ให้ใส่ Web App URL ใน config.js", "warning");
+      return;
+    }
+
+    setFormNote(
+      result.ok ? "บันทึก Lead แล้ว และเปิด Messenger ให้ส่งข้อมูลหาแอดมินเรียบร้อย" : "เปิด Messenger แล้ว แต่ส่งข้อมูลไป Google Sheets ไม่สำเร็จ กรุณาตรวจ Web App URL",
+      result.ok ? "success" : "warning"
+    );
+  });
+
+  // [Legacy Google Form] เรียกไว้เฉพาะกรณีเปิดใช้งาน endpoint เดิมใน config
+  submitToGoogleForm(data);
+  copyText(message);
+
+  trackLeadAndContact({
+    content_name: leadPayload.productName || leadPayload.product || "Clearance Lead Form",
+    content_category: selectedProduct?.category || "lead_form",
+    content_ids: selectedProduct ? [selectedProduct.id] : [],
+    value: selectedProduct?.price || 0,
+    currency: "THB",
+    contact_source: "lead_form"
+  });
+
+  openExternalChat(url);
   showToast("ส่งข้อมูลแล้ว ระบบเปิดแชทพร้อมรายละเอียดให้ส่งหาแอดมินแล้วครับ");
   form.reset();
 });
