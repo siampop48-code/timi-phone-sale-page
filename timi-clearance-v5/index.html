@@ -1085,7 +1085,7 @@ function renderProducts(filter = "all") {
         <button class="product-title-link" data-chat-product="${product.id}" data-channel="preferred" aria-label="ส่งข้อมูล ${product.name} ให้แอดมิน">
           ${product.name}
         </button>
-        <p class="subtitle">${product.subtitle}</p>
+        <p class="subtitle">${product.sub}</p>
         <ul class="specs">
           ${product.specs.map(spec => `<li>${spec}</li>`).join("")}
         </ul>
