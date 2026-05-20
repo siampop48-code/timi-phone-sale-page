@@ -15,7 +15,7 @@
      messengerPageIdOrUsername: "170306732996781"
 
   2) Meta Pixel:
-     facebookPixelId: "วาง Pixel ID ที่นี่"
+     facebookPixelId: "2148830368772020"
 
   3) Google Sheets:
      googleSheetsUrl: "วาง URL ของ Google Apps Script Web App ที่นี่"
@@ -41,8 +41,8 @@ window.SALES_PAGE_CONFIG = {
   messengerPageIdOrUsername: "170306732996781",
 
   phone: "YOUR_PHONE_NUMBER",
-  // TODO: รอใส่ Pixel ID จาก Meta Events Manager เมื่อพบ Pixel/Data source ที่ถูกต้อง
-  facebookPixelId: "",
+  // [Meta Pixel] Pixel ID จาก Meta Events Manager: พิกเซลของ Akharawat Vej
+  facebookPixelId: "2148830368772020",
 
   // [Messenger Automation] true = คัดลอกข้อความสรุปไว้ให้ลูกค้าวางใน Messenger เพราะ m.me ไม่รองรับ prefill ข้อความยาวโดยตรง
   autoCopyMessage: true,
